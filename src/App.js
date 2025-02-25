@@ -4,30 +4,21 @@ import AnimatedVespa from './AnimatedVespa';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import LockedSection from './LockedSection';
 import GlitchingCountdown from './GlitchingCountdown';
+import { calculateDaysUntilEvent, calculateProgressPercentage } from './TimeUtils';
 
 function App() {
   const [progress, setProgress] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
 
   useEffect(() => {
-    // Calculate progress and days left
-    const calculateProgress = () => {
-      const now = new Date();
-      const startOfYear = new Date(now.getFullYear(), 0, 1);
-      const targetDate = new Date(now.getFullYear(), 6, 20); // July is month 6 (0-indexed)
-      
-      const totalDays = Math.floor((targetDate - startOfYear) / (1000 * 60 * 60 * 24));
-      const daysPassed = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-      
-      const calculatedProgress = Math.min(100, Math.max(0, (daysPassed / totalDays) * 100));
-      const calculatedDaysLeft = Math.max(0, Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24)));
-      
-      setProgress(calculatedProgress);
-      setDaysLeft(calculatedDaysLeft);
+    // Calculate progress and days left using utility functions
+    const updateTimings = () => {
+      setProgress(calculateProgressPercentage());
+      setDaysLeft(calculateDaysUntilEvent());
     };
 
-    calculateProgress();
-    const timer = setInterval(calculateProgress, 86400000); // Update once per day
+    updateTimings();
+    const timer = setInterval(updateTimings, 86400000); // Update once per day
 
     return () => clearInterval(timer);
   }, []);

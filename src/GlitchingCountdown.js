@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './GlitchingCountdown.css';
+import { getGlitchFrequency } from './TimeUtils';
 
 const GlitchingCountdown = ({ daysLeft }) => {
   const [isGlitching, setIsGlitching] = useState(false);
@@ -39,12 +40,23 @@ const GlitchingCountdown = ({ daysLeft }) => {
     // Update display value when days left changes
     setDisplayedValue(daysLeft);
     
-    // Randomly trigger glitch effect (5% chance every 10 seconds)
+    // Calculate probability of glitching based on days left
+    const getGlitchProbability = () => {
+      // Higher probability when further from the date, lower as we get closer
+      if (daysLeft > 120) return 0.25;    // Very high early on (>4 months out)
+      if (daysLeft > 90) return 0.20;     // Still high (3-4 months out)
+      if (daysLeft > 60) return 0.15;     // Moderate (2-3 months out)
+      if (daysLeft > 30) return 0.10;     // Less frequent (1-2 months out)
+      if (daysLeft > 14) return 0.05;     // Sparse (2 weeks-1 month out)
+      return 0.02;                        // Rare in final two weeks
+    };
+    
+    // Randomly trigger glitch effect (probability based on time left, checked every 5 seconds)
     const glitchInterval = setInterval(() => {
-      if (Math.random() < 0.05) {
+      if (Math.random() < getGlitchFrequency()) {
         triggerGlitch();
       }
-    }, 10000);
+    }, 5000);
     
     return () => clearInterval(glitchInterval);
   }, [daysLeft]);
