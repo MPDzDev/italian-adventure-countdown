@@ -1,6 +1,6 @@
 {
-  "short_name": "Italy Countdown",
-  "name": "Italian Adventure Countdown",
+  "short_name": "Mystery Journey",
+  "name": "The Mysterious Journey",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,7 +20,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#4caf50",
-  "background_color": "#f0f9ff",
-  "description": "A countdown app for our Italian adventure on July 20th"
+  "theme_color": "#0a0a1a",
+  "background_color": "#0a0a1a",
+  "description": "A mysterious journey awaits on July 20th..."
 }

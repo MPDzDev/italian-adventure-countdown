@@ -8,7 +8,7 @@ const AnimatedVespa = ({ position }) => {
   React.useEffect(() => {
     const interval = setInterval(() => {
       setBounce(prev => (prev === 0 ? 1 : 0));
-    }, 500);
+    }, 600); // Slightly slower for a more mysterious feel
     
     return () => clearInterval(interval);
   }, []);

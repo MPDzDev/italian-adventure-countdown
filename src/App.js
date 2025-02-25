@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import italyTrivia from './italyTrivia';
 import AnimatedVespa from './AnimatedVespa';
 
 function App() {
   const [progress, setProgress] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
-  const [currentTrivia, setCurrentTrivia] = useState('');
-  const [triviaIndex, setTriviaIndex] = useState(0);
 
   useEffect(() => {
     // Calculate progress and days left
@@ -29,25 +26,14 @@ function App() {
     calculateProgress();
     const timer = setInterval(calculateProgress, 86400000); // Update once per day
 
-    // Get trivia for today
-    const todayIndex = new Date().getDate() % italyTrivia.length;
-    setTriviaIndex(todayIndex);
-    setCurrentTrivia(italyTrivia[todayIndex]);
-
     return () => clearInterval(timer);
   }, []);
-
-  const handleNextTrivia = () => {
-    const newIndex = (triviaIndex + 1) % italyTrivia.length;
-    setTriviaIndex(newIndex);
-    setCurrentTrivia(italyTrivia[newIndex]);
-  };
 
   return (
     <div className="app">
       <header>
-        <h1>Countdown to Italian Adventure!</h1>
-        <h2>{daysLeft} days until we meet in Italy!</h2>
+        <h1>The Mysterious Journey Awaits...</h1>
+        <h2>{daysLeft} days until the adventure begins</h2>
       </header>
       
       <div className="progress-container">
@@ -55,29 +41,18 @@ function App() {
           <div style={{ width: `${progress}%` }} className="progress-fill"></div>
           <AnimatedVespa position={progress} />
         </div>
-        <div className="progress-labels">
-          <span>January 1</span>
-          <span>July 20</span>
-        </div>
+        {/* Removed date labels */}
       </div>
       
-      <div className="trivia-section">
-        <h3>Today's Italian Treasure:</h3>
-        <div className="trivia-card">
-          <p>{currentTrivia}</p>
-        </div>
-        <button onClick={handleNextTrivia}>Discover Another Treasure</button>
+      <div className="mystery-section">
+        <h3>A mysterious adventure is approaching...</h3>
+        <p className="mystery-text">Something special awaits at the end of the journey. Stay tuned for clues that will lead to hidden treasures.</p>
       </div>
       
-      <div className="treasure-map">
-        <h3>Places We'll Explore:</h3>
-        <ul>
-          <li>Rome: The Eternal City with ancient ruins</li>
-          <li>Venice: The floating city of canals</li>
-          <li>Florence: Home to Renaissance art</li>
-          <li>Pisa: See the famous leaning tower</li>
-          <li>Amalfi Coast: Beautiful seaside villages</li>
-        </ul>
+      {/* Future treasure hunt section - placeholder for now */}
+      <div className="treasure-hunt-placeholder">
+        <div className="treasure-icon">🗝️</div>
+        <p>The treasure hunt will be revealed when the time is right...</p>
       </div>
     </div>
   );
