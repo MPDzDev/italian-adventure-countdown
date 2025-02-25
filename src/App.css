@@ -164,3 +164,76 @@ h3 {
     font-size: 18px;
   }
 }
+
+.treasure-hunt-section {
+  background-color: rgba(10, 10, 26, 0.7);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 0 15px rgba(168, 138, 230, 0.2);
+  margin-bottom: 40px;
+  border: 1px solid #3a3a5c;
+  text-align: center;
+  position: relative;
+}
+
+.treasure-icon-wrapper {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.treasure-icon-wrapper:hover {
+  background-color: rgba(58, 58, 92, 0.5);
+}
+
+.treasure-icon-wrapper.active {
+  background-color: rgba(201, 169, 89, 0.1);
+  border: 1px dashed #c9a959;
+}
+
+.treasure-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+  animation: glow 2s infinite alternate;
+  transition: all 0.3s ease;
+}
+
+.treasure-icon-wrapper:hover .treasure-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.treasure-icon-wrapper p {
+  color: #a88ae6;
+  font-style: italic;
+  transition: all 0.3s ease;
+}
+
+.treasure-icon-wrapper:hover p {
+  color: #c9a959;
+}
+
+.challenges-container {
+  margin-top: 30px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #c9a959, 0 0 10px #c9a959, 0 0 15px #c9a959;
+  }
+  to {
+    text-shadow: 0 0 10px #c9a959, 0 0 20px #c9a959, 0 0 30px #c9a959;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

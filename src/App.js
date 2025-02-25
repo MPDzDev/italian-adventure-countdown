@@ -4,11 +4,13 @@ import AnimatedVespa from './AnimatedVespa';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import LockedSection from './LockedSection';
 import GlitchingCountdown from './GlitchingCountdown';
+import ChallengeManager from './ChallengeManager';
 import { calculateDaysUntilEvent, calculateProgressPercentage } from './TimeUtils';
 
 function App() {
   const [progress, setProgress] = useState(0);
   const [daysLeft, setDaysLeft] = useState(0);
+  const [showChallenges, setShowChallenges] = useState(false);
 
   useEffect(() => {
     // Calculate progress and days left using utility functions
@@ -22,6 +24,21 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
+
+  // Check if challenges should be shown (if user clicked on the treasure icon)
+  useEffect(() => {
+    const savedState = localStorage.getItem('showChallenges');
+    if (savedState === 'true') {
+      setShowChallenges(true);
+    }
+  }, []);
+
+  // Toggle challenges view
+  const toggleChallenges = () => {
+    const newState = !showChallenges;
+    setShowChallenges(newState);
+    localStorage.setItem('showChallenges', newState.toString());
+  };
 
   return (
     <div className="app">
@@ -45,12 +62,28 @@ function App() {
         <p className="subtle-hint">bury a chest. don't say i didn't warn ya.</p>
       </div>
       
-      {/* Future treasure hunt section - placeholder for now */}
+      {/* Locked sections - placeholder for future content */}
       <LockedSection />
       
-      <div className="treasure-hunt-placeholder">
-        <div className="treasure-icon">🗝️</div>
-        <p>The treasure hunt will be revealed when the time is right...</p>
+      {/* Treasure hunt section with challenges */}
+      <div className="treasure-hunt-section">
+        <div 
+          className={`treasure-icon-wrapper ${showChallenges ? 'active' : ''}`} 
+          onClick={toggleChallenges}
+        >
+          <div className="treasure-icon">🗝️</div>
+          <p>
+            {showChallenges 
+              ? "Hide treasure challenges" 
+              : "Click to reveal the challenges..."}
+          </p>
+        </div>
+        
+        {showChallenges && (
+          <div className="challenges-container">
+            <ChallengeManager />
+          </div>
+        )}
       </div>
     </div>
   );

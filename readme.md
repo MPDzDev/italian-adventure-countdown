@@ -1,70 +1,100 @@
-# The Mysterious Journey
+# Treasure Hunt Challenge System
 
-A mysterious journey countdown app for your nieces' visit to Italy on July 20th. The app features a progress bar with a Vespa that shows how much time has passed since the beginning of the year, all in a mystical theme that builds anticipation for a future treasure hunt.
+This document outlines how the treasure hunt challenge system works and how to extend it with new challenges.
 
-## Features
+## Overview
 
-- Visual progress tracker with an animated Vespa
-- Countdown showing exact days until the mysterious adventure begins
-- Mystical design with animations and glowing elements
-- Responsive design that works on all devices
-- Prepared for future treasure hunt implementation
+The challenge system consists of:
 
-## Deployment Instructions
+1. A pirate-themed riddle challenge
+2. A treasure chest that unlocks when the pirate challenge is completed
+3. An email notification system that alerts you when challenges are completed
 
-### Prerequisites
+## Components
 
-- Node.js and npm installed on your computer
-- A GitHub account
-- A Netlify account (free tier works great)
+### 1. Challenge Manager
 
-### Local Development
+The `ChallengeManager` component coordinates all challenges and manages the overall flow.
 
-1. Clone this repository to your local machine
-2. Navigate to the project directory and run `npm install`
-3. Start the development server with `npm start`
-4. Access the app at http://localhost:3000
+### 2. Pirate Battle
 
-### Deploying to Netlify
+The `PirateBattle` component presents users with 10 riddles themed around Billie Eilish songs and Italian culture.
 
-#### Option 1: Deploy directly from GitHub
+- **Key Features:**
+  - Saves progress in localStorage
+  - Tracks battle percentage completion
+  - Sends notification when all riddles are solved
 
-1. Push your code to a GitHub repository
-2. Log in to your Netlify account
-3. Click "New site from Git"
-4. Select GitHub and authorize Netlify
-5. Select your repository
-6. Configure build settings:
-   - Build command: `npm run build`
-   - Publish directory: `build`
-7. Click "Deploy site"
+### 3. Treasure Chest
 
-#### Option 2: Deploy from your local machine
+The `TreasureChest` component visualizes a chest that:
+  - Initially appears locked
+  - Unlocks when the pirate challenge is completed
+  - Can be opened and closed
+  - Initially appears empty, but can be filled with items as challenges are completed
 
-1. Install the Netlify CLI: `npm install -g netlify-cli`
-2. Build your project: `npm run build`
-3. Deploy to Netlify: `netlify deploy --prod`
+## Email Notifications
 
-## Customization
+The system uses a service like Formspree to send email notifications. To set it up:
 
-- To change the target date, edit the `targetDate` variable in `App.js`
-- To modify the theme, customize the colors in `App.css`
-- To implement the treasure hunt feature, you'll need to expand the existing placeholder
+1. Create an account at [Formspree](https://formspree.io/)
+2. Create a form and get the endpoint URL
+3. Update the `FORMSPREE_ENDPOINT` constant in `EmailService.js`
 
-## Future Treasure Hunt Implementation
+## Adding New Challenges
 
-The app is designed with a placeholder for a future treasure hunt feature. Here are some ideas for implementation:
+To add a new challenge:
 
-- Add clues that are revealed as the date approaches
-- Create interactive puzzles that unlock parts of a map
-- Include a series of riddles that lead to a final treasure
-- Implement a virtual "passport" that gets stamped for completing challenges
-- Add an interactive map of Italy with hidden clickable areas
+1. Create a new challenge component following the pattern of `PirateBattle.js`
+2. Add it to the `ChallengeManager` component
+3. Import the `addTreasureItem` function from `TreasureChest.js`
+4. Call this function when the challenge is completed:
 
-## Notes
+```javascript
+import { addTreasureItem } from './TreasureChest';
 
-- The progress bar automatically calculates elapsed time
-- The mystical theme sets the stage for an exciting adventure
-- The app is designed to build anticipation for your nieces
+// When challenge is completed
+addTreasureItem({
+  icon: "🔍", // Emoji or text icon
+  name: "Challenge Name Reward",
+  description: "Description of the reward and what it means"
+});
+```
 
-Enjoy your mysterious Italian adventure!
+## Future Challenge Ideas
+
+1. **Map Assembly Challenge**
+   - Pieces of a map that need to be arranged correctly
+   - Could reveal the location of the real-world treasure
+
+2. **Hidden Message Decoder**
+   - Encrypted messages that need to be deciphered
+   - Each decoded message reveals a clue about the treasure
+
+3. **Beach Exploration Game**
+   - Virtual exploration of the beach where the treasure is buried
+   - Finding landmarks that will help locate the real treasure
+
+## Data Storage
+
+All challenge state is stored in localStorage with the following keys:
+
+- `pirateRiddleAnswers`: User's answers to pirate riddles
+- `pirateRiddleStates`: State of each riddle (correct/incorrect/attempts)
+- `treasureChestItems`: Items discovered in the treasure chest
+- `completionEmailSent_PirateRiddles`: Flag to prevent duplicate emails
+- `showChallenges`: Whether the challenges section is expanded
+
+## Treasure Items Format
+
+When adding items to the treasure chest, use this format:
+
+```javascript
+{
+  icon: "🔍", // Emoji representation
+  name: "Item Name",
+  description: "Description of the item and its significance"
+}
+```
+
+Enjoy expanding the treasure hunt with more challenges!
