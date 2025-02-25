@@ -105,6 +105,23 @@ h3 {
   color: #a88ae6;
 }
 
+.subtle-hint {
+  font-size: 13px;
+  color: #404055;
+  margin-top: 30px;
+  font-style: normal;
+  opacity: 0.65;
+  text-shadow: none;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+  word-spacing: 2px;
+  position: relative;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px dotted #333345;
+}
+
 .treasure-hunt-placeholder {
   background-color: rgba(10, 10, 26, 0.7);
   border-radius: 10px;
