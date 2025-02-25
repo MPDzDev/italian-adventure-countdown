@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './GlitchingCountdown.css';
 import { getGlitchFrequency } from './TimeUtils';
 
@@ -7,8 +7,8 @@ const GlitchingCountdown = ({ daysLeft }) => {
   const [displayedValue, setDisplayedValue] = useState(daysLeft);
   const [glitchVariant, setGlitchVariant] = useState(0);
   
-  // Random messages to display during glitches
-  const glitchMessages = [
+  // Random messages to display during glitches - wrapped in useMemo
+  const glitchMessages = useMemo(() => [
     "ERROR_TIMESTREAM_CORRUPTED",
     "COUNTDOWN_COMPROMISED",
     "SYNCHRONIZING...",
@@ -21,10 +21,10 @@ const GlitchingCountdown = ({ daysLeft }) => {
     "PATH_UNCERTAIN",
     "CONNECTION_UNSTABLE",
     "COORDINATES_SHIFTING"
-  ];
+  ], []); // Empty dependency array since this never changes
   
   // Random days to display during glitches
-  const getRandomDays = () => {
+  const getRandomDays = useCallback(() => {
     // 50% chance to show a date close to real value
     if (Math.random() < 0.5) {
       // Within 10 days of actual value
@@ -33,35 +33,10 @@ const GlitchingCountdown = ({ daysLeft }) => {
       // Completely random value between 0 and 365
       return Math.floor(Math.random() * 366);
     }
-  };
-  
-  // Random glitching effect
-  useEffect(() => {
-    // Update display value when days left changes
-    setDisplayedValue(daysLeft);
-    
-    // Calculate probability of glitching based on days left
-    const getGlitchProbability = () => {
-      // Higher probability when further from the date, lower as we get closer
-      if (daysLeft > 120) return 0.25;    // Very high early on (>4 months out)
-      if (daysLeft > 90) return 0.20;     // Still high (3-4 months out)
-      if (daysLeft > 60) return 0.15;     // Moderate (2-3 months out)
-      if (daysLeft > 30) return 0.10;     // Less frequent (1-2 months out)
-      if (daysLeft > 14) return 0.05;     // Sparse (2 weeks-1 month out)
-      return 0.02;                        // Rare in final two weeks
-    };
-    
-    // Randomly trigger glitch effect (probability based on time left, checked every 5 seconds)
-    const glitchInterval = setInterval(() => {
-      if (Math.random() < getGlitchFrequency()) {
-        triggerGlitch();
-      }
-    }, 5000);
-    
-    return () => clearInterval(glitchInterval);
   }, [daysLeft]);
   
-  const triggerGlitch = () => {
+  // Trigger a glitch effect - wrapped in useCallback
+  const triggerGlitch = useCallback(() => {
     // Start glitching
     setIsGlitching(true);
     
@@ -101,7 +76,24 @@ const GlitchingCountdown = ({ daysLeft }) => {
       setIsGlitching(false);
       setDisplayedValue(daysLeft);
     }, glitchDuration);
-  };
+  }, [daysLeft, getRandomDays, glitchMessages]);
+  
+  // Update display value when days left changes
+  useEffect(() => {
+    setDisplayedValue(daysLeft);
+  }, [daysLeft]);
+  
+  // Set up glitch interval
+  useEffect(() => {
+    // Randomly trigger glitch effect (probability based on time left, checked every 5 seconds)
+    const glitchInterval = setInterval(() => {
+      if (Math.random() < getGlitchFrequency()) {
+        triggerGlitch();
+      }
+    }, 5000);
+    
+    return () => clearInterval(glitchInterval);
+  }, [triggerGlitch]); // triggerGlitch is now memoized with useCallback
   
   return (
     <div className={`countdown-container ${isGlitching ? 'glitching' : ''}`}>

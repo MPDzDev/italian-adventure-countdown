@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './GlitchingMessages.css';
 import { getMessageAppearanceProbability } from './TimeUtils';
 
@@ -7,8 +7,8 @@ const GlitchingMessages = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [glitchClass, setGlitchClass] = useState('');
 
-  // Billie Eilish song title wordplay
-  const messages = [
+  // Billie Eilish song title wordplay - wrapped in useMemo
+  const messages = useMemo(() => [
     "bury a chest. don't say i didn't warn ya.",
     "ocean maps. when the island comes...",
     "therefore I map...",
@@ -45,72 +45,52 @@ const GlitchingMessages = () => {
     "metal & sand treasures await",
     "NDA required for this mystery",
     "halley's compass points the way"
-  ];
+  ], []); // Empty dependency array since this never changes
 
-  useEffect(() => {
-    // Function to show a random message with glitch effect
-    const showRandomMessage = () => {
-      // Calculate days until event - this will decrease over time
-      const calculateDaysUntilEvent = () => {
-        const now = new Date();
-        const eventDate = new Date(now.getFullYear(), 6, 20); // July 20
-        const timeLeft = eventDate.getTime() - now.getTime();
-        return Math.max(0, Math.ceil(timeLeft / (1000 * 60 * 60 * 24)));
-      };
+  // Function to show a random message with glitch effect
+  const showRandomMessage = useCallback(() => {
+    // Hide current message if visible
+    if (visible) {
+      setGlitchClass('glitch-out');
+      setTimeout(() => {
+        setVisible(false);
+        setGlitchClass('');
+      }, 1000);
+      return;
+    }
+    
+    // Higher probability to show a message when hidden based on days left
+    if (Math.random() < getMessageAppearanceProbability()) {
+      // Select random message
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      setCurrentMessage(randomMessage);
       
-      const daysLeft = calculateDaysUntilEvent();
+      // Show with glitch effect
+      setGlitchClass('glitch-in');
+      setVisible(true);
       
-      // Calculate probability based on days left - higher probability when further away
-      const getAppearanceProbability = () => {
-        if (daysLeft > 120) return 0.85; // Very high early on (>4 months out)
-        if (daysLeft > 90) return 0.75;  // Still high (3-4 months out)
-        if (daysLeft > 60) return 0.65;  // Moderate (2-3 months out)
-        if (daysLeft > 30) return 0.55;  // Less frequent (1-2 months out)
-        if (daysLeft > 14) return 0.45;  // Sparse (2 weeks-1 month out)
-        return 0.35;                     // Rare in final two weeks
-      };
-      
-      // Hide current message if visible
-      if (visible) {
+      // Set timeout to remove after random duration (1.5-5 seconds) - shorter durations for quicker turnover
+      setTimeout(() => {
         setGlitchClass('glitch-out');
         setTimeout(() => {
           setVisible(false);
           setGlitchClass('');
         }, 1000);
-        return;
-      }
-      
-      // Higher probability to show a message when hidden based on days left
-      if (Math.random() < getMessageAppearanceProbability()) {
-        // Select random message
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        setCurrentMessage(randomMessage);
-        
-        // Show with glitch effect
-        setGlitchClass('glitch-in');
-        setVisible(true);
-        
-        // Set timeout to remove after random duration (1.5-5 seconds) - shorter durations for quicker turnover
-        setTimeout(() => {
-          setGlitchClass('glitch-out');
-          setTimeout(() => {
-            setVisible(false);
-            setGlitchClass('');
-          }, 1000);
-        }, Math.random() * 3500 + 1500);
-      }
-    };
-    
+      }, Math.random() * 3500 + 1500);
+    }
+  }, [visible, messages]);
+
+  useEffect(() => {
     // Check for showing/hiding message every 1.5-5 seconds (more frequent)
     const interval = setInterval(showRandomMessage, Math.random() * 3500 + 1500);
     
     return () => clearInterval(interval);
-  }, [visible]);
+  }, [showRandomMessage]);
 
   if (!visible) return null;
 
   return (
-    <div className={`glitching-message ${glitchClass}`}>
+    <div className={`glitching-message ${glitchClass}`} data-text={currentMessage}>
       {currentMessage}
     </div>
   );
