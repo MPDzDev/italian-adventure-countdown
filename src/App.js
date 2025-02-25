@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import AnimatedVespa from './AnimatedVespa';
+import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
+import LockedSection from './LockedSection';
+import GlitchingCountdown from './GlitchingCountdown';
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -31,9 +34,10 @@ function App() {
 
   return (
     <div className="app">
+      <GlitchingMessagesWrapper />
       <header>
         <h1>The Mysterious Journey Awaits...</h1>
-        <h2>{daysLeft} days until the adventure begins</h2>
+        <GlitchingCountdown daysLeft={daysLeft} />
       </header>
       
       <div className="progress-container">
@@ -51,6 +55,8 @@ function App() {
       </div>
       
       {/* Future treasure hunt section - placeholder for now */}
+      <LockedSection />
+      
       <div className="treasure-hunt-placeholder">
         <div className="treasure-icon">🗝️</div>
         <p>The treasure hunt will be revealed when the time is right...</p>
