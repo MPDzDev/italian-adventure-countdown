@@ -214,17 +214,38 @@ h3 {
 }
 
 .challenges-container {
-  margin-top: 30px;
-  animation: fadeIn 0.5s ease;
+  margin-top: 40px;
+  padding: 20px;
+  background-color: rgba(10, 10, 26, 0.6);
+  border-radius: 10px;
+  border: 1px solid #3a3a5c;
+  animation: fadeIn 0.8s ease;
+  position: relative;
 }
 
-@keyframes glow {
-  from {
-    text-shadow: 0 0 5px #c9a959, 0 0 10px #c9a959, 0 0 15px #c9a959;
-  }
-  to {
-    text-shadow: 0 0 10px #c9a959, 0 0 20px #c9a959, 0 0 30px #c9a959;
-  }
+.challenges-container::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid rgba(10, 10, 26, 0.6);
+  animation: fadeIn 1s ease;
+}
+
+/* Challenge section styling */
+.challenge-section {
+  margin-bottom: 50px;
+  padding: 20px;
+  background-color: rgba(20, 20, 40, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border: 1px solid #3a3a5c;
 }
 
 @keyframes fadeIn {

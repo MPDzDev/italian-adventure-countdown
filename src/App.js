@@ -25,20 +25,21 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Check if challenges should be shown (if user clicked on the treasure icon)
+  // Check if challenges should be shown based on active locks
   useEffect(() => {
-    const savedState = localStorage.getItem('showChallenges');
-    if (savedState === 'true') {
-      setShowChallenges(true);
-    }
+    const checkChallengeVisibility = () => {
+      const piratesChallengeActive = localStorage.getItem('piratesChallengeActive');
+      setShowChallenges(piratesChallengeActive === 'true');
+    };
+    
+    // Check immediately
+    checkChallengeVisibility();
+    
+    // Set up interval to check for changes
+    const interval = setInterval(checkChallengeVisibility, 500);
+    
+    return () => clearInterval(interval);
   }, []);
-
-  // Toggle challenges view
-  const toggleChallenges = () => {
-    const newState = !showChallenges;
-    setShowChallenges(newState);
-    localStorage.setItem('showChallenges', newState.toString());
-  };
 
   return (
     <div className="app">
@@ -53,7 +54,6 @@ function App() {
           <div style={{ width: `${progress}%` }} className="progress-fill"></div>
           <AnimatedVespa position={progress} />
         </div>
-        {/* Removed date labels */}
       </div>
       
       <div className="mystery-section">
@@ -62,29 +62,15 @@ function App() {
         <p className="subtle-hint">bury a chest. don't say i didn't warn ya.</p>
       </div>
       
-      {/* Locked sections - placeholder for future content */}
+      {/* Locked sections with pirate challenge as first lock */}
       <LockedSection />
       
-      {/* Treasure hunt section with challenges */}
-      <div className="treasure-hunt-section">
-        <div 
-          className={`treasure-icon-wrapper ${showChallenges ? 'active' : ''}`} 
-          onClick={toggleChallenges}
-        >
-          <div className="treasure-icon">🗝️</div>
-          <p>
-            {showChallenges 
-              ? "Hide treasure challenges" 
-              : "Click to reveal the challenges..."}
-          </p>
+      {/* Show challenges when pirate lock is activated */}
+      {showChallenges && (
+        <div id="challenges-section" className="challenges-container">
+          <ChallengeManager />
         </div>
-        
-        {showChallenges && (
-          <div className="challenges-container">
-            <ChallengeManager />
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

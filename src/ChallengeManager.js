@@ -6,6 +6,7 @@ import TreasureChest from './TreasureChest';
 const ChallengeManager = () => {
   // Challenge states
   const [piratesChallengeComplete, setPiratesChallengeComplete] = useState(false);
+  const [piratesChallengeActive, setPiratesChallengeActive] = useState(false);
   
   // Load saved progress on mount
   useEffect(() => {
@@ -19,6 +20,12 @@ const ChallengeManager = () => {
       } catch (error) {
         console.error('Error parsing pirate riddle states:', error);
       }
+    }
+    
+    // Check if pirates challenge is active
+    const piratesActive = localStorage.getItem('piratesChallengeActive');
+    if (piratesActive === 'true') {
+      setPiratesChallengeActive(true);
     }
   }, []);
   
@@ -43,24 +50,44 @@ const ChallengeManager = () => {
     return () => clearInterval(interval);
   }, []);
   
+  // Listen for challenge activation changes
+  useEffect(() => {
+    const checkChallengeActive = () => {
+      const piratesActive = localStorage.getItem('piratesChallengeActive');
+      setPiratesChallengeActive(piratesActive === 'true');
+    };
+    
+    // Check immediately and then set interval
+    checkChallengeActive();
+    
+    // Set up interval to check for activation changes
+    const interval = setInterval(checkChallengeActive, 500);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
     <div className="challenge-manager">
-      <div className="challenge-section">
-        <h2 className="challenge-header">
-          <span className="challenge-icon">🏴‍☠️</span>
-          Pirate Attack!
-        </h2>
-        <div className="challenge-description">
-          <p>Pirates are attacking! Solve their riddles to defeat them and unlock the treasure chest.</p>
+      {piratesChallengeActive && (
+        <div className="challenge-section">
+          <h2 className="challenge-header">
+            <span className="challenge-icon">🏴‍☠️</span>
+            Pirate Attack!
+          </h2>
+          <div className="challenge-description">
+            <p>Pirates are attacking! Solve their riddles to defeat them and unlock the treasure chest.</p>
+          </div>
+          <PirateBattle />
         </div>
-        <PirateBattle />
-      </div>
+      )}
       
-      <div className="challenge-divider">
-        <div className="divider-line"></div>
-        <div className="divider-icon">⚓</div>
-        <div className="divider-line"></div>
-      </div>
+      {piratesChallengeActive && (
+        <div className="challenge-divider">
+          <div className="divider-line"></div>
+          <div className="divider-icon">⚓</div>
+          <div className="divider-line"></div>
+        </div>
+      )}
       
       <div className="challenge-section">
         <h2 className="challenge-header">
@@ -76,6 +103,11 @@ const ChallengeManager = () => {
       {/* Future challenges will be added here */}
     </div>
   );
+};
+
+// Export a function to check if pirate challenge is unlocked
+export const isPiratesChallengeUnlocked = () => {
+  return localStorage.getItem('piratesChallengeActive') === 'true';
 };
 
 export default ChallengeManager;
