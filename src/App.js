@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import AnimatedVespa from './AnimatedVespa';
+import AnimatedShip from './AnimatedShip';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import LockedSection from './LockedSection';
 import GlitchingCountdown from './GlitchingCountdown';
@@ -45,14 +45,21 @@ function App() {
     <div className="app">
       <GlitchingMessagesWrapper />
       <header>
-        <h1>The Mysterious Journey Awaits...</h1>
+        <h1>The Mysterious Voyage Awaits...</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
       </header>
       
       <div className="progress-container">
+        {/* Ship positioned absolutely above the progress bar */}
+        <div 
+          className="ship-position" 
+          style={{ left: `calc(${progress}% - 15px)` }}
+        >
+          <AnimatedShip />
+        </div>
+
         <div className="progress-bar">
           <div style={{ width: `${progress}%` }} className="progress-fill"></div>
-          <AnimatedVespa position={progress} />
         </div>
       </div>
       

@@ -75,7 +75,7 @@ const ChallengeManager = () => {
             Pirate Attack!
           </h2>
           <div className="challenge-description">
-            <p>Pirates are attacking! Solve their riddles to defeat them and unlock the treasure chest.</p>
+            <p>Arrrr! Pirates be attackin' yer ship! Solve these riddles to defeat the scurvy dogs and claim the treasure chest!</p>
           </div>
           <PirateBattle />
         </div>
@@ -92,10 +92,10 @@ const ChallengeManager = () => {
       <div className="challenge-section">
         <h2 className="challenge-header">
           <span className="challenge-icon">💰</span>
-          Mysterious Chest
+          Treasure Chest
         </h2>
         <div className="challenge-description">
-          <p>A mysterious chest has washed ashore. What treasures could be inside?</p>
+          <p>A mysterious chest has washed ashore. What treasures could be hidden inside?</p>
         </div>
         <TreasureChest isUnlocked={piratesChallengeComplete} />
       </div>
