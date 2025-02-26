@@ -108,7 +108,7 @@
   
   .riddle-text {
     color: #d9d9d9;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 1.6;
     margin-bottom: 20px;
     font-style: italic;
@@ -248,7 +248,7 @@
     }
     
     .riddle-text {
-      font-size: 16px;
+      font-size: 14px;
     }
     
     .riddle-input-group {

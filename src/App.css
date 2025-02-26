@@ -391,7 +391,7 @@ h3 {
 /* Challenges container */
 .challenges-container {
   margin-top: 40px;
-  padding: 20px;
+  padding: 0px;
   background-color: rgba(27, 38, 59, 0.8);
   border-radius: 8px;
   border: 1px solid #8b7355;
@@ -548,7 +548,7 @@ h3 {
 
 .riddle-text {
   color: #e0c9a6; /* Aged parchment color */
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1.6;
   margin-bottom: 20px;
   font-style: italic;
