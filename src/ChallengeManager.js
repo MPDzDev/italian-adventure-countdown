@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import './ChallengeManager.css';
 import PirateBattle from './PirateBattle';
 import TreasureChest from './TreasureChest';
+import { isSecondChallengeUnlocked } from './TimeUtils';
 
 const ChallengeManager = () => {
   // Challenge states
   const [piratesChallengeComplete, setPiratesChallengeComplete] = useState(false);
   const [piratesChallengeActive, setPiratesChallengeActive] = useState(false);
+  const [pizzaioloChallengeActive, setPizzaioloChallengeActive] = useState(false);
+  const [secondChallengeUnlocked, setSecondChallengeUnlocked] = useState(false);
   
   // Load saved progress on mount
   useEffect(() => {
+    // Check if second challenge is unlocked based on date
+    setSecondChallengeUnlocked(isSecondChallengeUnlocked());
+    
     // Check if pirates challenge is completed
     const piratesComplete = localStorage.getItem('pirateRiddleStates');
     if (piratesComplete) {
@@ -27,7 +33,15 @@ const ChallengeManager = () => {
     if (piratesActive === 'true') {
       setPiratesChallengeActive(true);
     }
-  }, []);
+    
+    // Check if pizzaiolo challenge is active (only if it's unlocked by date)
+    if (secondChallengeUnlocked) {
+      const pizzaioloActive = localStorage.getItem('pizzaioloChallengeActive');
+      if (pizzaioloActive === 'true') {
+        setPizzaioloChallengeActive(true);
+      }
+    }
+  }, [secondChallengeUnlocked]);
   
   // Listen for pirate battle completion
   useEffect(() => {
@@ -55,6 +69,11 @@ const ChallengeManager = () => {
     const checkChallengeActive = () => {
       const piratesActive = localStorage.getItem('piratesChallengeActive');
       setPiratesChallengeActive(piratesActive === 'true');
+      
+      if (secondChallengeUnlocked) {
+        const pizzaioloActive = localStorage.getItem('pizzaioloChallengeActive');
+        setPizzaioloChallengeActive(pizzaioloActive === 'true');
+      }
     };
     
     // Check immediately and then set interval
@@ -64,7 +83,7 @@ const ChallengeManager = () => {
     const interval = setInterval(checkChallengeActive, 500);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [secondChallengeUnlocked]);
   
   return (
     <div className="challenge-manager">
@@ -89,6 +108,32 @@ const ChallengeManager = () => {
         </div>
       )}
       
+      {/* Pizzaiolo Challenge Section - only show if active and unlocked by date */}
+      {pizzaioloChallengeActive && secondChallengeUnlocked && (
+        <div className="challenge-section pizzaiolo-challenge-section">
+          <h2 className="challenge-header">
+            <span className="challenge-icon">🍕</span>
+            Antonio's Stolen Recipes!
+          </h2>
+          <div className="challenge-description">
+            <p>The pirates have stolen Antonio's secret family recipes! Help him recover them before his pizzeria closes forever.</p>
+          </div>
+          <div className="coming-soon-message">
+            <h3>Challenge Coming Soon!</h3>
+            <p>Antonio's adventure is being prepared. Check back soon to help recover the stolen recipes!</p>
+            <div className="pizza-icon">🍕👨‍🍳📜</div>
+          </div>
+        </div>
+      )}
+      
+      {pizzaioloChallengeActive && secondChallengeUnlocked && (
+        <div className="challenge-divider">
+          <div className="divider-line"></div>
+          <div className="divider-icon">🍕</div>
+          <div className="divider-line"></div>
+        </div>
+      )}
+      
       <div className="challenge-section">
         <h2 className="challenge-header">
           <span className="challenge-icon">💰</span>
@@ -108,6 +153,11 @@ const ChallengeManager = () => {
 // Export a function to check if pirate challenge is unlocked
 export const isPiratesChallengeUnlocked = () => {
   return localStorage.getItem('piratesChallengeActive') === 'true';
+};
+
+// Export a function to check if pizzaiolo challenge is unlocked
+export const isPizzaioloChallengeUnlocked = () => {
+  return localStorage.getItem('pizzaioloChallengeActive') === 'true' && isSecondChallengeUnlocked();
 };
 
 export default ChallengeManager;

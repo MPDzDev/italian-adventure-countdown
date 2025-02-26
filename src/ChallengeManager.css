@@ -95,3 +95,66 @@
       margin: 40px 0;
     }
   }
+
+  /* Add these styles to your ChallengeManager.css file */
+
+.pizzaiolo-challenge-section {
+  border: 1px solid #ff6b6b;
+  background-color: rgba(58, 38, 38, 0.4);
+}
+
+.pizzaiolo-challenge-section .challenge-header {
+  color: #ff9f9f;
+}
+
+.pizzaiolo-challenge-section .challenge-description {
+  background-color: rgba(58, 28, 28, 0.7);
+  border: 1px solid #ff6b6b;
+}
+
+.pizzaiolo-challenge-section .challenge-description p {
+  color: #ff9f9f;
+}
+
+/* Coming soon message */
+.coming-soon-message {
+  text-align: center;
+  padding: 30px;
+  background-color: rgba(58, 28, 28, 0.5);
+  border-radius: 10px;
+  border: 2px dashed #ff6b6b;
+  margin: 20px 0;
+  transition: all 0.3s ease;
+}
+
+.coming-soon-message:hover {
+  border-style: solid;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+.coming-soon-message h3 {
+  color: #ff9f9f;
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.coming-soon-message p {
+  color: #ff9f9f;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.pizza-icon {
+  font-size: 50px;
+  margin-top: 20px;
+  animation: float 3s infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
