@@ -107,7 +107,14 @@ const ChallengeManager = () => {
   
   return (
     <div className="challenge-manager">
-      {piratesChallengeActive && (
+      {/* Show only one challenge at a time - prioritize the most recently activated challenge */}
+      {pizzaioloChallengeActive && secondChallengeUnlocked ? (
+        // If Pizzaiolo challenge is active, show it
+        <div className="challenge-section pizzaiolo-challenge-section">
+          <PizzaioloChallenge />
+        </div>
+      ) : piratesChallengeActive ? (
+        // Otherwise, if Pirate challenge is active, show it
         <div className="challenge-section">
           <h2 className="challenge-header">
             <span className="challenge-icon">🏴‍☠️</span>
@@ -118,30 +125,13 @@ const ChallengeManager = () => {
           </div>
           <PirateBattle />
         </div>
-      )}
+      ) : null}
       
-      {piratesChallengeActive && (
-        <div className="challenge-divider">
-          <div className="divider-line"></div>
-          <div className="divider-icon">⚓</div>
-          <div className="divider-line"></div>
-        </div>
-      )}
-      
-      {/* Pizzaiolo Challenge Section - only show if active and unlocked by date */}
-      {pizzaioloChallengeActive && secondChallengeUnlocked && (
-        <div className="challenge-section pizzaiolo-challenge-section">
-          <PizzaioloChallenge />
-        </div>
-      )}
-      
-      {pizzaioloChallengeActive && secondChallengeUnlocked && (
-        <div className="challenge-divider">
-          <div className="divider-line"></div>
-          <div className="divider-icon">🍕</div>
-          <div className="divider-line"></div>
-        </div>
-      )}
+      <div className="challenge-divider">
+        <div className="divider-line"></div>
+        <div className="divider-icon">💰</div>
+        <div className="divider-line"></div>
+      </div>
       
       <div className="challenge-section">
         <h2 className="challenge-header">
@@ -156,37 +146,35 @@ const ChallengeManager = () => {
       
       {/* Next challenge teaser - will appear after Pizzaiolo challenge is complete */}
       {pizzaioloChallengeComplete && (
-        <div className="challenge-divider">
-          <div className="divider-line"></div>
-          <div className="divider-icon">🏄‍♂️</div>
-          <div className="divider-line"></div>
-        </div>
-      )}
-      
-      {pizzaioloChallengeComplete && (
-        <div className="challenge-section waterpark-teaser">
-          <h2 className="challenge-header">
-            <span className="challenge-icon">🏊‍♂️</span>
-            Alpine Splash Waterpark
-          </h2>
-          <div className="challenge-description">
-            <p>Your invitation to Antonio and Sofia's celebration at the mountain waterpark awaits! The adventure will continue soon...</p>
+        <>
+          <div className="challenge-divider">
+            <div className="divider-line"></div>
+            <div className="divider-icon">🏄‍♂️</div>
+            <div className="divider-line"></div>
           </div>
-          <div className="waterpark-preview">
-            <div className="waterpark-animation">
-              <span className="waterpark-icon">🏔️</span>
-              <span className="waterpark-icon">🌊</span>
-              <span className="waterpark-icon">🎢</span>
-              <span className="waterpark-icon">🏄‍♂️</span>
-              <span className="waterpark-icon">🍕</span>
+          
+          <div className="challenge-section waterpark-teaser">
+            <h2 className="challenge-header">
+              <span className="challenge-icon">🏊‍♂️</span>
+              Alpine Splash Waterpark
+            </h2>
+            <div className="challenge-description">
+              <p>Your invitation to Antonio and Sofia's celebration at the mountain waterpark awaits! The adventure will continue soon...</p>
             </div>
-            <p className="coming-soon">Coming Next Month</p>
-            <p className="pirate-warning">Wait... is that a pirate ship in the distance? 👀</p>
+            <div className="waterpark-preview">
+              <div className="waterpark-animation">
+                <span className="waterpark-icon">🏔️</span>
+                <span className="waterpark-icon">🌊</span>
+                <span className="waterpark-icon">🎢</span>
+                <span className="waterpark-icon">🏄‍♂️</span>
+                <span className="waterpark-icon">🍕</span>
+              </div>
+              <p className="coming-soon">Coming Next Month</p>
+              <p className="pirate-warning">Wait... is that a pirate ship in the distance? 👀</p>
+            </div>
           </div>
-        </div>
+        </>
       )}
-      
-      {/* Future challenges will be added here */}
     </div>
   );
 };

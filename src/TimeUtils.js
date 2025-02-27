@@ -97,11 +97,11 @@ export const calculateTimeUntilSecondChallenge = () => {
 // In production, these would be spaced weekly
 export const pizzaioloStageDates = {
   // Get current year to make this adaptable
-  stage1: new Date(new Date().getFullYear(), 2, 1),  // March 1
-  stage2: new Date(new Date().getFullYear(), 2, 8),  // March 8
-  stage3: new Date(new Date().getFullYear(), 2, 15), // March 15
-  stage4: new Date(new Date().getFullYear(), 2, 22), // March 22
-  stage5: new Date(new Date().getFullYear(), 2, 29)  // March 29
+  stage1: new Date(new Date().getFullYear(), 2, 19),  // March 1
+  stage2: new Date(new Date().getFullYear(), 2, 27),  // March 8
+  stage3: new Date(new Date().getFullYear(), 3, 4), // March 15
+  stage4: new Date(new Date().getFullYear(), 3, 9), // March 22
+  stage5: new Date(new Date().getFullYear(), 3, 16)  // March 29
 };
 
 // Check if a particular stage is available yet

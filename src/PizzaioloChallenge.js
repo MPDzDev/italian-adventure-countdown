@@ -23,11 +23,22 @@ const PizzaioloChallenge = () => {
   const [allStagesComplete, setAllStagesComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Check which stage should be showing
+  // Check which stage should be showing initially
   useEffect(() => {
     const updateStage = () => {
       const nextStage = getNextPizzaioloStage();
-      setCurrentStage(nextStage);
+      
+      // Only set the current stage on initial load
+      // This allows users to stay on completed stages if they want
+      setCurrentStage(prevStage => {
+        // If this is the initial load (prevStage is default 1)
+        // or if currently on a locked stage, update to next available
+        if (prevStage === 1 && !isPizzaioloStageComplete(1)) {
+          return nextStage;
+        }
+        // Otherwise keep current stage selection
+        return prevStage;
+      });
       
       // If all stages complete
       if (nextStage > 5) {
@@ -40,7 +51,9 @@ const PizzaioloChallenge = () => {
     
     // Update immediately and set interval
     updateStage();
-    const stageInterval = setInterval(updateStage, 1000);
+    const stageInterval = setInterval(() => {
+      setNextStageTimer(getTimeUntilNextPizzaioloStage());
+    }, 1000);
     
     return () => clearInterval(stageInterval);
   }, []);
@@ -110,6 +123,10 @@ const PizzaioloChallenge = () => {
     localStorage.setItem(`pizzaioloStage${stageNumber}CompletionTime`, new Date().toLocaleString());
     // Mark stage as complete
     markPizzaioloStageComplete(stageNumber);
+    
+    // Do NOT automatically move to the next stage
+    // This allows users to see their completion message
+    // They can manually navigate to the next stage using the navigation buttons
   };
   
   // Render appropriate stage based on currentStage
@@ -203,7 +220,8 @@ const PizzaioloChallenge = () => {
             key={stageNum}
             className={`stage-indicator ${isPizzaioloStageComplete(stageNum) ? 'completed' : ''} ${currentStage === stageNum ? 'current' : ''} ${!isPizzaioloStageAvailable(stageNum) ? 'locked' : ''}`}
             onClick={() => {
-              if (isPizzaioloStageAvailable(stageNum)) {
+              // Allow navigating to available or completed stages
+              if (isPizzaioloStageAvailable(stageNum) || isPizzaioloStageComplete(stageNum)) {
                 setCurrentStage(stageNum);
               }
             }}
