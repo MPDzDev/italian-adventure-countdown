@@ -89,3 +89,106 @@ export const calculateTimeUntilSecondChallenge = () => {
   
   return { days, hours, minutes, seconds };
 };
+
+// PIZZAIOLO CHALLENGE TIME UTILITIES
+
+// Hard-coded release dates for each stage
+// For testing purposes, we can set these closer to current date
+// In production, these would be spaced weekly
+export const pizzaioloStageDates = {
+  // Get current year to make this adaptable
+  stage1: new Date(new Date().getFullYear(), 2, 1),  // March 1
+  stage2: new Date(new Date().getFullYear(), 2, 8),  // March 8
+  stage3: new Date(new Date().getFullYear(), 2, 15), // March 15
+  stage4: new Date(new Date().getFullYear(), 2, 22), // March 22
+  stage5: new Date(new Date().getFullYear(), 2, 29)  // March 29
+};
+
+// Check if a particular stage is available yet
+export const isPizzaioloStageAvailable = (stageNumber) => {
+  if (stageNumber < 1 || stageNumber > 5) return false;
+  
+  const now = new Date();
+  const stageDateKey = `stage${stageNumber}`;
+  
+  // For stage 1, also check if pizzaiolo challenge is active
+  if (stageNumber === 1) {
+    const isPizzaioloActive = localStorage.getItem('pizzaioloChallengeActive') === 'true';
+    return isPizzaioloActive && now >= pizzaioloStageDates[stageDateKey];
+  }
+  
+  // For stages 2-5, also check if previous stage is completed
+  return now >= pizzaioloStageDates[stageDateKey] && isPizzaioloStageComplete(stageNumber - 1);
+};
+
+// Mark stage as complete
+export const markPizzaioloStageComplete = (stageNumber) => {
+  if (stageNumber < 1 || stageNumber > 5) return;
+  
+  localStorage.setItem(`pizzaioloStage${stageNumber}Complete`, 'true');
+  
+  // If this is the final stage, mark the entire challenge as complete
+  if (stageNumber === 5) {
+    localStorage.setItem('pizzaioloChallengeComplete', 'true');
+  }
+};
+
+// Check if a stage is completed
+export const isPizzaioloStageComplete = (stageNumber) => {
+  if (stageNumber < 1 || stageNumber > 5) return false;
+  
+  return localStorage.getItem(`pizzaioloStage${stageNumber}Complete`) === 'true';
+};
+
+// Get next available stage
+export const getNextPizzaioloStage = () => {
+  // First check for incomplete available stages
+  for (let i = 1; i <= 5; i++) {
+    if (!isPizzaioloStageComplete(i) && isPizzaioloStageAvailable(i)) {
+      return i;
+    }
+  }
+  
+  // If all available stages are complete, check if there's an unavailable stage
+  for (let i = 1; i <= 5; i++) {
+    if (!isPizzaioloStageComplete(i)) {
+      return i;
+    }
+  }
+  
+  // All stages complete
+  return 6;
+};
+
+// Calculate time until next stage unlocks
+export const getTimeUntilNextPizzaioloStage = () => {
+  const nextStage = getNextPizzaioloStage();
+  
+  // If all stages complete or no next stage
+  if (nextStage > 5) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+  
+  const now = new Date();
+  const nextDate = pizzaioloStageDates[`stage${nextStage}`];
+  
+  // If stage is already available
+  if (now >= nextDate && isPizzaioloStageAvailable(nextStage)) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+  
+  // Calculate time difference
+  const timeDiff = nextDate - now;
+  
+  // If negative, return zero (meaning it's available)
+  if (timeDiff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+  
+  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+  
+  return { days, hours, minutes, seconds };
+};

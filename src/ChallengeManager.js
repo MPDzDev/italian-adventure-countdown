@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ChallengeManager.css';
 import PirateBattle from './PirateBattle';
+import PizzaioloChallenge from './PizzaioloChallenge';
 import TreasureChest from './TreasureChest';
 import { isSecondChallengeUnlocked } from './TimeUtils';
 
@@ -9,6 +10,7 @@ const ChallengeManager = () => {
   const [piratesChallengeComplete, setPiratesChallengeComplete] = useState(false);
   const [piratesChallengeActive, setPiratesChallengeActive] = useState(false);
   const [pizzaioloChallengeActive, setPizzaioloChallengeActive] = useState(false);
+  const [pizzaioloChallengeComplete, setPizzaioloChallengeComplete] = useState(false);
   const [secondChallengeUnlocked, setSecondChallengeUnlocked] = useState(false);
   
   // Load saved progress on mount
@@ -34,11 +36,16 @@ const ChallengeManager = () => {
       setPiratesChallengeActive(true);
     }
     
-    // Check if pizzaiolo challenge is active (only if it's unlocked by date)
+    // Check if pizzaiolo challenge is active and completed
     if (secondChallengeUnlocked) {
       const pizzaioloActive = localStorage.getItem('pizzaioloChallengeActive');
       if (pizzaioloActive === 'true') {
         setPizzaioloChallengeActive(true);
+      }
+      
+      const pizzaioloComplete = localStorage.getItem('pizzaioloChallengeComplete');
+      if (pizzaioloComplete === 'true') {
+        setPizzaioloChallengeComplete(true);
       }
     }
   }, [secondChallengeUnlocked]);
@@ -60,6 +67,19 @@ const ChallengeManager = () => {
     
     // Set up interval to check completion
     const interval = setInterval(checkPirateCompletion, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Listen for pizzaiolo challenge completion
+  useEffect(() => {
+    const checkPizzaioloCompletion = () => {
+      const pizzaioloComplete = localStorage.getItem('pizzaioloChallengeComplete');
+      setPizzaioloChallengeComplete(pizzaioloComplete === 'true');
+    };
+    
+    // Set up interval to check completion
+    const interval = setInterval(checkPizzaioloCompletion, 1000);
     
     return () => clearInterval(interval);
   }, []);
@@ -111,18 +131,7 @@ const ChallengeManager = () => {
       {/* Pizzaiolo Challenge Section - only show if active and unlocked by date */}
       {pizzaioloChallengeActive && secondChallengeUnlocked && (
         <div className="challenge-section pizzaiolo-challenge-section">
-          <h2 className="challenge-header">
-            <span className="challenge-icon">🍕</span>
-            Antonio's Stolen Recipes!
-          </h2>
-          <div className="challenge-description">
-            <p>The pirates have stolen Antonio's secret family recipes! Help him recover them before his pizzeria closes forever.</p>
-          </div>
-          <div className="coming-soon-message">
-            <h3>Challenge Coming Soon!</h3>
-            <p>Antonio's adventure is being prepared. Check back soon to help recover the stolen recipes!</p>
-            <div className="pizza-icon">🍕👨‍🍳📜</div>
-          </div>
+          <PizzaioloChallenge />
         </div>
       )}
       
@@ -144,6 +153,38 @@ const ChallengeManager = () => {
         </div>
         <TreasureChest isUnlocked={piratesChallengeComplete} />
       </div>
+      
+      {/* Next challenge teaser - will appear after Pizzaiolo challenge is complete */}
+      {pizzaioloChallengeComplete && (
+        <div className="challenge-divider">
+          <div className="divider-line"></div>
+          <div className="divider-icon">🏄‍♂️</div>
+          <div className="divider-line"></div>
+        </div>
+      )}
+      
+      {pizzaioloChallengeComplete && (
+        <div className="challenge-section waterpark-teaser">
+          <h2 className="challenge-header">
+            <span className="challenge-icon">🏊‍♂️</span>
+            Alpine Splash Waterpark
+          </h2>
+          <div className="challenge-description">
+            <p>Your invitation to Antonio and Sofia's celebration at the mountain waterpark awaits! The adventure will continue soon...</p>
+          </div>
+          <div className="waterpark-preview">
+            <div className="waterpark-animation">
+              <span className="waterpark-icon">🏔️</span>
+              <span className="waterpark-icon">🌊</span>
+              <span className="waterpark-icon">🎢</span>
+              <span className="waterpark-icon">🏄‍♂️</span>
+              <span className="waterpark-icon">🍕</span>
+            </div>
+            <p className="coming-soon">Coming Next Month</p>
+            <p className="pirate-warning">Wait... is that a pirate ship in the distance? 👀</p>
+          </div>
+        </div>
+      )}
       
       {/* Future challenges will be added here */}
     </div>
