@@ -3,12 +3,17 @@ body {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   background-color: #f0f9ff;
   color: #333;
+  background-image: linear-gradient(to right, rgba(0, 140, 69, 0.05), rgba(255, 255, 255, 0.05) 33%, rgba(206, 43, 55, 0.05) 66%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .app {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h-40V0h40v40zM20 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20zm0-3a7 7 0 1 1 0-14 7 7 0 0 1 0 14z' fill='%23ce2b37' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
 header {

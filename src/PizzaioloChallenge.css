@@ -201,13 +201,13 @@
     background-color: rgba(30, 50, 80, 0.7);
     border-radius: 10px;
     padding: 25px;
-    border: 2px dashed #a88ae6;
+    border: 2px dashed #bfcdc0;
     margin: 30px 0;
     animation: pulse 2s infinite alternate;
   }
   
   .waterpark-invitation h3 {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 24px;
     margin-bottom: 15px;
   }

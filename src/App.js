@@ -65,8 +65,8 @@ function App() {
       
       <div className="mystery-section">
         <h3>A mysterious adventure is approaching...</h3>
-        <p className="mystery-text">Something special awaits at the end of the journey. Stay tuned for clues that will lead to hidden treasures.</p>
-        <p className="subtle-hint">bury a chest. don't say i didn't warn ya.</p>
+        <p className="mystery-text">Something special awaits at the end of the journey. The salty sea breeze seems to be giving way to the aroma of fresh dough and tomatoes. Stay tuned for clues that will lead to hidden treasures.</p>
+        <p className="subtle-hint">bury a chest. don't say i didn't warn ya. the Italian coast holds secrets.</p>
       </div>
       
       {/* Locked sections with pirate challenge as first lock */}

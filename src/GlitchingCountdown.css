@@ -7,16 +7,30 @@
   }
   
   .days-value {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-weight: 500;
     font-size: 28px;
     margin-bottom: 5px;
     text-shadow: 0 0 5px rgba(168, 138, 230, 0.3);
     transition: color 0.2s ease, text-shadow 0.2s ease;
+    position: relative;
+  }
+  
+  /* Add subtle pizza-themed countdown styling */
+  .days-value::after {
+    content: '🇮🇹';
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0;
+    animation: flagAppear 10s infinite;
+    filter: blur(1px);
   }
   
   .days-label {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-weight: 300;
     transition: color 0.2s ease;
   }
@@ -50,6 +64,11 @@
     letter-spacing: 0px !important;
     font-size: 22px !important;
     text-transform: uppercase !important;
+  }
+
+  @keyframes flagAppear {
+    0%, 85%, 100% { opacity: 0; }
+    90%, 95% { opacity: 0.4; }
   }
   
   @keyframes valueShake {

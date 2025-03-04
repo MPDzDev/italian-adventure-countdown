@@ -204,7 +204,7 @@ const LockedSection = () => {
               onMouseLeave={() => setHoverLock(null)}
               onClick={() => handleLockClick(section.id)}
             >
-              <div className="lock-icon">{activeLocks[section.id] ? '🔓' : '🔒'}</div>
+              <div className="lock-icon">{activeLocks[section.id] ? '🔓' : section.id === 2 && secondLockUnlocked ? '🍕' : '🔒'}</div>
               <div className="lock-name">{section.name}</div>
               
               {/* Timer for second lock - only show if pirate challenge is completed */}

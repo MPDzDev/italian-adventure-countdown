@@ -260,14 +260,14 @@
   .decoded-output {
     flex: 1;
     background-color: rgba(20, 10, 20, 0.5);
-    border: 1px solid #a88ae6;
+    border: 1px solid #bfcdc0;
     border-radius: 5px;
     padding: 10px;
     min-height: 100px;
   }
   
   .decoded-output h5 {
-    color: #a88ae6;
+    color: #bfcdc0;
     margin-bottom: 10px;
   }
   
@@ -340,7 +340,7 @@
   }
   
   .ingredient-description {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 14px;
     line-height: 1.5;
   }
@@ -516,7 +516,7 @@
   }
   
   .no-clues {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-style: italic;
     font-size: 14px;
   }
@@ -566,8 +566,8 @@
   
   .collect-clue-button {
     background-color: rgba(168, 138, 230, 0.3);
-    color: #a88ae6;
-    border: 1px solid #a88ae6;
+    color: #bfcdc0;
+    border: 1px solid #bfcdc0;
     border-radius: 4px;
     padding: 5px 10px;
     font-size: 14px;
@@ -664,7 +664,7 @@
   }
   
   .puzzle-hint {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 14px;
     font-style: italic;
     margin-top: 10px;
@@ -821,7 +821,7 @@
   
   .invitation-preview {
     background-color: rgba(168, 138, 230, 0.1);
-    border: 2px dashed #a88ae6;
+    border: 2px dashed #bfcdc0;
     border-radius: 10px;
     padding: 20px;
     margin-top: 30px;
@@ -830,7 +830,7 @@
   }
   
   .invitation-preview h5 {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 20px;
     margin-bottom: 10px;
   }

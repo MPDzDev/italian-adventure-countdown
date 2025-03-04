@@ -1,5 +1,5 @@
 .pirate-battle {
-    background-color: rgba(10, 10, 26, 0.8);
+    background-color: rgba(10, 26, 11, 0.8);
     border-radius: 10px;
     padding: 25px;
     box-shadow: 0 0 20px rgba(168, 138, 230, 0.3);
@@ -51,7 +51,7 @@
   
   .battle-meter-fill {
     height: 100%;
-    background: linear-gradient(90deg, #a88ae6, #c9a959);
+    background: linear-gradient(90deg, #bfcdc0, #c9a959);
     border-radius: 6px;
     transition: width 0.5s ease;
     width: 0;
@@ -60,7 +60,7 @@
   
   .battle-percentage {
     text-align: center;
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 16px;
     font-weight: bold;
   }
@@ -133,7 +133,7 @@
   
   .riddle-input:focus {
     outline: none;
-    border-color: #a88ae6;
+    border-color: #bfcdc0;
     box-shadow: 0 0 8px rgba(168, 138, 230, 0.5);
   }
   
@@ -152,7 +152,7 @@
   }
   
   .riddle-submit {
-    background-color: #a88ae6;
+    background-color: #bfcdc0;
     color: #0a0a1a;
     border: none;
     padding: 12px 20px;
@@ -196,7 +196,7 @@
   .victory-message {
     text-align: center;
     padding: 30px;
-    background-color: rgba(20, 30, 40, 0.7);
+    background-color: rgba(20, 40, 22, 0.7);
     border-radius: 10px;
     border: 2px solid #c9a959;
     animation: glowing 2s infinite alternate;
@@ -209,7 +209,7 @@
   }
   
   .victory-message p {
-    color: #a88ae6;
+    color: #bfcdc0;
     font-size: 18px;
     margin-bottom: 20px;
   }

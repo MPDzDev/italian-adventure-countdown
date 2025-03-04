@@ -2,8 +2,8 @@
 
 /* Timer lock styling */
 .timer-lock {
-  background-color: rgba(38, 38, 58, 0.4);
-  border: 1px dashed #a88ae6;
+  background-color: rgba(36, 13, 13, 0.3);
+  border: 1px dashed #bfcdc0;
   position: relative;
   overflow: visible;
 }
@@ -18,7 +18,7 @@
 
 .timer-lock:hover {
   background-color: rgba(38, 38, 58, 0.6);
-  border: 1px solid #a88ae6;
+  border: 1px solid #bfcdc0;
 }
 
 .timer-lock .lock-icon {
@@ -27,14 +27,14 @@
 
 .lock-timer {
   font-size: 14px;
-  color: #a88ae6;
+  color: #bfcdc0;
   margin-top: 10px;
   position: relative;
   animation: pulse 1.5s infinite alternate;
 }
 
 .timer-display {
-  background-color: rgba(10, 10, 26, 0.8);
+  background-color: rgba(10, 26, 13, 0.8);
   border-radius: 4px;
   padding: 4px 8px;
   display: inline-block;
@@ -48,6 +48,8 @@
   background-color: rgba(140, 58, 58, 0.1);
   border: 1px dashed #ff6b6b;
   animation: pulse 3s infinite alternate;
+  position: relative;
+  overflow: hidden;
 }
 
 .pizzaiolo-lock:hover {
@@ -55,6 +57,18 @@
   border: 1px solid #ff6b6b;
   transform: translateY(-8px) scale(1.05);
   box-shadow: 0 10px 20px rgba(140, 58, 58, 0.2);
+}
+
+.pizzaiolo-lock:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, #008C45 33%, #F4F5F0 33%, #F4F5F0 66%, #CD212A 66%);
+  z-index: 5;
+  animation: italianFlagReveal 1.5s ease-in-out;
 }
 
 .pizzaiolo-lock .lock-icon {
@@ -87,6 +101,11 @@
   border: 1px solid #ff9f9f;
   box-shadow: 0 0 20px rgba(140, 58, 58, 0.3);
   animation: none;
+}
+
+@keyframes italianFlagReveal {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }
 
 /* Adjust the countdown timer glitch effects similar to your main countdown */
