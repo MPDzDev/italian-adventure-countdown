@@ -1,7 +1,7 @@
 .pizzaiolo-challenge {
     background-color: rgba(50, 20, 20, 0.7);
     border-radius: 10px;
-    padding: 25px;
+    padding: 15px;
     margin: 40px 0;
     border: 1px solid #ff6b6b;
     position: relative;
@@ -132,7 +132,7 @@
   .stage-container {
     background-color: rgba(30, 10, 10, 0.5);
     border-radius: 8px;
-    padding: 20px;
+    padding: 5px;
     border: 1px solid #ff6b6b;
     min-height: 300px;
   }
@@ -140,7 +140,7 @@
   /* Locked stage */
   .stage-locked {
     text-align: center;
-    padding: 40px 20px;
+    padding: 10px 5px;
   }
   
   .stage-locked h3 {
@@ -153,7 +153,7 @@
     font-size: 24px;
     color: #ff6b6b;
     background-color: rgba(10, 5, 5, 0.5);
-    padding: 10px 15px;
+    padding: 5px 8px;
     border-radius: 5px;
     display: inline-block;
     margin: 15px 0;
@@ -173,7 +173,7 @@
   /* Challenge complete */
   .challenge-complete {
     text-align: center;
-    padding: 30px;
+    padding: 7px;
   }
   
   .challenge-complete h2 {
@@ -200,7 +200,7 @@
   .waterpark-invitation {
     background-color: rgba(30, 50, 80, 0.7);
     border-radius: 10px;
-    padding: 25px;
+    padding: 7px;
     border: 2px dashed #bfcdc0;
     margin: 30px 0;
     animation: pulse 2s infinite alternate;
@@ -255,7 +255,7 @@
   /* Responsive adjustments */
   @media (max-width: 600px) {
     .pizzaiolo-challenge {
-      padding: 15px;
+      padding: 8px;
     }
     
     .challenge-header h2 {
@@ -281,7 +281,7 @@
     }
     
     .stage-container {
-      padding: 15px;
+      padding: 8px;
     }
     
     .countdown {

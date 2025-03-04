@@ -20,11 +20,13 @@ const ChallengeManager = () => {
     
     // Check if pirates challenge is completed
     const piratesComplete = localStorage.getItem('pirateRiddleStates');
+    let isPirateCompleted = false;
+    
     if (piratesComplete) {
       try {
         const states = JSON.parse(piratesComplete);
-        const allComplete = Object.values(states).every(state => state.isCorrect);
-        setPiratesChallengeComplete(allComplete);
+        isPirateCompleted = Object.values(states).every(state => state.isCorrect);
+        setPiratesChallengeComplete(isPirateCompleted);
       } catch (error) {
         console.error('Error parsing pirate riddle states:', error);
       }
@@ -39,7 +41,13 @@ const ChallengeManager = () => {
     // Check if pizzaiolo challenge is active and completed
     if (secondChallengeUnlocked) {
       const pizzaioloActive = localStorage.getItem('pizzaioloChallengeActive');
-      if (pizzaioloActive === 'true') {
+      
+      // FIX: Auto-activate pizzaiolo challenge if pirate challenge is completed
+      // and the second challenge is unlocked by time but pizzaiolo not yet activated
+      if (!pizzaioloActive && isPirateCompleted) {
+        localStorage.setItem('pizzaioloChallengeActive', 'true');
+        setPizzaioloChallengeActive(true);
+      } else if (pizzaioloActive === 'true') {
         setPizzaioloChallengeActive(true);
       }
       

@@ -80,7 +80,7 @@
   
   .success-message {
     text-align: center;
-    padding: 30px;
+    padding: 15px;
     background-color: rgba(20, 60, 20, 0.3);
     border-radius: 10px;
     border: 2px solid #6adb6a;
@@ -124,7 +124,7 @@
   .ransom-note {
     background-color: rgba(251, 244, 204, 0.9);
     border-radius: 5px;
-    padding: 30px;
+    padding: 15px;
     margin-bottom: 30px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -524,7 +524,7 @@
   .family-story-section {
     background-color: rgba(10, 5, 5, 0.5);
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     margin: 20px 0;
     border: 1px solid #ff6b6b;
     position: relative;
@@ -652,7 +652,7 @@
     background-color: #6a3a3a;
     color: #fff;
     border: none;
-    padding: 10px 15px;
+    padding: 5px 7px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -673,7 +673,7 @@
   .secret-ingredient-section {
     background-color: rgba(10, 5, 5, 0.5);
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     margin: 30px 0;
     border: 1px solid #ff6b6b;
     text-align: center;
@@ -703,7 +703,7 @@
     background-color: rgba(30, 10, 10, 0.5);
     border: 1px solid #ff6b6b;
     border-radius: 5px;
-    padding: 12px;
+    padding: 6px;
     color: #e0c9a6;
     font-size: 16px;
   }
@@ -733,7 +733,7 @@
     font-size: 18px;
     margin-bottom: 15px;
     background-color: rgba(10, 5, 5, 0.5);
-    padding: 10px 15px;
+    padding: 5px 7px;
     border-radius: 5px;
     border-left: 3px solid #ff6b6b;
   }
@@ -748,7 +748,7 @@
     background-color: rgba(30, 10, 10, 0.5);
     border: 1px solid #6a3a3a;
     border-radius: 8px;
-    padding: 15px;
+    padding: 7px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -807,7 +807,7 @@
   .assembly-hint {
     background-color: rgba(10, 5, 5, 0.5);
     border-radius: 8px;
-    padding: 15px;
+    padding: 7px;
     margin-top: 20px;
     border: 1px dashed #ff9f9f;
     text-align: center;
@@ -823,7 +823,7 @@
     background-color: rgba(168, 138, 230, 0.1);
     border: 2px dashed #bfcdc0;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     margin-top: 30px;
     text-align: center;
     animation: pulse-purple 2s infinite alternate;
@@ -862,7 +862,7 @@
     }
     
     .ransom-note {
-      padding: 20px;
+      padding: 10px;
     }
     
     .blank-input {
