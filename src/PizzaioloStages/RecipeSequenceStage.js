@@ -62,6 +62,19 @@ const RecipeSequenceStage = ({ onComplete }) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
   const [draggedStep, setDraggedStep] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Check if sequence is correct - wrapped in useCallback
   const checkSequence = React.useCallback((seq) => {
@@ -156,6 +169,32 @@ const RecipeSequenceStage = ({ onComplete }) => {
     // Clear feedback when sequence changes
     setFeedback('');
   };
+
+  // Mobile-friendly function to move a step up
+  const moveStepUp = (index) => {
+    if (index === 0) return; // Can't move the first item up
+    
+    const newSequence = [...sequence];
+    const temp = newSequence[index];
+    newSequence[index] = newSequence[index - 1];
+    newSequence[index - 1] = temp;
+    
+    setSequence(newSequence);
+    setFeedback('');
+  };
+  
+  // Mobile-friendly function to move a step down
+  const moveStepDown = (index) => {
+    if (index === sequence.length - 1) return; // Can't move the last item down
+    
+    const newSequence = [...sequence];
+    const temp = newSequence[index];
+    newSequence[index] = newSequence[index + 1];
+    newSequence[index + 1] = temp;
+    
+    setSequence(newSequence);
+    setFeedback('');
+  };
   
   // Handle sequence verification
   const handleVerifySequence = () => {
@@ -202,7 +241,7 @@ const RecipeSequenceStage = ({ onComplete }) => {
       ) : (
         <>
           <div className="stage-instructions">
-            <p>The pirates have scrambled Antonio's recipe steps! Drag and drop the steps into the correct order to restore the pizza-making sequence.</p>
+            <p>The pirates have scrambled Antonio's recipe steps! {isMobile ? 'Use the up and down arrows' : 'Drag and drop the steps'} to restore the pizza-making sequence.</p>
           </div>
           
           <div className="sequence-container">
@@ -210,16 +249,37 @@ const RecipeSequenceStage = ({ onComplete }) => {
               <div 
                 key={step.id}
                 className="sequence-step"
-                draggable="true"
-                onDragStart={(e) => handleDragStart(e, step)}
-                onDragEnd={handleDragEnd}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, index)}
+                draggable={!isMobile}
+                onDragStart={!isMobile ? (e) => handleDragStart(e, step) : undefined}
+                onDragEnd={!isMobile ? handleDragEnd : undefined}
+                onDragOver={!isMobile ? handleDragOver : undefined}
+                onDrop={!isMobile ? (e) => handleDrop(e, index) : undefined}
               >
                 <div className="step-number">{index + 1}</div>
                 <div className="step-image">{step.image}</div>
                 <div className="step-text">{step.text}</div>
-                <div className="drag-handle">⋮⋮</div>
+                
+                {/* Mobile friendly controls */}
+                {isMobile ? (
+                  <div className="mobile-controls">
+                    <button 
+                      className="mobile-control-btn up-btn"
+                      onClick={() => moveStepUp(index)}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </button>
+                    <button 
+                      className="mobile-control-btn down-btn"
+                      onClick={() => moveStepDown(index)}
+                      disabled={index === sequence.length - 1}
+                    >
+                      ↓
+                    </button>
+                  </div>
+                ) : (
+                  <div className="drag-handle">⋮⋮</div>
+                )}
               </div>
             ))}
           </div>

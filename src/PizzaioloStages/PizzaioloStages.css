@@ -892,3 +892,60 @@
       gap: 15px;
     }
   }
+
+  /* Mobile controls for sequence stage */
+.mobile-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 10px;
+}
+
+.mobile-control-btn {
+  background-color: #6a3a3a;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-control-btn:hover:not(:disabled) {
+  background-color: #8a4a4a;
+  transform: scale(1.1);
+}
+
+.mobile-control-btn:disabled {
+  background-color: #4a3a3a;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.up-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.down-btn:hover:not(:disabled) {
+  transform: translateY(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sequence-step {
+    cursor: default;
+  }
+  
+  .drag-handle {
+    display: none;
+  }
+  
+  .step-text {
+    font-size: 14px;
+  }
+}
