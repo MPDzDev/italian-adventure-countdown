@@ -7,11 +7,11 @@
   }
   
   .days-value {
-    color: #bfcdc0;
+    color: #bde2c0;
     font-weight: 500;
     font-size: 28px;
     margin-bottom: 5px;
-    text-shadow: 0 0 5px rgba(168, 138, 230, 0.3);
+    text-shadow: 0 0 5px rgba(106, 219, 106, 0.3);
     transition: color 0.2s ease, text-shadow 0.2s ease;
     position: relative;
   }
@@ -30,7 +30,7 @@
   }
   
   .days-label {
-    color: #bfcdc0;
+    color: #bde2c0;
     font-weight: 300;
     transition: color 0.2s ease;
   }
