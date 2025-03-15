@@ -771,15 +771,85 @@ const PirateNegotiationStage = ({ onComplete, onStoryEvent, storyProgress }) => 
     }
   };
   
-  const completeStage = () => {
-    setIsComplete(true);
-    onComplete(3, {
-      choices: userChoices,
-      newItems: [],
-      newLocations: ["Pirate Hideout", "Tuscan Hills"],
-      characterRelationships: { }
-    });
-  };
+  // Function to complete the stage
+const completeStage = () => {
+  setIsComplete(true);
+  
+  // First, directly mark the stage as complete in localStorage to ensure it's set
+  localStorage.setItem('pizzaioloStage3Complete', 'true');
+  localStorage.setItem('pizzaioloStage3CompletionTime', new Date().toISOString());
+  
+  // Pass story updates to parent component
+  onComplete(3, {
+    choices: userChoices,
+    newItems: [
+      {
+        icon: "📋",
+        name: "Recipe Sequence Notes",
+        description: "The correct order of steps for making authentic Italian pizza dough, as taught by Antonio."
+      }
+    ],
+    newLocations: [],
+    characterRelationships: {
+      // Any relationship changes from this stage
+      antonioBond: 10
+    }
+  });
+  
+  // Force a re-check of stages after completion
+  setTimeout(() => {
+    // This will help trigger UI updates in parent components
+    window.dispatchEvent(new Event('storage'));
+    
+    // Also manually check if the stage is properly marked as complete
+    const isCompleteInStorage = localStorage.getItem('pizzaioloStage3Complete') === 'true';
+    console.log(`Stage 3 completion status in localStorage: ${isCompleteInStorage}`);
+    
+    // If for some reason it's not set, try again
+    if (!isCompleteInStorage) {
+      console.log("Re-attempting to set stage 3 as complete");
+      localStorage.setItem('pizzaioloStage3Complete', 'true');
+    }
+  }, 200);
+};
+
+// Add to the useEffect that monitors puzzle state changes
+useEffect(() => {
+  // When puzzle is solved, ensure completion is triggered
+  if (puzzleState.solved && !isComplete) {
+    console.log("Puzzle solved, triggering stage completion");
+    completeStage();
+  }
+}, [puzzleState.solved, isComplete]);
+
+// Add to the final scene in the component
+// Inside the success message div:
+useEffect(() => {
+  // Verify completion is registered
+  if (isComplete) {
+    const checkCompletion = () => {
+      const stageComplete = localStorage.getItem('pizzaioloStage3Complete') === 'true';
+      console.log(`Stage 3 completion status: ${stageComplete}`);
+      
+      if (!stageComplete) {
+        console.log("Re-marking stage 3 as complete");
+        localStorage.setItem('pizzaioloStage3Complete', 'true');
+        
+        // Try to force parent component to recognize completion
+        if (onComplete) {
+          onComplete(3, {});
+        }
+      }
+    };
+    
+    // Check immediately
+    checkCompletion();
+    
+    // And check again after a delay
+    const timer = setTimeout(checkCompletion, 10000);
+    return () => clearTimeout(timer);
+  }
+}, [isComplete, onComplete]);
   
   return (
     <div className="stage-content story-stage">

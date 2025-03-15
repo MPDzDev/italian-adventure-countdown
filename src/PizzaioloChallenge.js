@@ -34,38 +34,61 @@ const PizzaioloChallenge = () => {
     storyChoices: {}
   });
   
-  // Check which stage should be showing initially
-  useEffect(() => {
-    // Load saved story progress
-    const savedProgress = localStorage.getItem('pizzaioloStoryProgress');
-    if (savedProgress) {
-      setStoryProgress(JSON.parse(savedProgress));
-    }
+  // useEffect for initial setup
+useEffect(() => {
+  // Load saved story progress
+  const savedProgress = localStorage.getItem('pizzaioloStoryProgress');
+  if (savedProgress) {
+    setStoryProgress(JSON.parse(savedProgress));
+  }
+  
+  const updateStage = () => {
+    // Get the next stage that should be active
+    const nextStage = getNextPizzaioloStage();
+    console.log(`Next available stage: ${nextStage}`);
     
-    const updateStage = () => {
-      const nextStage = getNextPizzaioloStage();
-      
-      setCurrentStage(prevStage => {
-        if (prevStage === 1 && !isPizzaioloStageComplete(1)) {
-          return nextStage;
-        }
-        return prevStage;
-      });
-      
-      if (nextStage > 5) {
-        setAllStagesComplete(true);
+    setCurrentStage(prevStage => {
+      // If we're at stage 1 and it's not completed, use the next available stage
+      if (prevStage === 1 && !isPizzaioloStageComplete(1)) {
+        return nextStage;
       }
       
-      setNextStageTimer(getTimeUntilNextPizzaioloStage());
-    };
+      // If we just completed a stage, move to the next available one
+      if (isPizzaioloStageComplete(prevStage)) {
+        return nextStage;
+      }
+      
+      return prevStage;
+    });
     
+    // Check if all stages are complete
+    if (nextStage > 5) {
+      setAllStagesComplete(true);
+    }
+    
+    // Update the timer for next stage
+    setNextStageTimer(getTimeUntilNextPizzaioloStage());
+  };
+  
+  updateStage();
+  
+
+  const timerInterval = setInterval(() => {
+    setNextStageTimer(getTimeUntilNextPizzaioloStage());
+  }, 1000);
+  
+  // Also respond to storage events (which might be triggered by other components)
+  const handleStorageChange = () => {
+    console.log("Storage change detected, updating stage info");
     updateStage();
-    const stageInterval = setInterval(() => {
-      setNextStageTimer(getTimeUntilNextPizzaioloStage());
-    }, 1000);
-    
-    return () => clearInterval(stageInterval);
-  }, []);
+  };
+  window.addEventListener('storage', handleStorageChange);
+  
+  return () => {
+    clearInterval(timerInterval);
+    window.removeEventListener('storage', handleStorageChange);
+  };
+}, []);
   
   // Save story progress whenever it changes
   useEffect(() => {
@@ -158,6 +181,8 @@ const PizzaioloChallenge = () => {
   
   // Handle stage completion with story progress updates
   const handleStageComplete = (stageNumber, storyUpdates = {}) => {
+    console.log(`Stage ${stageNumber} completed!`);
+    
     // Save completion time
     localStorage.setItem(`pizzaioloStage${stageNumber}CompletionTime`, new Date().toLocaleString());
     
@@ -188,8 +213,25 @@ const PizzaioloChallenge = () => {
       
       return updatedProgress;
     });
+    
+    // Force update of current stage and progress after a short delay
+    setTimeout(() => {
+      // Check which stage should be active now after completion
+      const nextStage = getNextPizzaioloStage();
+      setCurrentStage(nextStage);
+      
+      // Update completion status
+      if (nextStage > 5) {
+        setAllStagesComplete(true);
+      }
+      
+      // Force a UI update by refreshing the next stage timer
+      setNextStageTimer(getTimeUntilNextPizzaioloStage());
+      
+      console.log(`After completion, next available stage is: ${nextStage}`);
+    }, 300);
   };
-  
+
   // Story event handler - triggered by player choices
   const handleStoryEvent = (eventType, eventData) => {
     switch(eventType) {
