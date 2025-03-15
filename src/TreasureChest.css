@@ -1,7 +1,7 @@
 .treasure-chest-container {
     background-color: rgba(10, 26, 13, 0.8);
     border-radius: 10px;
-    padding: 15px;
+    padding: 8px;
     box-shadow: 0 0 20px rgba(168, 138, 230, 0.3);
     margin: 40px 0;
     border: 1px solid #3a3a5c;
@@ -114,7 +114,7 @@
   .locked-message {
     color: #bfcdc0;
     margin-top: 20px;
-    padding: 15px;
+    padding: 8px;
     background-color: rgba(58, 58, 92, 0.3);
     border-radius: 8px;
     border: 1px dashed #3a3a5c;
@@ -131,7 +131,7 @@
     margin-top: 30px;
     background-color: rgba(20, 20, 40, 0.5);
     border-radius: 8px;
-    padding: 20px;
+    padding: 10px;
     text-align: left;
     border: 1px solid #c9a959;
     animation: fadeIn 1s ease;
@@ -153,7 +153,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    padding: 15px;
+    padding: 8px;
     background-color: rgba(10, 10, 26, 0.6);
     border-radius: 8px;
     border: 1px solid #3a3a5c;
@@ -239,7 +239,7 @@
   
   @media (max-width: 600px) {
     .treasure-chest-container {
-      padding: 20px 15px;
+      padding: 10px 15px;
     }
     
     .chest {
