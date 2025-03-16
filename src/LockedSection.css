@@ -136,3 +136,84 @@
 .timer-lock:hover .timer-display {
   animation: timerGlitch 0.3s ease;
 }
+
+/* Waterpark lock styling */
+.waterpark-lock {
+  background-color: rgba(38, 58, 78, 0.3);
+  border: 1px dashed #4a8cda;
+  position: relative;
+  overflow: visible;
+}
+
+.waterpark-lock:hover {
+  background-color: rgba(38, 58, 78, 0.5);
+  border: 1px solid #4a8cda;
+}
+
+.waterpark-lock .lock-icon {
+  filter: drop-shadow(0 0 8px rgba(74, 140, 218, 0.7));
+}
+
+.waterpark-lock .lock-name {
+  color: #4a8cda;
+}
+
+.waterpark-lock .lock-hint {
+  background-color: rgba(20, 30, 40, 0.95);
+  border: 1px solid #4a8cda;
+  box-shadow: 0 0 15px rgba(74, 140, 218, 0.4);
+  color: #8cb4e6;
+}
+
+.waterpark-lock .lock-hint-arrow {
+  border-top: 10px solid #4a8cda;
+}
+
+.waterpark-lock .lock-chain {
+  background: linear-gradient(90deg, transparent, #4a8cda, transparent);
+  height: 2px;
+  opacity: 0.7;
+}
+
+.waterpark-lock:hover::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: #4a8cda;
+  opacity: 0.4;
+  border-radius: 50%;
+  animation: droplet 2s infinite;
+}
+
+.waterpark-lock:hover::after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 60%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 15px;
+  background: #4a8cda;
+  opacity: 0.3;
+  border-radius: 50%;
+  animation: droplet 1.7s infinite 0.3s;
+}
+
+@keyframes droplet {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  70% {
+    transform: translateY(25px) scale(0.7);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(35px) scale(0.5);
+    opacity: 0;
+  }
+}

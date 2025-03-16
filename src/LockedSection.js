@@ -7,7 +7,7 @@ const LockedSection = () => {
   const [activeLocks, setActiveLocks] = useState({
     1: false, // Pirate Challenge
     2: false, // Pizzaiolo Challenge - locked with timer
-    3: false,
+    3: false, // Alpine Splash Waterpark Adventure - new name
     4: false,
     5: false
   });
@@ -115,6 +115,13 @@ const LockedSection = () => {
   
   const pirateCompleted = isPirateCompleted();
   
+  // Check if Pizzaiolo challenge is completed
+  const isPizzaioloCompleted = () => {
+    return localStorage.getItem('pizzaioloChallengeComplete') === 'true';
+  };
+  
+  const pizzaioloCompleted = isPizzaioloCompleted();
+  
   // Sections that will be "unlocked" over time
   const lockedSections = [
     { id: 1, name: "Pirate Challenge", unlockDate: null, hint: "Click to begin the pirate challenge!" },
@@ -128,7 +135,14 @@ const LockedSection = () => {
             `Unlocks in ${secondLockCountdown.days} days, ${secondLockCountdown.hours} hours, ${secondLockCountdown.minutes} min` :
             "Complete the Pirate Challenge first"
     },
-    { id: 3, name: "Locked Content", unlockDate: null, hint: "Not yet revealed..." },
+    { 
+      id: 3, 
+      name: "Alpine Splash Waterpark", 
+      unlockDate: null, 
+      hint: pizzaioloCompleted ? 
+           "The waterpark adventure awaits! Coming soon..." : 
+           "Complete Antonio's Pizzeria challenge first" 
+    },
     { id: 4, name: "Locked Content", unlockDate: null, hint: "Waiting..." },
     { id: 5, name: "Locked Content", unlockDate: null, hint: "Mysteries await..." }
   ];
@@ -193,18 +207,27 @@ const LockedSection = () => {
           // Special class for the second lock if it has a timer - only if pirate challenge is completed
           const isTimerLock = section.id === 2 && !secondLockUnlocked && pirateCompleted;
           
+          // Special class for the third lock (waterpark)
+          const isWaterparkLock = section.id === 3;
+          
           return (
             <div 
               key={section.id} 
               className={`lock-item ${activeLocks[section.id] ? 'lock-active' : ''} 
                          ${section.id === 1 ? 'pirate-lock' : ''} 
                          ${isTimerLock ? 'timer-lock' : ''} 
-                         ${section.id === 2 && secondLockUnlocked ? 'pizzaiolo-lock' : ''}`}
+                         ${section.id === 2 && secondLockUnlocked ? 'pizzaiolo-lock' : ''}
+                         ${isWaterparkLock ? 'waterpark-lock' : ''}`}
               onMouseEnter={() => setHoverLock(section.id)}
               onMouseLeave={() => setHoverLock(null)}
               onClick={() => handleLockClick(section.id)}
             >
-              <div className="lock-icon">{activeLocks[section.id] ? '🔓' : section.id === 2 && secondLockUnlocked ? '🍕' : '🔒'}</div>
+              <div className="lock-icon">
+                {activeLocks[section.id] ? '🔓' : 
+                 section.id === 2 && secondLockUnlocked ? '🍕' : 
+                 section.id === 3 && pizzaioloCompleted ? '🏄‍♂️' : 
+                 '🔒'}
+              </div>
               <div className="lock-name">{section.name}</div>
               
               {/* Timer for second lock - only show if pirate challenge is completed */}
