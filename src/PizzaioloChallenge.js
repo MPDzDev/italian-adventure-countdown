@@ -34,61 +34,38 @@ const PizzaioloChallenge = () => {
     storyChoices: {}
   });
   
-  // useEffect for initial setup
-useEffect(() => {
-  // Load saved story progress
-  const savedProgress = localStorage.getItem('pizzaioloStoryProgress');
-  if (savedProgress) {
-    setStoryProgress(JSON.parse(savedProgress));
-  }
-  
-  const updateStage = () => {
-    // Get the next stage that should be active
-    const nextStage = getNextPizzaioloStage();
-    console.log(`Next available stage: ${nextStage}`);
-    
-    setCurrentStage(prevStage => {
-      // If we're at stage 1 and it's not completed, use the next available stage
-      if (prevStage === 1 && !isPizzaioloStageComplete(1)) {
-        return nextStage;
-      }
-      
-      // If we just completed a stage, move to the next available one
-      if (isPizzaioloStageComplete(prevStage)) {
-        return nextStage;
-      }
-      
-      return prevStage;
-    });
-    
-    // Check if all stages are complete
-    if (nextStage > 5) {
-      setAllStagesComplete(true);
+  // Check which stage should be showing initially
+  useEffect(() => {
+    // Load saved story progress
+    const savedProgress = localStorage.getItem('pizzaioloStoryProgress');
+    if (savedProgress) {
+      setStoryProgress(JSON.parse(savedProgress));
     }
     
-    // Update the timer for next stage
-    setNextStageTimer(getTimeUntilNextPizzaioloStage());
-  };
-  
-  updateStage();
-  
-
-  const timerInterval = setInterval(() => {
-    setNextStageTimer(getTimeUntilNextPizzaioloStage());
-  }, 1000);
-  
-  // Also respond to storage events (which might be triggered by other components)
-  const handleStorageChange = () => {
-    console.log("Storage change detected, updating stage info");
+    const updateStage = () => {
+      const nextStage = getNextPizzaioloStage();
+      
+      setCurrentStage(prevStage => {
+        if (prevStage === 1 && !isPizzaioloStageComplete(1)) {
+          return nextStage;
+        }
+        return prevStage;
+      });
+      
+      if (nextStage > 5) {
+        setAllStagesComplete(true);
+      }
+      
+      setNextStageTimer(getTimeUntilNextPizzaioloStage());
+    };
+    
     updateStage();
-  };
-  window.addEventListener('storage', handleStorageChange);
-  
-  return () => {
-    clearInterval(timerInterval);
-    window.removeEventListener('storage', handleStorageChange);
-  };
-}, []);
+    const stageInterval = setInterval(() => {
+      setNextStageTimer(getTimeUntilNextPizzaioloStage());
+    }, 1000);
+    
+    return () => clearInterval(stageInterval);
+  }, []);
   
   // Save story progress whenever it changes
   useEffect(() => {
@@ -97,40 +74,14 @@ useEffect(() => {
     }
   }, [storyProgress]);
   
-  // Send email notification when all stages are complete
+  // Add rewards when all stages are complete
   useEffect(() => {
-    const notifyCompletion = async () => {
-      if (allStagesComplete && !isSubmitting && !wasCompletionEmailSent('PizzaioloChallenge')) {
-        setIsSubmitting(true);
-        
-        try {
-          // Include story progress and choices in the completion email
-          const result = await sendCompletionEmail('PizzaioloChallenge', {
-            storyProgress,
-            completionTime: new Date().toLocaleString()
-          });
-          
-          if (result.success) {
-            console.log('Pizzaiolo challenge completion email sent successfully!');
-            
-            // Add treasure items to chest based on story choices
-            const rewardItems = determineRewards(storyProgress);
-            rewardItems.forEach(item => addTreasureItem(item));
-          } else {
-            console.error('Failed to send completion email:', result.error);
-          }
-        } catch (error) {
-          console.error('Error in completion notification:', error);
-        } finally {
-          setIsSubmitting(false);
-        }
-      }
-    };
-    
     if (allStagesComplete) {
-      notifyCompletion();
+      // Add treasure items to chest based on story choices
+      const rewardItems = determineRewards(storyProgress);
+      rewardItems.forEach(item => addTreasureItem(item));
     }
-  }, [allStagesComplete, isSubmitting, storyProgress]);
+  }, [allStagesComplete, storyProgress]);
   
   // Determine rewards based on story choices and relationships
   const determineRewards = (progress) => {
@@ -179,10 +130,56 @@ useEffect(() => {
     return rewards;
   };
   
+  // Send email notification for a completed stage
+  const notifyStageCompletion = async (stageNumber, storyUpdates) => {
+    const stageName = getStageName(stageNumber);
+    const challengeId = `PizzaioloStage${stageNumber}`;
+    
+    // Don't send if already sent for this stage or if currently submitting
+    if (wasCompletionEmailSent(challengeId) || isSubmitting) {
+      return;
+    }
+    
+    // Set submitting state
+    setIsSubmitting(true);
+    
+    try {
+      // Send notification with stage-specific details
+      const result = await sendCompletionEmail(challengeId, {
+        stageName,
+        stageNumber,
+        storyUpdates,
+        storyProgress,
+        completionTime: new Date().toLocaleString(),
+        isAllComplete: stageNumber === 5 // Flag if this is the final stage
+      });
+      
+      if (result.success) {
+        console.log(`Stage ${stageNumber} completion email sent successfully!`);
+      } else {
+        console.error(`Failed to send stage ${stageNumber} completion email:`, result.error);
+      }
+    } catch (error) {
+      console.error(`Error in stage ${stageNumber} completion notification:`, error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Get stage name for email notification
+  const getStageName = (stageNumber) => {
+    switch(stageNumber) {
+      case 1: return "The Adventure Begins";
+      case 2: return "The Pisa Investigation";
+      case 3: return "Pirate Negotiations";
+      case 4: return "The Secret Ingredient";
+      case 5: return "Final Showdown";
+      default: return `Stage ${stageNumber}`;
+    }
+  };
+  
   // Handle stage completion with story progress updates
   const handleStageComplete = (stageNumber, storyUpdates = {}) => {
-    console.log(`Stage ${stageNumber} completed!`);
-    
     // Save completion time
     localStorage.setItem(`pizzaioloStage${stageNumber}CompletionTime`, new Date().toLocaleString());
     
@@ -211,27 +208,13 @@ useEffect(() => {
         }
       };
       
+      // Send email notification for this stage completion
+      notifyStageCompletion(stageNumber, storyUpdates);
+      
       return updatedProgress;
     });
-    
-    // Force update of current stage and progress after a short delay
-    setTimeout(() => {
-      // Check which stage should be active now after completion
-      const nextStage = getNextPizzaioloStage();
-      setCurrentStage(nextStage);
-      
-      // Update completion status
-      if (nextStage > 5) {
-        setAllStagesComplete(true);
-      }
-      
-      // Force a UI update by refreshing the next stage timer
-      setNextStageTimer(getTimeUntilNextPizzaioloStage());
-      
-      console.log(`After completion, next available stage is: ${nextStage}`);
-    }, 300);
   };
-
+  
   // Story event handler - triggered by player choices
   const handleStoryEvent = (eventType, eventData) => {
     switch(eventType) {
