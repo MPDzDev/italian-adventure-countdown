@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './PizzaioloStages.css';
 
-// Simple Market Exploration Component that doesn't rely on complex state
-const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentSceneIndex, currentSceneIndex, setMinigameState }) => {
-  // Local state only for UI
+// Simple Market Exploration Component
+const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, onMarketComplete }) => {
   const [selectedStall, setSelectedStall] = useState(null);
   const [messages, setMessages] = useState([]);
   const [showCompletionButton, setShowCompletionButton] = useState(false);
   
   // Load any saved progress
   useEffect(() => {
-    // Check if we have discovered enough clues/ingredients to show completion button
     const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
     
     if (savedState.clues && savedState.clues.includes('hideout-location') && savedState.clues.includes('puzzle-box')) {
@@ -19,7 +17,6 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
       setShowCompletionButton(true);
     }
     
-    // Load any saved messages
     if (savedState.messages && savedState.messages.length > 0) {
       setMessages(savedState.messages);
     }
@@ -64,14 +61,12 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     }
   ];
   
-  // Generic function to add messages
+  // Function to add messages
   const addMessage = (text) => {
-    // Update local state for display (replace instead of append)
     setMessages([text]);
     
-    // Update saved state (replace instead of append)
     const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[],"messages":[]}');
-    savedState.messages = [text]; // Replace with just the new message
+    savedState.messages = [text];
     localStorage.setItem('pizzaioloStage2Market', JSON.stringify(savedState));
   };
   
@@ -85,13 +80,11 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     if (stallId === 'produce') {
       message += `"The freshest San Marzano tomatoes are key," ${stall.vendor} whispers. "And I may have heard the pirates talking about wild honey while they were in town."`;
       
-      // Add ingredient to saved state
       const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
       if (!savedState.ingredients.includes('tomatoes')) {
         savedState.ingredients.push('tomatoes');
         localStorage.setItem('pizzaioloStage2Market', JSON.stringify(savedState));
         
-        // Check if we have enough ingredients now
         if (savedState.ingredients.length >= 3) {
           setShowCompletionButton(true);
         }
@@ -99,13 +92,11 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     } else if (stallId === 'spices') {
       message += `"A touch of wild oregano from the hills makes Antonio's pizza special," says ${stall.vendor}. "I sold him some just before the pirates came."`;
       
-      // Add ingredient to saved state
       const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
       if (!savedState.ingredients.includes('oregano')) {
         savedState.ingredients.push('oregano');
         localStorage.setItem('pizzaioloStage2Market', JSON.stringify(savedState));
         
-        // Check if we have enough ingredients now
         if (savedState.ingredients.length >= 3) {
           setShowCompletionButton(true);
         }
@@ -127,16 +118,13 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     if (stallId === 'fishmonger') {
       message += `"Those Dough Raiders? I saw their ship heading south toward Pisa last night," ${stall.vendor} says quietly. "Their captain was boasting about some puzzle box they acquired."`;
       
-      // Update relationship
       onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: 5 });
       
-      // Add clue to saved state
       const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
       if (!savedState.clues.includes('puzzle-box')) {
         savedState.clues.push('puzzle-box');
         localStorage.setItem('pizzaioloStage2Market', JSON.stringify(savedState));
         
-        // Check if we have both key clues now
         if (savedState.clues.includes('hideout-location') && savedState.clues.includes('puzzle-box')) {
           setShowCompletionButton(true);
         }
@@ -144,13 +132,11 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     } else if (stallId === 'bakery') {
       message += `${stall.vendor} leans in close. "They tried to recruit me! Said they needed a baker who knows Italian techniques. I refused, but they mentioned a hideout near the tower."`;
       
-      // Add clue to saved state
       const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
       if (!savedState.clues.includes('hideout-location')) {
         savedState.clues.push('hideout-location');
         localStorage.setItem('pizzaioloStage2Market', JSON.stringify(savedState));
         
-        // Check if we have both key clues now
         if (savedState.clues.includes('hideout-location') && savedState.clues.includes('puzzle-box')) {
           setShowCompletionButton(true);
         }
@@ -172,7 +158,6 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     if (stallId === 'spices') {
       message += `You buy a small pouch of special herbs. ${stall.vendor} smiles. "These will come in handy if you're trying to recreate Antonio's flavors."`;
       
-      // Add item to inventory
       onStoryEvent('ADD_INVENTORY', { 
         item: {
           icon: "🌿",
@@ -183,7 +168,6 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
     } else if (stallId === 'produce') {
       message += `You buy some ripe tomatoes. ${stall.vendor} slips you an extra one. "For the little one," she whispers with a wink at Sofia.`;
       
-      // Improve Sofia relationship if she's present
       if (isSofiaPresent) {
         onStoryEvent('RELATIONSHIP_CHANGE', { character: 'sofiaTrust', amount: 5 });
       }
@@ -322,31 +306,7 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
             cursor: 'pointer',
             fontSize: '16px'
           }}
-          onClick={() => {
-            // Prepare completion data
-            const savedState = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
-            
-            // Mark the current stage as complete
-            // This is critical to ensure progress is saved
-            localStorage.setItem('pizzaioloStage2Market_completed', 'true');
-            
-            // Mark the entire stage as complete - this ensures progress updates
-            localStorage.setItem('pizzaioloStage2Complete', 'true');
-            
-            // Add market data to minigameState for completion
-            if (setMinigameState) {
-              setMinigameState(prev => ({
-                ...prev,
-                marketClues: savedState.clues || [],
-                marketIngredients: savedState.ingredients || []
-              }));
-            }
-            
-            // Force a timeout to reload the page - this will trigger the parent's completion check
-            setTimeout(() => {
-              window.location.reload();
-            }, 200);
-          }}
+          onClick={() => onMarketComplete()}
         >
           Continue the Journey
         </button>
@@ -355,7 +315,7 @@ const SimpleMarketExploration = ({ onStoryEvent, isSofiaPresent, setCurrentScene
   );
 };
 
-const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setMinigameState }) => {
+const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress }) => {
   // Main state
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -364,7 +324,7 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
   const isSofiaPresent = storyProgress.storyChoices.sofia_journey === 'bring_along' || 
                         storyProgress.storyChoices.sofia_journey === 'parent_decides';
                          
-  const scenes = useMemo (() => [
+  const scenes = useMemo(() => [
     {
       id: 'arrival-pisa',
       background: 'pisa-town',
@@ -429,36 +389,41 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
       ]
     },
     {
-      id: 'pirate-alarmed',
-      background: 'pisa-alley',
+      id: 'tower-detour',
+      background: 'leaning-tower',
       content: <>
-        <p>The pirate's face hardens at your accusation.</p>
+        <h3>The Famous Leaning Tower</h3>
+        <p>You make your way directly to the Leaning Tower of Pisa, but the area is swarming with tourists. After hours of searching around the tower, you find no sign of pirates or clues.</p>
         
         <div className="dialogue">
-          <div className="character-avatar">🏴‍☠️</div>
+          <div className="character-avatar">👨‍🍳</div>
           <div className="dialogue-bubble">
-            <p className="character-name">Pirate Scout</p>
-            <p>"Aye, we might have borrowed some valuable... culinary literature. The Captain's got a taste for fine food, ye see. But ye won't be gettin' it back by makin' demands!"</p>
+            <p className="character-name">Antonio</p>
+            <p>"This isn't working. There are too many people here, and we don't even know what we're looking for exactly. Perhaps we should have asked around first..."</p>
           </div>
         </div>
+        
+        {isSofiaPresent && (
+          <div className="dialogue">
+            <div className="character-avatar">👧</div>
+            <div className="dialogue-bubble">
+              <p className="character-name">Sofia</p>
+              <p>"I'm tired and hungry, Papa. Can we please get something to eat now?"</p>
+            </div>
+          </div>
+        )}
+        
+        <p>As the sun begins to set, you decide to head to the market before it closes for the day.</p>
       </>,
       choices: [
         {
-          id: 'alarmed-response',
+          id: 'market-redirect',
           options: [
             { 
-              text: "We're willing to negotiate for the recipes.", 
-              nextScene: 'pirate-directions',
+              text: "The market is our best option now.", 
+              nextScene: 'market-exploration',
               effect: () => {
-                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: 5 });
-              }
-            },
-            { 
-              text: "Those recipes belong to Antonio. Your Captain has no right to them.", 
-              nextScene: 'pirate-chase',
-              effect: () => {
-                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: -10 });
-                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'antonioBond', amount: 10 });
+                // No relationship changes - already lost some points from the detour
               }
             }
           ]
@@ -466,36 +431,46 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
       ]
     },
     {
-      id: 'pirate-directions',
-      background: 'pisa-alley-map',
+      id: 'split-up-trouble',
+      background: 'pisa-alley',
       content: <>
-        <p>The pirate relaxes and leans against a wall, lowering his voice.</p>
+        <h3>An Unexpected Encounter</h3>
+        <p>You decide to split up to cover more ground. Antonio{isSofiaPresent ? ' and Sofia' : ''} head to the market, while you explore near the tower.</p>
+        
+        <p>As you wander through a quiet alley, you notice a figure watching you from the shadows. Before you can react, you're confronted by a rough-looking man with a bandana.</p>
         
         <div className="dialogue">
           <div className="character-avatar">🏴‍☠️</div>
           <div className="dialogue-bubble">
             <p className="character-name">Pirate Scout</p>
-            <p>"The Captain's set up in a cave near the base of the Leaning Tower. Look for the small pirate flag marker. But ye didn't hear it from me, understand? And come prepared to negotiate - the Captain loves a good bargain."</p>
+            <p>"Well, well... you're not from around here, are you? Word is someone's been asking about Captain Marinara's crew. That wouldn't be you, would it?"</p>
           </div>
         </div>
-        
-        <p>The pirate slips you a crude map before disappearing into the shadows.</p>
       </>,
       choices: [
         {
-          id: 'directions-response',
+          id: 'pirate-encounter',
           options: [
             { 
-              text: "Rejoin Antonio at the market", 
-              nextScene: 'market-exploration',
+              text: "I'm just a tourist admiring the tower.", 
+              nextScene: 'pirate-skeptical',
               effect: () => {
-                onStoryEvent('ADD_INVENTORY', { 
-                  item: {
-                    icon: "🗺️",
-                    name: "Crude Pirate Map",
-                    description: "A roughly drawn map indicating the pirates' hideout near the Leaning Tower of Pisa."
-                  }
-                });
+                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: -10 });
+              }
+            },
+            { 
+              text: "I'm looking for the Dough Raiders. I have business with your captain.", 
+              nextScene: 'pirate-interested',
+              effect: () => {
+                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: 20 });
+              }
+            },
+            { 
+              text: "You're with the pirates who stole Antonio's recipes!", 
+              nextScene: 'pirate-alarmed',
+              effect: () => {
+                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'pirateRespect', amount: -5 });
+                onStoryEvent('RELATIONSHIP_CHANGE', { character: 'antonioBond', amount: 5 });
               }
             }
           ]
@@ -530,13 +505,7 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
         <p>Time to explore the market and gather information...</p>
       </>,
       choices: null, // No choices - show minigame component
-      minigame: <SimpleMarketExploration 
-        onStoryEvent={onStoryEvent}
-        isSofiaPresent={isSofiaPresent}
-        setCurrentSceneIndex={setCurrentSceneIndex}
-        currentSceneIndex={currentSceneIndex}
-        setMinigameState={setMinigameState}
-      />
+      minigame: true
     },
     {
       id: 'stage-end',
@@ -571,18 +540,16 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
       </>,
       choices: null // End of stage
     }
-  ], [isSofiaPresent, onStoryEvent, setMinigameState, setCurrentSceneIndex, currentSceneIndex]);
+  ], [isSofiaPresent, onStoryEvent]);
 
-  
-
+  // Function to complete the stage
   const completeStage = useCallback(() => {
-    // Only proceed if not already complete to prevent multiple calls
+    // Only proceed if not already complete
     if (isComplete) return;
     
+    console.log('Completing stage 2...');
     setIsComplete(true);
     
-    // Get saved market exploration data
-    const marketData = JSON.parse(localStorage.getItem('pizzaioloStage2Market') || '{"clues":[],"ingredients":[]}');
     
     // Mark the stage as complete in localStorage
     localStorage.setItem('pizzaioloStage2Complete', 'true');
@@ -592,8 +559,9 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
     
     // Pass story updates to parent component
     onComplete(2, {
-      marketClues: marketData.clues,
-      marketIngredients: marketData.ingredients,
+      choices: {
+        market_explored: true
+      },
       newItems: [
         {
           icon: "📜",
@@ -612,20 +580,26 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
         antonioBond: 5
       }
     });
-  }, [isComplete, scenes, onComplete]);
+  }, [isComplete, scenes.length, onComplete]);
   
-  // Update in useEffect to check if market exploration is completed
+  // Handle market completion
+  const handleMarketComplete = useCallback(() => {
+    // Store market completion flag
+    localStorage.setItem('pizzaioloStage2Market_completed', 'true');
+    completeStage();
+  }, [completeStage]);
+  
+  // Check for stage completion on mount
   useEffect(() => {
     const isStageComplete = localStorage.getItem('pizzaioloStage2Complete') === 'true';
     if (isStageComplete) {
       setIsComplete(true);
       setCurrentSceneIndex(scenes.length - 1);
-      return;
-    }
-    
-    const isMarketCompleted = localStorage.getItem('pizzaioloStage2Market_completed') === 'true';
-    if (isMarketCompleted) {
-      completeStage();
+    } else {
+      const isMarketCompleted = localStorage.getItem('pizzaioloStage2Market_completed') === 'true';
+      if (isMarketCompleted) {
+        completeStage();
+      }
     }
   }, [completeStage, scenes.length]);
   
@@ -645,14 +619,7 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
     if (nextSceneIndex !== -1) {
       setCurrentSceneIndex(nextSceneIndex);
     }
-    
-    // If moving to the final scene, complete the stage
-    if (selectedOption.nextScene === 'stage-end') {
-      completeStage();
-    }
   };
-  
-  
   
   // Current scene based on index
   const currentScene = scenes[currentSceneIndex];
@@ -675,7 +642,14 @@ const VillageExplorationStage = ({ onComplete, onStoryEvent, storyProgress, setM
             {currentScene.content}
           </div>
           
-          {currentScene.minigame}
+          {/* Render market exploration minigame if current scene has minigame flag */}
+          {currentScene.minigame && (
+            <SimpleMarketExploration 
+              onStoryEvent={onStoryEvent}
+              isSofiaPresent={isSofiaPresent}
+              onMarketComplete={handleMarketComplete}
+            />
+          )}
           
           {currentScene.choices && (
             <div className="choice-container">
