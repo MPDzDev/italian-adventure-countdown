@@ -39,12 +39,12 @@ const PirateNegotiationStage = ({ onComplete, onStoryEvent, storyProgress }) => 
   // Recipe Sequence Puzzle Component
   const RecipeSequencePuzzle = () => {
     const recipeSteps = [
-      { id: 'knead', name: 'Mix & Knead Dough', icon: '🥖' },
-      { id: 'rise', name: 'Let Dough Rise', icon: '⏳' },
       { id: 'preheat', name: 'Preheat Oven', icon: '🌡️' },
-      { id: 'roll', name: 'Roll Out Dough', icon: '🔄' },
-      { id: 'sauce', name: 'Spread Tomato Sauce', icon: '🍅' },
       { id: 'cheese', name: 'Add Mozzarella Cheese', icon: '🧀' },
+      { id: 'rise', name: 'Let Dough Rise', icon: '⏳' },
+      { id: 'roll', name: 'Roll Out Dough', icon: '🔄' },
+      { id: 'knead', name: 'Mix & Knead Dough', icon: '🥖' },
+      { id: 'sauce', name: 'Spread Tomato Sauce', icon: '🍅' },
       { id: 'bake', name: 'Bake Pizza', icon: '🔥' }
     ];
 
