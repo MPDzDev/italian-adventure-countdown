@@ -1,5 +1,5 @@
 .pirate-battle {
-    background-color: rgba(10, 26, 11, 0.8);
+    background-color: rgba(10, 10, 26, 0.8);
     border-radius: 10px;
     padding: 8px;
     box-shadow: 0 0 20px rgba(168, 138, 230, 0.3);
@@ -51,7 +51,7 @@
   
   .battle-meter-fill {
     height: 100%;
-    background: linear-gradient(90deg, #bfcdc0, #c9a959);
+    background: linear-gradient(90deg, #bfbfcd, #c9a959);
     border-radius: 6px;
     transition: width 0.5s ease;
     width: 0;
@@ -60,7 +60,7 @@
   
   .battle-percentage {
     text-align: center;
-    color: #bfcdc0;
+    color: #bfbfcd;
     font-size: 16px;
     font-weight: bold;
   }
@@ -97,13 +97,13 @@
   }
   
   .riddle-solved {
-    border: 1px solid #4a8c4a;
-    background-color: rgba(10, 26, 10, 0.6);
+    border: 1px solid #4a4a8c;
+    background-color: rgba(10, 10, 26, 0.6);
   }
   
   .riddle-solved::before {
     content: '✓';
-    color: #4a8c4a;
+    color: #4a4a8c;
   }
   
   .riddle-text {
@@ -133,7 +133,7 @@
   
   .riddle-input:focus {
     outline: none;
-    border-color: #bfcdc0;
+    border-color: #bfbfcd;
     box-shadow: 0 0 8px rgba(168, 138, 230, 0.5);
   }
   
@@ -142,8 +142,8 @@
   }
   
   .input-correct {
-    border-color: #4a8c4a;
-    background-color: rgba(20, 40, 20, 0.8);
+    border-color: #4a4a8c;
+    background-color: rgba(20, 20, 40, 0.8);
   }
   
   .input-incorrect {
@@ -152,7 +152,7 @@
   }
   
   .riddle-submit {
-    background-color: #bfcdc0;
+    background-color: #bfbfcd;
     color: #0a0a1a;
     border: none;
     padding: 6px 10px;
@@ -182,9 +182,9 @@
   }
   
   .riddle-feedback.correct {
-    background-color: rgba(20, 60, 20, 0.5);
-    color: #4a8c4a;
-    border-left: 3px solid #4a8c4a;
+    background-color: rgba(20, 20, 60, 0.5);
+    color: #4a4a8c;
+    border-left: 3px solid #4a4a8c;
   }
   
   .riddle-feedback.incorrect {
@@ -196,7 +196,7 @@
   .victory-message {
     text-align: center;
     padding: 8px;
-    background-color: rgba(20, 40, 22, 0.7);
+    background-color: rgba(20, 20, 40, 0.7);
     border-radius: 10px;
     border: 2px solid #c9a959;
     animation: glowing 2s infinite alternate;
@@ -209,7 +209,7 @@
   }
   
   .victory-message p {
-    color: #bfcdc0;
+    color: #bfbfcd;
     font-size: 18px;
     margin-bottom: 20px;
   }

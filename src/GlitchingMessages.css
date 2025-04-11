@@ -1,17 +1,17 @@
 .glitching-message {
   position: fixed;
   font-family: 'Courier New', monospace;
-  color: #bde2c0;
+  color: #bdbde2;
   font-size: 14px;
   letter-spacing: 0.5px;
   text-transform: lowercase;
-  background-color: rgba(10, 26, 10, 0.85);
+  background-color: rgba(10, 10, 26, 0.85);
   padding: 8px 12px;
   border-radius: 3px;
-  box-shadow: 0 0 5px rgba(106, 219, 106, 0.3);
+  box-shadow: 0 0 5px rgba(106, 106, 219, 0.3);
   z-index: 1000;
   pointer-events: none;
-  text-shadow: 0 0 2px rgba(106, 219, 106, 0.5);
+  text-shadow: 0 0 2px rgba(106, 106, 219, 0.5);
   opacity: 0;
   transform: translateY(0);
 }
@@ -138,7 +138,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 26, 10, 0.85);
+    background: rgba(10, 10, 26, 0.85);
     opacity: 0;
     z-index: -1;
     transform: translateX(-5px);
@@ -152,7 +152,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 26, 10, 0.85);
+    background: rgba(10, 10, 26, 0.85);
     opacity: 0;
     z-index: -1;
     transform: translateX(5px);

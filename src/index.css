@@ -1,9 +1,9 @@
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive, sans-serif;
-  background-color: #f0fff5;
+  background-color: #f0f0ff;
   color: #333;
-  background-image: linear-gradient(to right, rgba(0, 140, 69, 0.05), rgba(255, 255, 255, 0.05) 33%, rgba(206, 43, 55, 0.05) 66%);
+  background-image: linear-gradient(to right, rgba(0, 0, 140, 0.05), rgba(255, 255, 255, 0.05) 33%, rgba(206, 43, 55, 0.05) 66%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -22,7 +22,7 @@ header {
 }
 
 h1 {
-  color: #006633;
+  color: #000066;
   margin-bottom: 10px;
 }
 
@@ -46,7 +46,7 @@ h2 {
 .progress-bar::before {
   content: '';
   height: 100%;
-  background-color: #4caf50;
+  background-color: #4c4caf;
   border-radius: 10px;
   position: absolute;
   top: 0;
@@ -78,16 +78,16 @@ h2 {
 }
 
 .trivia-card {
-  background-color: #f0fff5;
+  background-color: #f0f0ff;
   border-radius: 8px;
   padding: 7px;
   margin-bottom: 15px;
   min-height: 80px;
-  border-left: 5px solid #4caf50;
+  border-left: 5px solid #4c4caf;
 }
 
 button {
-  background-color: #4caf50;
+  background-color: #4c4caf;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -98,11 +98,11 @@ button {
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #38388e;
 }
 
 .treasure-map {
-  background-color: #f0fff5;
+  background-color: #f0f0ff;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

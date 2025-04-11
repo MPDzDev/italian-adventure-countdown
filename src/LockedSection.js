@@ -66,6 +66,15 @@ const LockedSection = () => {
       }
     }
     
+    // Check localStorage for Wordle challenge lock
+    const wordleActive = localStorage.getItem('wordleChallengeActive');
+    if (wordleActive === 'true') {
+      setActiveLocks(prev => ({
+        ...prev,
+        3: true
+      }));
+    }
+    
     // Check localStorage for other active locks
     const savedLocks = localStorage.getItem('activeLocks');
     if (savedLocks) {
@@ -140,7 +149,7 @@ const LockedSection = () => {
       name: "Alpine Splash Waterpark", 
       unlockDate: null, 
       hint: pizzaioloCompleted ? 
-           "The waterpark adventure awaits! Coming soon..." : 
+           "The waterpark adventure awaits! Click to play the daily word puzzle!" : 
            "Complete Antonio's Pizzeria challenge first" 
     },
     { id: 4, name: "Locked Content", unlockDate: null, hint: "Waiting..." },
@@ -195,6 +204,29 @@ const LockedSection = () => {
         }, 500);
       }
     }
+    // Handle Alpine Waterpark (Wordle) challenge lock
+    else if (id === 3 && pizzaioloCompleted) {
+      const newValue = !activeLocks[id];
+      
+      // Update state
+      setActiveLocks(prev => ({
+        ...prev,
+        [id]: newValue
+      }));
+      
+      // Save to localStorage
+      localStorage.setItem('wordleChallengeActive', newValue.toString());
+      
+      // Force scroll to show the Wordle challenge
+      if (newValue) {
+        setTimeout(() => {
+          const wordleSection = document.querySelector('.wordle-section');
+          if (wordleSection) {
+            wordleSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 500);
+      }
+    }
   };
 
   return (
@@ -221,6 +253,7 @@ const LockedSection = () => {
               onMouseEnter={() => setHoverLock(section.id)}
               onMouseLeave={() => setHoverLock(null)}
               onClick={() => handleLockClick(section.id)}
+              style={section.id === 3 ? {cursor: 'pointer'} : {}}
             >
               <div className="lock-icon">
                 {activeLocks[section.id] ? '🔓' : 
@@ -241,7 +274,8 @@ const LockedSection = () => {
               
               {/* Click indicator for active locks */}
               {((section.id === 1 && !activeLocks[section.id]) || 
-                (section.id === 2 && secondLockUnlocked && !activeLocks[section.id])) && (
+                (section.id === 2 && secondLockUnlocked && !activeLocks[section.id]) ||
+                (section.id === 3 && pizzaioloCompleted && !activeLocks[section.id])) && (
                 <div className="click-indicator">Click to unlock</div>
               )}
               

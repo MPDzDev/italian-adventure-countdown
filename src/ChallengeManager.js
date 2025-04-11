@@ -3,6 +3,7 @@ import './ChallengeManager.css';
 import PirateBattle from './PirateBattle';
 import PizzaioloChallenge from './PizzaioloChallenge';
 import TreasureChest from './TreasureChest';
+import DailyWordlePuzzle from './DailyWordlePuzzle';
 import { isSecondChallengeUnlocked } from './TimeUtils';
 
 const ChallengeManager = () => {
@@ -11,6 +12,7 @@ const ChallengeManager = () => {
   const [piratesChallengeActive, setPiratesChallengeActive] = useState(false);
   const [pizzaioloChallengeActive, setPizzaioloChallengeActive] = useState(false);
   const [pizzaioloChallengeComplete, setPizzaioloChallengeComplete] = useState(false);
+  const [wordleChallengeActive, setWordleChallengeActive] = useState(false);
   const [secondChallengeUnlocked, setSecondChallengeUnlocked] = useState(false);
   
   // Load saved progress on mount
@@ -55,6 +57,12 @@ const ChallengeManager = () => {
       if (pizzaioloComplete === 'true') {
         setPizzaioloChallengeComplete(true);
       }
+    }
+    
+    // Check if Wordle challenge is active
+    const wordleActive = localStorage.getItem('wordleChallengeActive');
+    if (wordleActive === 'true') {
+      setWordleChallengeActive(true);
     }
   }, [secondChallengeUnlocked]);
   
@@ -102,6 +110,10 @@ const ChallengeManager = () => {
         const pizzaioloActive = localStorage.getItem('pizzaioloChallengeActive');
         setPizzaioloChallengeActive(pizzaioloActive === 'true');
       }
+      
+      // Check if Wordle challenge is active
+      const wordleActive = localStorage.getItem('wordleChallengeActive');
+      setWordleChallengeActive(wordleActive === 'true');
     };
     
     // Check immediately and then set interval
@@ -135,6 +147,20 @@ const ChallengeManager = () => {
         </div>
       ) : null}
       
+      {/* Word Puzzle section - only shown when Alpine Waterpark lock is active */}
+      {wordleChallengeActive && (
+        <div className="challenge-section wordle-section">
+          <h2 className="challenge-header">
+            <span className="challenge-icon">🏄‍♂️</span>
+            Alpine Splash Word Challenge
+          </h2>
+          <div className="challenge-description">
+            <p>Give your best, might reward you with prizes!</p>
+          </div>
+          <DailyWordlePuzzle />
+        </div>
+      )}
+      
       <div className="challenge-divider">
         <div className="divider-line"></div>
         <div className="divider-icon">💰</div>
@@ -153,7 +179,7 @@ const ChallengeManager = () => {
       </div>
       
       {/* Next challenge teaser - will appear after Pizzaiolo challenge is complete */}
-      {pizzaioloChallengeComplete && (
+      {pizzaioloChallengeComplete && !wordleChallengeActive && (
         <>
           <div className="challenge-divider">
             <div className="divider-line"></div>

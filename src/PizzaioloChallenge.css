@@ -101,9 +101,9 @@
   }
   
   .stage-indicator.completed {
-    background-color: rgba(50, 100, 50, 0.5);
-    border-color: #6adb6a;
-    color: #6adb6a;
+    background-color: rgba(50, 50, 100, 0.5);
+    border-color: #6a6adb;
+    color: #6a6adb;
   }
   
   .stage-indicator.current {
@@ -177,10 +177,10 @@
   }
   
   .challenge-complete h2 {
-    color: #6adb6a;
+    color: #6a6adb;
     font-size: 32px;
     margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(106, 219, 106, 0.5);
+    text-shadow: 0 0 10px rgba(106, 106, 219, 0.5);
   }
   
   .celebration-animation {
@@ -201,13 +201,13 @@
     background-color: rgba(30, 50, 80, 0.7);
     border-radius: 10px;
     padding: 7px;
-    border: 2px dashed #bfcdc0;
+    border: 2px dashed #bfbfcd;
     margin: 30px 0;
     animation: pulse 2s infinite alternate;
   }
   
   .waterpark-invitation h3 {
-    color: #bfcdc0;
+    color: #bfbfcd;
     font-size: 24px;
     margin-bottom: 15px;
   }
