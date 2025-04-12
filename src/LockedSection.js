@@ -152,7 +152,12 @@ const LockedSection = () => {
            "The waterpark adventure awaits! Click to play the daily word puzzle!" : 
            "Complete Antonio's Pizzeria challenge first" 
     },
-    { id: 4, name: "Locked Content", unlockDate: null, hint: "Waiting..." },
+    { 
+      id: 4, 
+      name: "Coastal Connections", 
+      unlockDate: null, 
+      hint: "We'll have fun after the waterpark adventure!" 
+    },
     { id: 5, name: "Locked Content", unlockDate: null, hint: "Mysteries await..." }
   ];
 
