@@ -15,55 +15,41 @@ const DailyWordlePuzzle = () => {
   const [keyboardStatus, setKeyboardStatus] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  // Word lists
-  const italyWords = useMemo (() => [
+  const allWords = useMemo(() => [
+    { word: 'PISA', category: 'Italian City', info: 'Home to the famous Leaning Tower.' },
+    { word: 'OCEAN', category: 'Billie Eilish Song', info: 'Eyes reference in one of her earliest hits.' },
+    { word: 'RIDDLE', category: 'Mystery', info: 'A puzzling question or statement requiring cleverness to solve.' },
+    { word: 'PARTY', category: 'Billie Eilish Song', info: 'Over in this slow, melancholic track.' },
     { word: 'PIZZA', category: 'Italian Food', info: 'Italy\'s most famous dish, originating in Naples.' },
-    { word: 'PASTA', category: 'Italian Food', info: 'A staple of Italian cuisine, comes in hundreds of shapes.' },
-    { word: 'ROME', category: 'Italian City', info: 'The capital of Italy and home to the Colosseum.' },
     { word: 'VENICE', category: 'Italian City', info: 'Famous city built on water with gondolas instead of cars.' },
-    { word: 'TUSCANY', category: 'Italian Region', info: 'Known for its landscapes, traditions, history and wines.' },
-    { word: 'FERRARI', category: 'Italian Brand', info: 'Luxury sports car manufacturer founded in 1939.' },
-    { word: 'VESPA', category: 'Italian Product', info: 'Iconic Italian scooter that transformed urban mobility.' },
-    { word: 'GELATO', category: 'Italian Food', info: 'Italy\'s delicious answer to ice cream.' },
-    { word: 'FLORENCE', category: 'Italian City', info: 'Birthplace of the Renaissance, home to many masterpieces.' },
+    { word: 'HALLEY', category: 'Billie Eilish Song', info: 'The comet referenced in this dreamy track.' },
+    { word: 'COPYCAT', category: 'Billie Eilish Song', info: 'Imitation isn\'t flattery in this confrontational song.' },
+    { word: 'LUNCH', category: 'Billie Eilish Song', info: 'Playful and bold song from her 2024 album.' },
+    { word: 'BURY', category: 'Billie Eilish Song', info: 'A friend in this dark track.' },
+    { word: 'PASTA', category: 'Italian Food', info: 'A staple of Italian cuisine, comes in hundreds of shapes.' },
     { word: 'RISOTTO', category: 'Italian Food', info: 'Creamy rice dish originating from northern Italy.' },
+    { word: 'FLORENCE', category: 'Italian City', info: 'Birthplace of the Renaissance, home to many masterpieces.' },
+    { word: 'TUSCANY', category: 'Italian Region', info: 'Known for its landscapes, traditions, history and wines.' },
+    { word: 'CIPHER', category: 'Mystery', info: 'A secret code or method of encryption.' },
+    { word: 'EVERYTHING', category: 'Billie Eilish Song', info: 'I wanted in this dreamy track about desires.' },
+    { word: 'GELATO', category: 'Italian Food', info: 'Italy\'s delicious answer to ice cream.' },
+    { word: 'ROME', category: 'Italian City', info: 'The capital of Italy and home to the Colosseum.' },
+    { word: 'BELLYACHE', category: 'Billie Eilish Song', info: 'Physical discomfort is the title of this early hit.' },
+    { word: 'VESPA', category: 'Italian Product', info: 'Iconic Italian scooter that transformed urban mobility.' },
+    { word: 'LOST', category: 'Billie Eilish Song', info: 'Cause in this track about being out of options.' },
+    { word: 'FERRARI', category: 'Italian Brand', info: 'Luxury sports car manufacturer founded in 1939.' },
+    { word: 'THEREFORE', category: 'Billie Eilish Song', info: 'I am in this philosophical track title.' },
+    { word: 'LIMBO', category: 'Billie Eilish Song', info: 'Title from the 2024 album symbolizing uncertainty.' },
+    { word: 'SICILY', category: 'Italian Island', info: 'Largest Mediterranean island with rich history.' },
+    { word: 'BAD', category: 'Billie Eilish Song', info: 'Guy followed by "duh" in one of her most famous songs.' },
+    { word: 'MASK', category: 'Mystery + Italy', info: 'Venetian masks conceal identities and intentions.' },
+    { word: 'ILOMILO', category: 'Billie Eilish Song', info: 'Named after a puzzle video game, about fear of separation.' },
+    { word: 'VATICAN', category: 'Italian Location', info: 'World\'s smallest country, located within Rome.' },
+    { word: 'BORED', category: 'Billie Eilish Song', info: 'Feeling of tedium titled this track from "13 Reasons Why".' },
     { word: 'CAPRI', category: 'Italian Island', info: 'Island in the Bay of Naples known for its Blue Grotto.' },
     { word: 'TIRAMISU', category: 'Italian Dessert', info: 'Popular coffee-flavored dessert made with ladyfingers.' },
-    { word: 'SICILY', category: 'Italian Island', info: 'Largest Mediterranean island with rich history.' },
-    { word: 'PISA', category: 'Italian City', info: 'Home to the famous Leaning Tower.' },
-    { word: 'VATICAN', category: 'Italian Location', info: 'World\'s smallest country, located within Rome.' }
+    { word: 'HAPPIER', category: 'Billie Eilish Song', info: 'Than ever in this 2021 hit.' }
   ], []);
-
-  const billieWords = useMemo (() => [
-    { word: 'OCEAN', category: 'Billie Eilish Song', info: 'Eyes reference in one of her earliest hits.' },
-    { word: 'BAD', category: 'Billie Eilish Song', info: 'Guy followed by "duh" in one of her most famous songs.' },
-    { word: 'HAPPIER', category: 'Billie Eilish Song', info: 'Than ever in this 2021 hit.' },
-    { word: 'BURY', category: 'Billie Eilish Song', info: 'A friend in this dark track.' },
-    { word: 'ILOMILO', category: 'Billie Eilish Song', info: 'Named after a puzzle video game, about fear of separation.' },
-    { word: 'EVERYTHING', category: 'Billie Eilish Song', info: 'I wanted in this dreamy track about desires.' },
-    { word: 'BELLYACHE', category: 'Billie Eilish Song', info: 'Physical discomfort is the title of this early hit.' },
-    { word: 'PARTY', category: 'Billie Eilish Song', info: 'Over in this slow, melancholic track.' },
-    { word: 'COPYCAT', category: 'Billie Eilish Song', info: 'Imitation isn\'t flattery in this confrontational song.' },
-    { word: 'OXYTOCIN', category: 'Billie Eilish Song', info: 'Named after the love hormone, this is one of her darker tracks.' },
-    { word: 'THEREFORE', category: 'Billie Eilish Song', info: 'I am in this philosophical track title.' },
-    { word: 'BORED', category: 'Billie Eilish Song', info: 'Feeling of tedium titled this track from "13 Reasons Why".' },
-    { word: 'XANNY', category: 'Billie Eilish Song', info: 'Prescription drug referenced in this song about substance abuse.' },
-    { word: 'LOST', category: 'Billie Eilish Song', info: 'Cause in this track about being out of options.' },
-    { word: 'HALLEY', category: 'Billie Eilish Song', info: 'The comet referenced in this dreamy track.' }
-  ],[]);
-
-  // Combine the word lists
-  const allWords = useMemo(() => [...italyWords, ...billieWords], [italyWords, billieWords]);
-
-  // Generate a seeded random number based on the date
-  const getSeededRandom = (seed) => {
-    let m = 2**35 - 31;
-    let a = 185852;
-    let s = seed % m;
-    return function() {
-      return (s = s * a % m) / m;
-    };
-  };
 
   // Update keyboard status based on guesses
   const updateKeyboardFromGuesses = useCallback((existingGuesses, word) => {
@@ -177,10 +163,9 @@ const DailyWordlePuzzle = () => {
         const seed = dateString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
         
         // Use seeded random to get consistent word for the day
-        const random = getSeededRandom(seed);
-        const index = Math.floor(random() * allWords.length);
+        const index = Math.floor((seed + 2 ) % allWords.length);
         const todaysWord = allWords[index];
-        
+        console.log(seed, index, todaysWord, allWords.length)
         // Set today's word and info
         setDailyWord(todaysWord.word);
         setWordInfo({
