@@ -136,7 +136,20 @@ const ChallengeManager = () => {
             Alpine Splash Word Challenge
           </h2>
           <div className="challenge-description">
-            <p>Give your best, might reward you with prizes!</p>
+            <p>Solve the daily word puzzles at Alpine Splash Waterpark! Each correct solution earns you a special token for the celebration with Antonio and Sofia.</p>
+          </div>
+          <div className="waterpark-story">
+            <p>As you arrive at the Alpine Splash Waterpark, you're greeted by Antonio and Sofia at the entrance. The waterpark is a dazzling blend of mountain scenery and water attractions.</p>
+            <p>"Welcome to the celebration!" Antonio exclaims. "Now that you've helped us recover our family recipes, it's time for some fun!"</p>
+            <p>Sofia points excitedly to a word puzzle booth near the wave pool. "Look! They have special word games! If you solve them, you can win prizes!"</p>
+            <div className="story-character-quotes">
+              <div className="story-quote">
+                <span className="character-emoji">👨‍🍳</span> <span className="quote-text">"Each day brings a new word to solve. It's like finding the secret ingredients in a recipe!"</span>
+              </div>
+              <div className="story-quote">
+                <span className="character-emoji">👧</span> <span className="quote-text">"I've been practicing all week! Let's do this!"</span>
+              </div>
+            </div>
           </div>
           <DailyWordlePuzzle />
         </div>
