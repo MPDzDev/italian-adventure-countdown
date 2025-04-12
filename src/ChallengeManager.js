@@ -127,8 +127,20 @@ const ChallengeManager = () => {
   
   return (
     <div className="challenge-manager">
-      {/* Show only one challenge at a time - prioritize the most recently activated challenge */}
-      {pizzaioloChallengeActive && secondChallengeUnlocked ? (
+      {/* Show only one challenge at a time - prioritize the Wordle challenge if active */}
+      {wordleChallengeActive ? (
+        // If Wordle challenge is active, show only it
+        <div className="challenge-section wordle-section">
+          <h2 className="challenge-header">
+            <span className="challenge-icon">🏄‍♂️</span>
+            Alpine Splash Word Challenge
+          </h2>
+          <div className="challenge-description">
+            <p>Give your best, might reward you with prizes!</p>
+          </div>
+          <DailyWordlePuzzle />
+        </div>
+      ) : pizzaioloChallengeActive && secondChallengeUnlocked ? (
         // If Pizzaiolo challenge is active, show it
         <div className="challenge-section pizzaiolo-challenge-section">
           <PizzaioloChallenge />
@@ -147,20 +159,7 @@ const ChallengeManager = () => {
         </div>
       ) : null}
       
-      {/* Word Puzzle section - only shown when Alpine Waterpark lock is active */}
-      {wordleChallengeActive && (
-        <div className="challenge-section wordle-section">
-          <h2 className="challenge-header">
-            <span className="challenge-icon">🏄‍♂️</span>
-            Alpine Splash Word Challenge
-          </h2>
-          <div className="challenge-description">
-            <p>Give your best, might reward you with prizes!</p>
-          </div>
-          <DailyWordlePuzzle />
-        </div>
-      )}
-      
+      {/* Always show treasure chest section */}
       <div className="challenge-divider">
         <div className="divider-line"></div>
         <div className="divider-icon">💰</div>
@@ -178,7 +177,7 @@ const ChallengeManager = () => {
         <TreasureChest isUnlocked={piratesChallengeComplete} />
       </div>
       
-      {/* Next challenge teaser - will appear after Pizzaiolo challenge is complete */}
+      {/* Waterpark teaser section - ONLY shown if Pizzaiolo challenge complete AND Wordle NOT active */}
       {pizzaioloChallengeComplete && !wordleChallengeActive && (
         <>
           <div className="challenge-divider">
