@@ -10,6 +10,8 @@ The challenge system consists of:
 2. Antonio's Pizzeria challenge (unlocks 4 months before the journey)
 3. A treasure chest that unlocks progressively as challenges are completed
 4. An email notification system that alerts you when challenges are completed
+5. Alpine Splash Waterpark Word Challenge (Wordle-style game)
+6. Coastal Connections (coming soon)
 
 ## Components
 
@@ -26,9 +28,9 @@ The `PirateBattle` component presents users with 10 riddles themed around Billie
   - Tracks battle percentage completion
   - Sends notification when all riddles are solved
 
-### 3. Antonio's Pizzeria Challenge (Coming Soon)
+### 3. Antonio's Pizzeria Challenge
 
-The `PizzaioloChallenge` component will be a multi-step adventure to help Antonio recover his stolen recipes from the pirates.
+The `PizzaioloChallenge` component is a multi-step adventure to help Antonio recover his stolen recipes from the pirates.
 
 - **Unlock Timing:**
   - Becomes available 4 months before the July 20th journey
@@ -48,7 +50,30 @@ The `PizzaioloChallenge` component will be a multi-step adventure to help Antoni
   - The chest contains special stickers and items related to the Italian adventure
   - This creates a connection between the digital adventure and physical rewards
 
-### 4. Treasure Chest
+### 4. Alpine Splash Waterpark Word Challenge
+
+The `DailyWordlePuzzle` component presents a Wordle-style word guessing game set at the Alpine Splash Waterpark.
+
+- **Key Features:**
+  - Daily word puzzles with Italian and adventure-themed words
+  - Integrated into the storyline with Antonio and Sofia at the waterpark
+  - Rewards for successful completions
+
+### 5. Coastal Connections (Coming Soon)
+
+The `CoastalConnections` component will be a NYT-style Connections game with an Italian coastal theme.
+
+- **Gameplay:**
+  - Players sort 16 words into 4 groups of 4, with each group sharing a common theme
+  - Categories follow a color-coded difficulty system
+  - Italian coastal topics: ships, navigation, fishing, coastal culture, and maritime history
+  
+- **Ship Building Mechanic:**
+  - Each correctly identified connection helps untangle lines or materials needed for ship construction
+  - Successfully completed puzzles build different parts of traditional Italian fishing vessels
+  - Visual progress as ships take form with each solved puzzle
+
+### 6. Treasure Chest
 
 The `TreasureChest` component visualizes a chest that:
   - Initially appears locked
@@ -110,6 +135,8 @@ All challenge state is stored in localStorage with the following keys:
 - `treasureChestItems`: Items discovered in the treasure chest
 - `completionEmailSent_PirateRiddles`: Flag to prevent duplicate emails
 - `completionEmailSent_PizzaioloChallenge`: Flag for pizzaiolo completion notification
+- `wordleChallengeActive`: Whether the Wordle challenge is activated
+- `wordleDailyProgress`: Daily Wordle game progress
 - `showChallenges`: Whether the challenges section is expanded
 
 ## Treasure Items Format
