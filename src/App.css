@@ -1,16 +1,9 @@
-/* Complete Pirate-themed CSS for the app */
-
-/* Import the pirate font */
-@import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:wght@400;500;600&display=swap');
-
-
+/* Compact App Layout */
 body {
   margin: 0;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   background-color: #0d0d2a;
   color: #e0c9a6;
-  /* Blend from dark green to a muted Italian color blend */
   background-image: linear-gradient(
     to bottom,
     #0d0d2a 0%,
@@ -23,62 +16,62 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-.app {
-  max-width: 800px;
+
+.app.compact {
+  max-width: 600px;
   margin: 0 auto;
-  padding: 10px;
+  padding: 15px;
   min-height: 100vh;
-  background-color: rgba(9, 23, 43, 0.7); /* Dark green with transparency */
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-  border-left: 2px solid #c6a87d; /* Aged wood color border */
+  background-color: rgba(9, 23, 43, 0.7);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border-left: 2px solid #c6a87d;
   border-right: 2px solid #c6a87d;
 }
 
-/* Header styles */
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  color: #f4f5f0; /* Changed from gold to off-white */
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(244, 245, 240, 0.3);
-  font-weight: 600;
-  letter-spacing: 2px;
+/* Compact Header */
+.compact-header {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-h2, h3 {
+.compact-header h1 {
   font-family: 'Cormorant Garamond', serif;
-  color: #f4f5f0; /* Changed from gold/colored to off-white */
-  font-weight: 500;
+  color: #f4f5f0;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 8px rgba(244, 245, 240, 0.3);
+  font-weight: 600;
   letter-spacing: 1px;
+  font-size: 28px;
 }
 
-/* Progress bar */
-.progress-container {
-  margin: 40px 0;
+/* Compact Progress Container */
+.progress-container.compact {
+  margin: 20px 0;
   position: relative;
-  padding-top: 30px; /* Make space for the ship */
+  padding-top: 25px;
 }
 
 .progress-bar {
-  height: 15px;
-  background-color: #463f3a; /* Dark wood color */
+  height: 12px;
+  background-color: #463f3a;
   border-radius: 0;
-  border: 2px solid #8b7355; /* Darker wood trim */
+  border: 2px solid #8b7355;
   position: relative;
-  overflow: hidden; /* Contains the water shimmer effect */
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #1e5a3d, #3d3d80); /* Ocean green gradient */
+  background: linear-gradient(90deg, #1e5a3d, #3d3d80);
   position: absolute;
   top: 0;
   left: 0;
   transition: width 0.5s ease;
   z-index: 11;
 }
+
 .progress-fill::after {
   content: '';
   position: absolute;
@@ -90,805 +83,187 @@ h2, h3 {
   border-radius: 0 6px 6px 0;
   filter: blur(1px);
   opacity: 0.7;
-  box-shadow: 0 0 10px rgba(205, 33, 42, 0.4);
+  box-shadow: 0 0 8px rgba(205, 33, 42, 0.4);
 }
 
-/* Ship styling (replaces Vespa styling) */
-.ship {
-  position: absolute;
-  top: -25px; /* Positioned above the "water" */
-  transition: left 0.5s ease;
-  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
-  z-index: 20; /* Ensures it appears above the progress bar */
-  pointer-events: none; /* Makes it non-interactive so clicks pass through */
-}
-
-.ship-emoji {
-  font-size: 30px;
-  filter: drop-shadow(0 0 5px rgba(61, 61, 128, 0.7));
-}
-
-.ship-shadow {
-  height: 5px;
-  width: 25px;
-  background-color: rgba(61, 61, 128, 0.3);
-  border-radius: 50%;
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: blur(2px);
-}
-
-.ship-flag {
-  position: absolute;
-  top: -14px;
-  right: -5px;
-  font-size: 12px;
-  animation: flutterFlag 1.5s infinite alternate;
-}
-
-/* Water shimmer effect */
-.progress-bar::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    rgba(255,255,255,0) 0%, 
-    rgba(255,255,255,0.3) 50%, 
-    rgba(255,255,255,0) 100%);
-  animation: waterShimmer 3s infinite linear;
-  transform-origin: center center;
-  z-index: 12;
-}
-
-.mystery-section {
-  background-color: rgba(9, 20, 43, 0.9); /* Dark green background */
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  margin-bottom: 40px;
-  border: 1px solid #8b7355; /* Wood-colored border */
-  text-align: center;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657l1.415 1.414L13.857 0H11.03zm32.284 0L49.8 6.485 48.384 7.9l-7.9-7.9h2.83zM16.686 0L10.2 6.485 11.616 7.9l7.9-7.9h-2.83zm20.97 0l9.315 9.314-1.414 1.414L34.828 0h2.83zM22.344 0L13.03 9.314l1.414 1.414L25.172 0h-2.83zM32 0l12.142 12.142-1.414 1.414L30 .828 17.272 13.556l-1.414-1.414L28 0h4zM.284 0l28 28-1.414 1.414L0 2.544v-.258L5.414.83 2.544 0h-2.26zM0 5.373l25.456 25.455-1.414 1.415L0 8.2V5.374zm0 5.656l22.627 22.627-1.414 1.414L0 13.86v-2.83zm0 5.656l19.8 19.8-1.415 1.413L0 19.514v-2.83zm0 5.657l16.97 16.97-1.414 1.415L0 25.172v-2.83zM0 28l14.142 14.142-1.414 1.414L0 30.828V28zm0 5.657L11.314 44.97l-1.414 1.415L0 36.485v-2.83zm0 5.657L8.485 47.8l-1.414 1.414L0 42.142v-2.83zm0 5.657l5.657 5.657-1.414 1.415L0 47.8v-2.83zm0 5.657l2.828 2.83-1.414 1.413L0 53.456v-2.83zM54.627 60L30 35.373 5.373 60H8.2L30 38.2 51.8 60h2.827zm-5.656 0L30 41.03 11.03 60h2.828L30 43.858 46.142 60h2.83zm-5.656 0L30 46.686 16.686 60h2.83L30 49.515 40.485 60h2.83zm-5.657 0L30 52.343 22.344 60h2.83L30 55.172 34.828 60h2.83zM32 60l-2-2-2 2h4zM59.716 0l-28 28 1.414 1.414L60 2.544v-.258L54.586.83 57.456 0h2.26zM60 5.373L34.544 30.828l1.414 1.415L60 8.2V5.374zm0 5.656L37.373 33.656l1.414 1.414L60 13.86v-2.83zm0 5.656l-19.8 19.8 1.415 1.413L60 19.514v-2.83zm0 5.657l-16.97 16.97 1.414 1.415L60 25.172v-2.83zM60 28L45.858 42.142l1.414 1.414L60 30.828V28zm0 5.657L48.686 44.97l1.414 1.415L60 36.485v-2.83zm0 5.657L51.515 47.8l1.414 1.414L60 42.142v-2.83zm0 5.657l-5.657 5.657 1.414 1.415L60 47.8v-2.83zm0 5.657l-2.828 2.83 1.414 1.413L60 53.456v-2.83zM39.9 16.385l1.414-1.414L30 3.658 18.686 14.97l1.415 1.415 9.9-9.9 9.9 9.9zm-2.83 2.828l1.415-1.414L30 9.313 21.515 17.8l1.414 1.413L30 11.8l7.07 7.07zm-2.827 2.83l1.414-1.416L30 14.97l-5.657 5.657 1.414 1.415L30 17.8l4.243 4.242zm-2.83 2.827l1.415-1.414L30 20.626l-2.828 2.83 1.414 1.414L30 23.456l1.414 1.414zM56.87 59.414L58.284 58 30 29.716 1.716 58l1.414 1.414L30 32.544l26.87 26.87z' fill='%23463f3a' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E"), 
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80' opacity='0.05'%3E%3Cpath d='M40 0C17.909 0 0 17.909 0 40s17.909 40 40 40 40-17.909 40-40S62.091 0 40 0zm0 10c16.568 0 30 13.432 30 30S56.568 70 40 70 10 56.568 10 40 23.432 10 40 10z' fill='%23CE2B37'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
-  position: relative;
-}
-
-.mystery-section h3 {
-  font-family: 'Cinzel', serif;
-  color: #f4f5f0;
-  font-size: 24px;
-  margin-bottom: 15px;
-  position: relative;
-  display: inline-block;
-}
-
-.mystery-section h3::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, #00008c, #f4f5f0, #CD212A);
-  opacity: 0.7;
-}
-
-.mystery-section::after {
-  content: '🍕';
-  position: absolute;
-  bottom: -15px;
-  right: 20px;
-  font-size: 20px;
-  opacity: 0.2;
-  transform: rotate(15deg);
-  filter: blur(1px);
-  animation: fadeInOut 5s infinite alternate;
-}
-
-.mystery-text {
-  color: #bdbde2; /* Aged parchment color */
-  font-size: 18px;
-  line-height: 1.6;
-  font-style: italic;
-}
-
-.subtle-hint {
-  font-size: 13px;
-  color: #695444; /* Dark wood color */
-  margin-top: 30px;
-  font-style: normal;
-  opacity: 0.65;
-  text-shadow: none;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.5px;
-  text-transform: lowercase;
-  word-spacing: 2px;
-  position: relative;
-  text-align: center;
-  padding-top: 15px;
-  border-top: 1px dotted #8b7355;
-  /* Add Italian colors to the dotted border */
-  border-image: linear-gradient(to right, #00008c, #F4F5F0, #CD212A) 1;
-  border-image-slice: 1;
-}
-
-/* Locked sections styling */
-.locked-section {
-  background-color: rgba(9, 28, 43, 0.9);
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  margin: 40px 0;
-  border: 1px solid #8b7355;
-  position: relative;
-  overflow: hidden;
-}
-
-.locked-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232c2c44' fill-opacity='0.3' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.3;
-  z-index: 0;
-}
-
-.locked-title, .battle-title, .challenge-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  color: #f4f5f0; /* Removed gold color */
-}
-
-.locked-title {
-  margin-bottom: 10px;
-  text-align: center;
-  position: relative;
-  font-size: 24px;
-  z-index: 1;
-  font-family: 'Pirata One', 'Cinzel', serif;
-}
-
-.locked-description {
-  color: #bdbde2; /* Aged parchment */
-  text-align: center;
-  margin-bottom: 25px;
-  font-style: italic;
-  position: relative;
-  z-index: 1;
-}
-
-.locks-container {
+/* Compact Progress Labels */
+.progress-labels.compact {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.lock-item {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  width: 100px;
-  position: relative;
-  transition: all 0.3s ease;
-  padding: 8px 5px;
-  border-radius: 8px;
-}
-
-.lock-item:hover {
-  transform: translateY(-5px);
-}
-
-/* Special styling for pirate lock */
-.pirate-lock {
-  cursor: pointer;
-  background-color: rgba(58, 38, 28, 0.4); /* Dark wood background */
-  border: 1px dashed #ffffff; /* Gold border */
-  animation: pulse 3s infinite alternate;
-  width: 120px;
-  padding: 10px 5px;
-}
-
-.pirate-lock:hover {
-  background-color: rgba(58, 38, 28, 0.6);
-  border: 1px solid #ffffff;
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 10px 20px rgba(58, 38, 28, 0.5);
-}
-
-.lock-icon {
-  font-size: 30px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 5px rgba(106, 106, 219, 0.5));
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.lock-item:hover .lock-icon {
-  transform: scale(1.1);
-}
-
-.pirate-lock .lock-icon {
-  font-size: 36px;
-  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.7));
-}
-
-.pirate-lock:hover .lock-icon {
-  transform: scale(1.2);
-  animation: wiggle 0.5s ease infinite alternate;
-}
-
-.lock-active .lock-icon {
-  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.7));
-}
-
-.lock-name {
-  color: #6a6adb;
-  font-weight: 500;
-  font-size: 16px;
-  text-align: center;
-  text-shadow: 0 0 5px rgba(106, 106, 219, 0.3);
-}
-
-.pirate-lock .lock-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffcd4a;
-}
-
-.click-indicator {
-  color: #6a6adb;
-  font-size: 12px;
   margin-top: 8px;
-  position: relative;
-  animation: blink 1.5s infinite;
-  font-style: italic;
-}
-
-.lock-hint {
-  position: absolute;
-  top: -70px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(10, 10, 26, 0.9);
-  border: 1px solid #3a3a5c;
-  border-radius: 5px;
-  padding: 4px 6px;
-  width: 150px;
-  text-align: center;
-  color: #bdbde2;
-  font-style: italic;
   font-size: 14px;
-  z-index: 10;
-  box-shadow: 0 0 10px rgba(106, 106, 219, 0.3);
-  opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
 }
 
-.pirate-lock .lock-hint {
-  background-color: rgba(25, 25, 35, 0.95);
-  border: 1px solid #6a6adb;
-  box-shadow: 0 0 15px rgba(106, 106, 219, 0.4);
-  color: #bdbde2;
-  width: 180px;
-}
-
-.lock-hint-arrow {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid #3a3a5c;
-}
-
-.pirate-lock .lock-hint-arrow {
-  border-top: 10px solid #6a6adb;
-}
-
-.lock-chain {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #3a3a5c, transparent);
-  bottom: -15px;
-  opacity: 0.5;
-}
-
-.pirate-lock .lock-chain {
-  background: linear-gradient(90deg, transparent, #c9a959, transparent);
-  height: 2px;
-  opacity: 0.7;
-}
-
-.locked-warning {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px;
-  padding-top: 15px;
-  border-top: 1px solid #3a3a5c;
-  color: #7a7a9a;
-  font-size: 14px;
-  position: relative;
-  z-index: 1;
-}
-
-.warning-icon {
+.progress-stage {
   font-size: 18px;
-  margin-right: 10px;
-  opacity: 0.8;
-}
-
-.lock-active {
-  background-color: rgba(43, 43, 78, 0.3);
-  border: 1px solid #4a4a8c;
-}
-
-.lock-active .lock-name {
-  color: #6a6adb;
-  text-shadow: 0 0 8px rgba(106, 106, 219, 0.5);
-}
-
-.lock-active.pirate-lock {
-  background-color: rgba(43, 43, 78, 0.4);
-  border: 1px solid #6a6adb;
-  box-shadow: 0 0 20px rgba(43, 43, 78, 0.6);
-  animation: none;
-}
-
-/* Challenges container */
-.challenges-container {
-  margin-top: 40px;
-  padding: 0px;
-  background-color: rgba(21, 21, 44, 0.8);
-  border-radius: 8px;
-  border: 1px solid #8b7355;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  animation: fadeIn 0.8s ease;
-  position: relative;
-}
-
-.challenges-container::before {
-  content: '';
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-bottom: 20px solid rgba(21, 21, 44, 0.8);
-  animation: fadeIn 1s ease;
-}
-
-/* Treasure chest styling */
-.treasure-chest-container {
-  background-color: rgba(10, 10, 26, 0.8);
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow: 0 0 20px rgba(106, 106, 219, 0.3);
-  margin: 40px 0;
-  border: 1px solid #3a3a5c;
-  position: relative;
-  text-align: center;
-  transition: all 0.5s ease;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.treasure-chest-container.unlocked {
-  border: 1px solid #6a6adb;
-  box-shadow: 0 0 20px rgba(106, 106, 219, 0.4);
-}
-
-.chest-title {
-  color: #6a6adb;
-  font-size: 24px;
-  margin-bottom: 30px;
-  text-shadow: 0 0 8px rgba(106, 106, 219, 0.4);
-}
-.chest-body {
-  background: linear-gradient(to bottom, #8b7355, #695444); /* Wood texture */
-}
-
-.chest-lid {
-  background: linear-gradient(to bottom, #8b7355, #695444); /* Wood texture */
-}
-
-/* Challenge section styling */
-.challenge-section {
-  margin-bottom: 50px;
-  padding: 12px;
-  background-color: rgba(27, 27, 59, 0.6);
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  border: 1px solid #8b7355;
-}
-
-.challenge-header {
-  color: #6a6adb;
-  font-size: 28px;
-  margin-bottom: 15px;
-  text-align: center;
-  text-shadow: 0 0 10px rgba(106, 106, 219, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Pirata One', 'Cinzel', serif;
-}
-
-.challenge-description {
-  background-color: rgba(21, 21, 39, 0.7);
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 30px;
-  border: 1px solid #8b7355;
-  text-align: center;
-}
-
-.challenge-description p {
-  color: #bdbde2;
-  font-size: 18px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.battle-title {
-  color: #6a6adb;
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-  position: relative;
-  text-shadow: 0 0 10px rgba(106, 106, 219, 0.4);
-  letter-spacing: 1px;
-  font-family: 'Pirata One', 'Cinzel', serif;
-}
-
-.battle-meter {
-  height: 12px;
-  background-color: #463f3a;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-  margin-bottom: 8px;
-  border: 1px solid #695444;
-}
-
-.battle-meter-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #3d3d80, #9898c1); /* Ocean green colors */
-  border-radius: 6px;
-  transition: width 0.5s ease;
-  width: 0;
-  box-shadow: 0 0 10px rgba(61, 61, 128, 0.5);
-}
-
-.riddle-card {
-  background-color: rgba(58, 38, 28, 0.3); /* Wood-like background */
-  border-radius: 8px;
-  padding: 10px;
-  border: 1px solid #695444;
-  transition: all 0.3s ease;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.riddle-card::before {
-  content: '🏴‍☠️';
-  position: absolute;
-  top: -10px;
-  left: 15px;
-  font-size: 20px;
-  opacity: 0.7;
-}
-
-.riddle-solved {
-  border: 1px solid #4a4a8c;
-  background-color: rgba(43, 43, 78, 0.3);
-}
-
-.riddle-solved::before {
-  content: '✓';
-  color: #4a4a8c;
-}
-
-.riddle-text {
-  color: #e0c9a6; /* Aged parchment color */
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  font-style: italic;
-}
-
-.riddle-input-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.riddle-input {
-  flex: 1;
-  background-color: rgba(21, 21, 39, 0.8);
-  border: 1px solid #695444;
-  color: #e0c9a6;
-  padding: 6px 7px;
-  border-radius: 5px;
-  font-size: 16px;
+  opacity: 0.6;
   transition: all 0.3s ease;
 }
 
-.riddle-input:focus {
-  outline: none;
-  border-color: #6a6adb;
-  box-shadow: 0 0 8px rgba(106, 106, 219, 0.5);
+.progress-stage.completed {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px rgba(106, 219, 106, 0.6));
 }
 
-.riddle-submit {
-  background-color: #4a4a8c; /* Green button */
-  color: #e0c9a6;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 100px;
+.progress-stage.current {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px rgba(74, 140, 218, 0.6));
+  animation: stagePulse 2s infinite alternate;
 }
 
-.riddle-submit:hover:not(:disabled) {
-  background-color: #6a6adb; /* Lighter green on hover */
-  transform: translateY(-2px);
+.progress-stage.active {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px rgba(201, 169, 89, 0.6));
 }
 
-.riddle-submit:disabled {
-  background-color: #4a4a6a;
-  cursor: not-allowed;
-  opacity: 0.7;
+.progress-stage.locked {
+  opacity: 0.3;
 }
-
-.riddle-feedback {
-  font-size: 14px;
-  padding: 4px 6px;
-  border-radius: 4px;
-  margin-top: 10px;
-}
-
-.riddle-feedback.correct {
-  background-color: rgba(43, 43, 78, 0.5);
-  color: #6a6adb;
-  border-left: 3px solid #4a4a8c;
-}
-
-.riddle-feedback.incorrect {
-  background-color: rgba(78, 43, 43, 0.5);
-  color: #db6a6a;
-  border-left: 3px solid #8c4a4a;
-}
-
-.victory-message {
-  text-align: center;
-  padding: 8px;
-  background-color: rgba(38, 38, 78, 0.5);
-  border-radius: 10px;
-  border: 2px solid #6a6adb;
-  animation: glowing 2s infinite alternate;
-}
-
-.victory-message h3 {
-  color: #6a6adb;
-  font-size: 26px;
-  margin-bottom: 15px;
-  font-family: 'Pirata One', 'Cinzel', serif;
-}
-
-.victory-message p {
-  color: #bdbde2;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.challenge-divider {
-  display: flex;
-  align-items: center;
-  margin: 60px 0;
-}
-
-.divider-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #8b7355, transparent);
-}
-
-.divider-icon {
-  font-size: 28px;
-  margin: 0 20px;
-  color: #6a6adb;
-  animation: float 3s infinite ease-in-out;
-}
-
-/* Animations */
-@keyframes fadeInOut {
-  0% { opacity: 0.1; }
-  100% { opacity: 0.3; }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 5px rgba(106, 106, 219, 0.2);
-  }
-  100% {
-    box-shadow: 0 0 20px rgba(106, 106, 219, 0.5);
-  }
-}
-
-@keyframes wiggle {
-  0% {
-    transform: rotate(-5deg) scale(1.2);
-  }
-  100% {
-    transform: rotate(5deg) scale(1.2);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes glowing {
-  from {
-    box-shadow: 0 0 10px rgba(106, 106, 219, 0.5);
-  }
-  to {
-    box-shadow: 0 0 20px rgba(106, 106, 219, 0.8), 0 0 30px rgba(106, 106, 219, 0.4);
-  }
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-@keyframes flutterFlag {
-  0% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(5deg);
-  }
-}
-
-@keyframes waterShimmer {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(50%);
-  }
-}
-
-/* Media queries for responsive design */
-@media (max-width: 600px) {
-  .app {
-    padding: 7px;
-  }
-  
-  h1 {
-    font-size: 24px;
-  }
-  
-  h2 {
-    font-size: 20px;
-  }
-  
-  .mystery-text {
-    font-size: 16px;
-  }
-  
-  .challenge-header {
-    font-size: 22px;
-  }
-  
-  .battle-title {
-    font-size: 22px;
-  }
-  
-  .locks-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .lock-item {
-    width: 80%;
-    margin-bottom: 20px;
-  }
-  
-  .pirate-lock {
-    width: 85%;
-  }
-  
-  .riddle-input-group {
-    flex-direction: column;
-  }
-  
-  .riddle-submit {
-    width: 100%;
-  }
-  
-  .challenge-divider {
-    margin: 40px 0;
-  }
-}
-
-/* Add this code to your CSS file */
 
 /* Ship positioning */
 .ship-position {
   position: absolute;
   top: 0;
-  z-index: 1000; /* Much higher z-index to ensure it's above everything */
+  z-index: 1000;
   transition: left 0.5s ease;
 }
 
-/* Update these existing ship styles to increase z-index */
 .ship {
   position: absolute;
-  top: -25px;
+  top: -20px;
   transition: left 0.5s ease;
-  filter: drop-shadow(0 0 8px rgba(106, 106, 219, 0.5));
-  z-index: 1000; /* Much higher z-index */
+  filter: drop-shadow(0 0 6px rgba(106, 106, 219, 0.5));
+  z-index: 1000;
   pointer-events: none;
 }
 
 .ship-emoji {
-  font-size: 30px;
-  filter: drop-shadow(0 0 5px rgba(61, 61, 128, 0.7));
+  font-size: 24px;
+  filter: drop-shadow(0 0 4px rgba(61, 61, 128, 0.7));
   position: relative;
-  z-index: 1001; /* Even higher z-index */
+  z-index: 1001;
 }
 
 .ship-flag {
   position: absolute;
-  top: -14px;
-  right: -5px;
-  font-size: 12px;
+  top: -12px;
+  right: -4px;
+  font-size: 10px;
   animation: flutterFlag 1.5s infinite alternate;
-  z-index: 1002; /* Highest z-index */
+  z-index: 1002;
+}
+
+/* Status Summary */
+.status-summary {
+  background-color: rgba(20, 30, 40, 0.6);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 20px 0;
+  border: 1px solid #4a8cda;
+  text-align: center;
+}
+
+.adventure-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-label {
+  color: #bdbde2;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-value {
+  color: #4a8cda;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Cinzel', serif;
+}
+
+/* Compact Challenges Container */
+.challenges-container.compact {
+  margin-top: 20px;
+  padding: 0;
+}
+
+/* Countdown adjustments */
+.countdown-container {
+  margin-bottom: 8px;
+}
+
+.days-value {
+  font-size: 24px;
+}
+
+.days-label {
+  font-size: 14px;
+}
+
+.days-value::after {
+  right: -25px;
+  font-size: 12px;
+}
+
+/* Ship animations */
+@keyframes flutterFlag {
+  0% {
+    transform: rotate(-4deg);
+  }
+  100% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes stagePulse {
+  from {
+    filter: drop-shadow(0 0 4px rgba(74, 140, 218, 0.6));
+  }
+  to {
+    filter: drop-shadow(0 0 8px rgba(74, 140, 218, 0.9));
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app.compact {
+    padding: 10px;
+    max-width: 100%;
+  }
+  
+  .compact-header h1 {
+    font-size: 24px;
+  }
+  
+  .progress-labels.compact {
+    font-size: 12px;
+  }
+  
+  .progress-stage {
+    font-size: 16px;
+  }
+  
+  .ship-emoji {
+    font-size: 20px;
+  }
+  
+  .status-summary {
+    padding: 10px;
+  }
+  
+  .adventure-status {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .status-label {
+    font-size: 13px;
+  }
+  
+  .status-value {
+    font-size: 15px;
+  }
 }

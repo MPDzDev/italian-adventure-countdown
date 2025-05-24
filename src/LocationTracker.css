@@ -1,132 +1,47 @@
-.location-tracker {
+/* Compact Location Tracker Styles */
+.location-tracker.compact {
     background: linear-gradient(135deg, rgba(30, 50, 30, 0.9), rgba(50, 70, 50, 0.8));
-    border-radius: 15px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 20px;
     margin: 20px 0;
     border: 2px solid #6adb6a;
-    position: relative;
-    overflow: hidden;
     color: #e0c9a6;
-    box-shadow: 0 0 30px rgba(106, 219, 106, 0.3);
+    box-shadow: 0 0 20px rgba(106, 219, 106, 0.3);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
-  .location-tracker::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-      radial-gradient(circle at 30% 20%, rgba(106, 219, 106, 0.1) 2px, transparent 2px),
-      radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px, 30px 30px;
-    opacity: 0.6;
-    z-index: 0;
-    pointer-events: none;
-  }
-  
-  .tracker-header {
+  .compact-header {
     text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 20px;
   }
   
-  .tracker-header h2 {
-    color: #6adb6a;
-    font-size: 32px;
-    margin-bottom: 10px;
-    text-shadow: 0 0 10px rgba(106, 219, 106, 0.5);
-    font-family: 'Pirata One', 'Cinzel', serif;
-  }
-  
-  .tracker-header p {
-    color: #bdbde2;
-    font-size: 18px;
-    font-style: italic;
-    line-height: 1.6;
-  }
-  
-  /* Permission Request */
-  .permission-request, .permission-denied {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    background-color: rgba(20, 30, 20, 0.8);
-    border-radius: 12px;
-    padding: 30px;
-    border: 2px dashed #6adb6a;
-  }
-  
-  .permission-content h3, .permission-denied h3 {
+  .compact-header h3 {
     color: #6adb6a;
     font-size: 24px;
-    margin-bottom: 15px;
+    margin: 0;
+    text-shadow: 0 0 8px rgba(106, 219, 106, 0.5);
     font-family: 'Cinzel', serif;
   }
   
-  .permission-content p, .permission-denied p {
-    color: #bdbde2;
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 25px;
+  .compact-status {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
   
-  .permission-btn, .retry-btn {
-    background: linear-gradient(45deg, #6adb6a, #4a8cda);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
-  
-  .permission-btn:hover, .retry-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(106, 219, 106, 0.4);
-    background: linear-gradient(45deg, #7aeb7a, #5a9cea);
-  }
-  
-  /* Main Tracker Content */
-  .tracker-content {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .current-status {
-    margin-bottom: 30px;
-  }
-  
-  .status-card {
-    background-color: rgba(10, 20, 10, 0.8);
-    border-radius: 12px;
-    padding: 25px;
-    border: 2px solid #4a8c4a;
+  /* Distance Section */
+  .distance-section {
     text-align: center;
-  }
-  
-  .status-card h3 {
-    color: #6adb6a;
-    font-size: 22px;
-    margin-bottom: 20px;
-    font-family: 'Cinzel', serif;
-  }
-  
-  .status-info {
-    margin-bottom: 20px;
   }
   
   .distance-display {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
-    position: relative;
   }
   
   .distance-value {
@@ -135,295 +50,198 @@
     color: #6adb6a;
     text-shadow: 0 0 10px rgba(106, 219, 106, 0.5);
     font-family: 'Courier New', monospace;
+    line-height: 1;
   }
   
   .distance-label {
-    font-size: 16px;
+    font-size: 14px;
     color: #bdbde2;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   
-  .refresh-location-btn {
+  .refresh-btn {
     background: linear-gradient(45deg, #4a8c4a, #6adb6a);
     color: #0a0a1a;
     border: none;
-    padding: 8px 12px;
+    padding: 8px;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(106, 219, 106, 0.3);
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 8px rgba(106, 219, 106, 0.3);
   }
   
-  .refresh-location-btn:hover:not(:disabled) {
+  .refresh-btn:hover:not(:disabled) {
     transform: translateY(-2px) scale(1.1);
     box-shadow: 0 4px 12px rgba(106, 219, 106, 0.5);
     background: linear-gradient(45deg, #5a9c5a, #7aeb7a);
   }
   
-  .refresh-location-btn:disabled {
+  .refresh-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     background: linear-gradient(45deg, #4a4a6c, #6a6a8c);
   }
   
-  .stage-info {
-    text-align: center;
+  /* Stage Section */
+  .stage-section {
+    width: 100%;
   }
   
-  .current-stage {
+  .current-stage-compact {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 15px;
-    margin-bottom: 10px;
+    background-color: rgba(10, 20, 10, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    border: 2px solid #4a8c4a;
   }
   
-  .stage-badge {
-    background-color: #6adb6a;
-    color: #0a0a1a;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
+  .stage-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 8px rgba(106, 219, 106, 0.6));
+  }
+  
+  .stage-info {
+    flex: 1;
   }
   
   .stage-name {
     color: #6adb6a;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
+    margin-bottom: 4px;
     font-family: 'Cinzel', serif;
   }
   
-  .stage-description {
+  .stage-number {
     color: #bdbde2;
-    font-style: italic;
-    line-height: 1.5;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
   }
   
-  .home-distance {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: rgba(20, 40, 20, 0.6);
-    border-radius: 8px;
-    border: 1px solid #4a8c4a;
+  /* Treasure Coordinates */
+  .treasure-coords {
+    background-color: rgba(40, 30, 20, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    border: 2px solid #c9a959;
     text-align: center;
+    width: 100%;
+    animation: treasurePulse 2s infinite alternate;
   }
   
-  .home-distance small {
-    display: block;
+  .coords-label {
+    color: #c9a959;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: 'Cinzel', serif;
+  }
+  
+  .coords-text {
+    color: #bdbde2;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0;
+    font-family: 'Courier New', monospace;
+    background-color: rgba(106, 219, 106, 0.2);
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #6adb6a;
+  }
+  
+  .coords-location {
     color: #6adb6a;
     font-size: 14px;
-    margin-bottom: 5px;
-  }
-  
-  .stage-hint {
-    color: #4a8cda !important;
     font-style: italic;
-    font-weight: bold;
+    margin-top: 5px;
   }
   
+  .reveal-coords-btn {
+    background: linear-gradient(45deg, #c9a959, #dbb969);
+    color: #0a0a1a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+  
+  .reveal-coords-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(201, 169, 89, 0.4);
+    background: linear-gradient(45deg, #d9b969, #ebc979);
+  }
+  
+  /* Last Update */
   .last-update {
     color: #8a8a9a;
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
-    margin-top: 15px;
     text-align: center;
+    margin-top: 10px;
   }
   
-  /* Next Stage */
-  .next-stage {
-    background-color: rgba(20, 30, 40, 0.8);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-    border: 2px dashed #4a8cda;
+  /* Permission Views */
+  .permission-request.compact,
+  .permission-denied.compact {
     text-align: center;
+    background-color: rgba(20, 30, 20, 0.8);
+    border-radius: 12px;
+    padding: 25px;
+    border: 2px dashed #6adb6a;
   }
   
-  .next-stage h4 {
-    color: #4a8cda;
+  .permission-request.compact h3,
+  .permission-denied.compact h3 {
+    color: #6adb6a;
     font-size: 20px;
     margin-bottom: 15px;
     font-family: 'Cinzel', serif;
   }
   
-  .next-stage-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .next-stage-name {
-    color: #4a8cda;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .next-stage-distance {
-    color: #6a6adb;
-    font-size: 14px;
-    background-color: rgba(74, 140, 218, 0.2);
-    padding: 4px 12px;
-    border-radius: 15px;
-    border: 1px solid #4a8cda;
-  }
-  
-  .next-stage-description {
+  .permission-request.compact p,
+  .permission-denied.compact p {
     color: #bdbde2;
-    font-style: italic;
+    font-size: 14px;
     line-height: 1.5;
-    margin: 0;
+    margin-bottom: 15px;
   }
   
-  /* Journey Progress */
-  .journey-progress {
-    background-color: rgba(10, 20, 10, 0.6);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 25px;
-    border: 1px solid #4a8c4a;
-  }
-  
-  .journey-progress h4 {
-    color: #6adb6a;
-    font-size: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-family: 'Cinzel', serif;
-  }
-  
-  .stages-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .stage-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-  }
-  
-  .stage-item.locked {
-    background-color: rgba(40, 40, 60, 0.3);
-    border-color: #6a6a8c;
-    opacity: 0.6;
-  }
-  
-  .stage-item.unlocked {
-    background-color: rgba(30, 50, 30, 0.6);
-    border-color: #6adb6a;
-  }
-  
-  .stage-item.current {
-    background-color: rgba(30, 50, 30, 0.8);
-    border-color: #6adb6a;
-    box-shadow: 0 0 15px rgba(106, 219, 106, 0.3);
-    animation: currentStagePulse 2s infinite alternate;
-  }
-  
-  .stage-indicator {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-  
-  .stage-item.locked .stage-indicator {
-    background-color: #6a6a8c;
-    color: #2a2a4a;
-  }
-  
-  .stage-item.unlocked .stage-indicator {
-    background-color: #6adb6a;
-    color: #0a0a1a;
-  }
-  
-  .stage-content {
-    flex: 1;
-  }
-  
-  .stage-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  
-  .stage-title {
-    color: #f4f5f0;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .stage-item.unlocked .stage-title {
-    color: #6adb6a;
-  }
-  
-  .stage-threshold {
-    color: #8a8a9a;
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-    background-color: rgba(138, 138, 154, 0.2);
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-  
-  .stage-desc {
-    color: #bdbde2;
-    font-size: 14px;
-    font-style: italic;
-    line-height: 1.4;
-    margin: 0;
-  }
-  
-  /* Manual Update */
-  .manual-update {
-    text-align: center;
-  }
-  
-  .update-location-btn {
-    background: linear-gradient(45deg, #4a8c4a, #6adb6a);
-    color: #0a0a1a;
+  .permission-btn {
+    background: linear-gradient(45deg, #6adb6a, #4a8cda);
+    color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 12px 24px;
     border-radius: 8px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 16px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
   
-  .update-location-btn:hover:not(:disabled) {
+  .permission-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(106, 219, 106, 0.4);
-    background: linear-gradient(45deg, #5a9c5a, #7aeb7a);
+    box-shadow: 0 4px 12px rgba(106, 219, 106, 0.4);
+    background: linear-gradient(45deg, #7aeb7a, #5a9cea);
   }
   
-  .update-location-btn:disabled {
+  .permission-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background: linear-gradient(45deg, #4a4a6c, #6a6a8c);
   }
   
   /* Password Modal */
@@ -443,32 +261,32 @@
   .password-content {
     background: linear-gradient(135deg, rgba(30, 50, 30, 0.95), rgba(50, 70, 50, 0.95));
     border-radius: 15px;
-    padding: 30px;
+    padding: 25px;
     border: 2px solid #6adb6a;
     text-align: center;
-    max-width: 400px;
+    max-width: 350px;
     width: 90%;
     box-shadow: 0 0 30px rgba(106, 219, 106, 0.5);
   }
   
   .password-content h4 {
     color: #6adb6a;
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 15px;
     font-family: 'Cinzel', serif;
   }
   
   .password-content p {
     color: #bdbde2;
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 25px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
   }
   
   .password-input-group {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
   }
   
   .password-input {
@@ -476,32 +294,33 @@
     background-color: rgba(20, 40, 20, 0.8);
     border: 2px solid #4a8c4a;
     color: #e0c9a6;
-    padding: 12px 15px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
     transition: all 0.3s ease;
   }
   
   .password-input:focus {
     outline: none;
     border-color: #6adb6a;
-    box-shadow: 0 0 10px rgba(106, 219, 106, 0.5);
+    box-shadow: 0 0 8px rgba(106, 219, 106, 0.5);
   }
   
   .password-submit {
     background: linear-gradient(45deg, #4a8c4a, #6adb6a);
     color: #0a0a1a;
     border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 14px;
   }
   
   .password-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(106, 219, 106, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(106, 219, 106, 0.4);
     background: linear-gradient(45deg, #5a9c5a, #7aeb7a);
   }
   
@@ -509,10 +328,11 @@
     background: rgba(100, 100, 120, 0.6);
     color: #e0c9a6;
     border: 1px solid #6a6a8c;
-    padding: 8px 20px;
+    padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 14px;
   }
   
   .password-cancel:hover {
@@ -521,52 +341,49 @@
   }
   
   /* Animations */
-  @keyframes currentStagePulse {
+  @keyframes treasurePulse {
     from {
-      box-shadow: 0 0 15px rgba(106, 219, 106, 0.3);
+      box-shadow: 0 0 15px rgba(201, 169, 89, 0.4);
     }
     to {
-      box-shadow: 0 0 25px rgba(106, 219, 106, 0.6);
+      box-shadow: 0 0 25px rgba(201, 169, 89, 0.7);
     }
   }
   
   /* Responsive Design */
-  @media (max-width: 768px) {
-    .location-tracker {
-      padding: 20px;
-    }
-    
-    .tracker-header h2 {
-      font-size: 28px;
+  @media (max-width: 480px) {
+    .location-tracker.compact {
+      padding: 15px;
+      margin: 15px auto;
     }
     
     .distance-value {
       font-size: 36px;
     }
     
-    .current-stage {
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .stage-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-    }
-    
-    .next-stage-info {
-      gap: 5px;
-    }
-    
-    .stage-item {
-      flex-direction: column;
-      text-align: center;
-      gap: 10px;
+    .current-stage-compact {
       padding: 12px;
+      gap: 10px;
     }
     
-    .stage-content {
-      text-align: center;
+    .stage-icon {
+      font-size: 28px;
+    }
+    
+    .stage-name {
+      font-size: 16px;
+    }
+    
+    .coords-text {
+      font-size: 16px;
+    }
+    
+    .password-content {
+      padding: 20px;
+    }
+    
+    .password-input-group {
+      flex-direction: column;
+      gap: 10px;
     }
   }

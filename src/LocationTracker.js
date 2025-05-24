@@ -5,11 +5,13 @@ import { sendCompletionEmail, wasCompletionEmailSent } from './EmailService';
 const LocationTracker = () => {
   const [locationStage, setLocationStage] = useState(0);
   const [currentDistance, setCurrentDistance] = useState(null);
-  const [distanceFromHome, setDistanceFromHome] = useState(null);
   const [hasLocationPermission, setHasLocationPermission] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordVerified, setPasswordVerified] = useState(false);
 
   // Starting coordinates (Bedford, UK)
   const startingCoords = {
@@ -23,97 +25,29 @@ const LocationTracker = () => {
     lng: 12.304828
   };
 
-  // Stage definitions with distance thresholds (in km from target)
+  // Simplified stage definitions
   const stages = [
-    { 
-      id: 0, 
-      name: 'At Home in Bedford', 
-      description: 'Your adventure begins at home in Bedford', 
-      threshold: Infinity,
-      icon: '🏠'
-    },
-    { 
-      id: 1, 
-      name: 'Journey Begins', 
-      description: 'You\'ve stepped out and started your Italian adventure!', 
-      threshold: 1400, // Still very far from Italy, just moved from house
-      icon: '✈️'
-    },
-    { 
-      id: 2, 
-      name: 'En Route to Italy', 
-      description: 'Flying towards your Italian destination', 
-      threshold: 1000,
-      icon: '🛫'
-    },
-    { 
-      id: 3, 
-      name: 'Approaching Italy', 
-      description: 'Getting closer to Italian airspace', 
-      threshold: 500,
-      icon: '🌍'
-    },
-    { 
-      id: 4, 
-      name: 'Arrived in Italy', 
-      description: 'Welcome to Italy! The adventure intensifies', 
-      threshold: 200,
-      icon: '🇮🇹'
-    },
-    { 
-      id: 5, 
-      name: 'Bologna Region', 
-      description: 'In the Emilia-Romagna region, close to your destination', 
-      threshold: 100,
-      icon: '🏛️'
-    },
-    { 
-      id: 6, 
-      name: 'Adriatic Coast', 
-      description: 'The Mediterranean coast is in sight!', 
-      threshold: 50,
-      icon: '🌊'
-    },
-    { 
-      id: 7, 
-      name: 'Lido Adriano Area', 
-      description: 'Very close to the treasure location now!', 
-      threshold: 10,
-      icon: '🏖️'
-    },
-    { 
-      id: 8, 
-      name: 'Treasure Location', 
-      description: 'You\'ve arrived at the exact treasure coordinates!', 
-      threshold: 0,
-      icon: '💎'
-    }
+    { id: 0, name: 'Home', threshold: Infinity, icon: '🏠' },
+    { id: 1, name: 'Journey Started', threshold: 1400, icon: '✈️' },
+    { id: 2, name: 'In Italy', threshold: 200, icon: '🇮🇹' },
+    { id: 3, name: 'Bologna Region', threshold: 100, icon: '🏛️' },
+    { id: 4, name: 'Adriatic Coast', threshold: 50, icon: '🌊' },
+    { id: 5, name: 'Lido Adriano', threshold: 10, icon: '🏖️' },
+    { id: 6, name: 'Treasure Found!', threshold: 0, icon: '💎' }
   ];
 
-  // Load saved progress on mount
+  // Load saved progress
   useEffect(() => {
     const savedStage = localStorage.getItem('locationStage');
     const savedDistance = localStorage.getItem('currentDistance');
-    const savedDistanceFromHome = localStorage.getItem('distanceFromHome');
     const savedUpdate = localStorage.getItem('lastLocationUpdate');
+    const savedPasswordState = localStorage.getItem('treasurePasswordVerified');
     
-    if (savedStage) {
-      setLocationStage(parseInt(savedStage, 10));
-    }
-    
-    if (savedDistance) {
-      setCurrentDistance(parseFloat(savedDistance));
-    }
-    
-    if (savedDistanceFromHome) {
-      setDistanceFromHome(parseFloat(savedDistanceFromHome));
-    }
-    
-    if (savedUpdate) {
-      setLastUpdate(new Date(savedUpdate));
-    }
+    if (savedStage) setLocationStage(parseInt(savedStage, 10));
+    if (savedDistance) setCurrentDistance(parseFloat(savedDistance));
+    if (savedUpdate) setLastUpdate(new Date(savedUpdate));
+    if (savedPasswordState === 'true') setPasswordVerified(true);
 
-    // Check initial location permission status
     if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(result => {
         setHasLocationPermission(result.state === 'granted');
@@ -122,9 +56,9 @@ const LocationTracker = () => {
     }
   }, []);
 
-  // Calculate distance between two coordinates using Haversine formula
+  // Calculate distance using Haversine formula
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
-    const R = 6371; // Earth's radius in kilometers
+    const R = 6371;
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLng = (lng2 - lng1) * (Math.PI / 180);
     const a = 
@@ -135,28 +69,20 @@ const LocationTracker = () => {
     return R * c;
   };
 
-  // Determine stage based on distance from target and special logic for stage 1
+  // Determine stage based on distance
   const determineStage = (distance, userLat, userLng) => {
-    // Special logic for stage 1: check if they've moved away from the exact house location
     const distanceFromHome = calculateDistance(userLat, userLng, startingCoords.lat, startingCoords.lng);
     
-    // If they're more than 1km from home, they get stage 1 (even if still very far from Italy)
-    if (distanceFromHome > 1 && locationStage === 0) {
-      return 1;
-    }
+    if (distanceFromHome > 1 && locationStage === 0) return 1;
     
-    // For other stages, use distance to target as normal
     for (let i = stages.length - 1; i >= 1; i--) {
-      if (distance <= stages[i].threshold) {
-        return stages[i].id;
-      }
+      if (distance <= stages[i].threshold) return stages[i].id;
     }
     
-    // If still at home (within 1km), stay at stage 0
     return distanceFromHome <= 1 ? 0 : Math.max(1, locationStage);
   };
 
-  // Send notification for stage completion
+  // Send stage notification
   const sendStageNotification = async (newStage) => {
     const stageInfo = stages.find(s => s.id === newStage);
     const notificationId = `LocationStage${newStage}`;
@@ -165,9 +91,7 @@ const LocationTracker = () => {
       try {
         await sendCompletionEmail(notificationId, {
           stageName: stageInfo.name,
-          stageDescription: stageInfo.description,
           currentDistance: currentDistance,
-          coordinates: `${targetCoords.lat}, ${targetCoords.lng}`,
           completionTime: new Date().toLocaleString()
         });
       } catch (error) {
@@ -176,7 +100,7 @@ const LocationTracker = () => {
     }
   };
 
-  // Request location permission
+  // Request location
   const requestLocationPermission = () => {
     setIsUpdating(true);
     
@@ -190,38 +114,25 @@ const LocationTracker = () => {
       (position) => {
         const userLat = position.coords.latitude;
         const userLng = position.coords.longitude;
-        
-        // Calculate distance to target
         const distance = calculateDistance(userLat, userLng, targetCoords.lat, targetCoords.lng);
         const newStage = determineStage(distance, userLat, userLng);
         
-        // Update state
         setCurrentDistance(distance);
         setHasLocationPermission(true);
         setPermissionDenied(false);
         setLastUpdate(new Date());
         
-        // Calculate distance from home for display
-        const distanceFromHome = calculateDistance(userLat, userLng, startingCoords.lat, startingCoords.lng);
-        
-        // Check if stage has changed
         if (newStage !== locationStage) {
           setLocationStage(newStage);
           localStorage.setItem('locationStage', newStage.toString());
-          
-          // Send notification for new stage
           sendStageNotification(newStage);
           
-          // Dispatch custom event to update other components
           const event = new CustomEvent('localStorageUpdate');
           window.dispatchEvent(event);
         }
         
-        // Save to localStorage
         localStorage.setItem('currentDistance', distance.toString());
-        localStorage.setItem('distanceFromHome', distanceFromHome.toString());
         localStorage.setItem('lastLocationUpdate', new Date().toISOString());
-        
         setIsUpdating(false);
       },
       (error) => {
@@ -232,51 +143,42 @@ const LocationTracker = () => {
         
         if (error.code === error.PERMISSION_DENIED) {
           alert('Location access denied. Please enable location permissions and try again.');
-        } else if (error.code === error.POSITION_UNAVAILABLE) {
-          alert('Location information is unavailable.');
-        } else if (error.code === error.TIMEOUT) {
-          alert('Location request timed out.');
         }
       },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 60000
-      }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
     );
   };
 
-  // Retry after permission denied
-  const retryLocationRequest = () => {
-    setPermissionDenied(false);
-    requestLocationPermission();
+  // Handle password verification
+  const handlePasswordSubmit = () => {
+    if (password.toLowerCase() === 'treasure2024') {
+      setPasswordVerified(true);
+      setShowPasswordModal(false);
+      localStorage.setItem('treasurePasswordVerified', 'true');
+    } else {
+      alert('Incorrect password. Try again!');
+    }
   };
 
-  // Get current stage info
-  const getCurrentStage = () => stages.find(s => s.id === locationStage) || stages[0];
-  const getNextStage = () => stages.find(s => s.id === locationStage + 1);
-
-  // Format distance display
+  // Format distance
   const formatDistance = (distance) => {
     if (distance === null) return '---';
     if (distance < 1) return `${Math.round(distance * 1000)}m`;
     return `${Math.round(distance)}km`;
   };
 
+  // Get current stage
+  const getCurrentStage = () => stages.find(s => s.id === locationStage) || stages[0];
+
   // Permission denied view
   if (permissionDenied) {
     return (
-      <div className="location-tracker">
-        <div className="tracker-header">
-          <h2>🌍 Journey to Italy</h2>
-          <p>Track your real-world progress to the treasure location</p>
-        </div>
-        
-        <div className="permission-denied">
-          <h3>Location Access Required</h3>
-          <p>To track your journey to Italy, we need access to your location. Please enable location permissions in your browser settings and try again.</p>
-          <button className="retry-btn" onClick={retryLocationRequest}>
-            Try Again
+      <div className="location-tracker compact">
+        <div className="permission-denied compact">
+          <h3>🌍 Journey Tracker</h3>
+          <p>Location access required to track your journey to Italy.</p>
+          <button className="permission-btn" onClick={() => { setPermissionDenied(false); requestLocationPermission(); }}>
+            Enable Location
           </button>
         </div>
       </div>
@@ -286,134 +188,111 @@ const LocationTracker = () => {
   // Permission request view
   if (hasLocationPermission === null || hasLocationPermission === false) {
     return (
-      <div className="location-tracker">
-        <div className="tracker-header">
-          <h2>🌍 Journey to Italy</h2>
-                      <p>Track your real-world progress as you journey from Bedford to the treasure location in Lido Adriano</p>
-        </div>
-        
-        <div className="permission-request">
-          <div className="permission-content">
-            <h3>Enable Location Tracking</h3>
-            <p>To track your journey from your home in Bedford to the Italian treasure location, we need access to your location. This will help unlock new stages as you get closer to the treasure!</p>
-            <p><strong>Target Destination:</strong> Lido Adriano, Italy<br />
-            <strong>Coordinates:</strong> 44.424156, 12.304828</p>
-            <button 
-              className="permission-btn" 
-              onClick={requestLocationPermission}
-              disabled={isUpdating}
-            >
-              {isUpdating ? 'Getting Location...' : 'Enable Location Tracking'}
-            </button>
-          </div>
+      <div className="location-tracker compact">
+        <div className="permission-request compact">
+          <h3>🌍 Journey to Italy</h3>
+          <p>Track your progress from Bedford to the treasure location.</p>
+          <p><strong>Destination:</strong> Lido Adriano, Italy</p>
+          <button 
+            className="permission-btn" 
+            onClick={requestLocationPermission}
+            disabled={isUpdating}
+          >
+            {isUpdating ? 'Getting Location...' : 'Start Tracking'}
+          </button>
         </div>
       </div>
     );
   }
 
-  // Main tracker view
   const currentStage = getCurrentStage();
-  const nextStage = getNextStage();
 
   return (
-    <div className="location-tracker">
-      <div className="tracker-header">
-        <h2>🌍 Journey to Italy</h2>
-        <p>Track your real-world progress to the treasure in Lido Adriano</p>
+    <div className="location-tracker compact">
+      {/* Password Modal */}
+      {showPasswordModal && (
+        <div className="password-modal">
+          <div className="password-content">
+            <h4>🔒 Final Coordinates</h4>
+            <p>Enter the treasure password to reveal the exact location:</p>
+            <div className="password-input-group">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password..."
+                className="password-input"
+                onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+              />
+              <button onClick={handlePasswordSubmit} className="password-submit">
+                Enter
+              </button>
+            </div>
+            <button onClick={() => setShowPasswordModal(false)} className="password-cancel">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="compact-header">
+        <h3>🌍 Journey Tracker</h3>
       </div>
 
-      <div className="tracker-content">
-        <div className="current-status">
-          <div className="status-card">
-            <h3>Current Status</h3>
-            
-            <div className="distance-display">
-              <div className="distance-value">
-                {formatDistance(currentDistance)}
-              </div>
-              <div className="distance-label">
-                to treasure location
-              </div>
-            </div>
+      <div className="compact-status">
+        <div className="distance-section">
+          <div className="distance-display">
+            <div className="distance-value">{formatDistance(currentDistance)}</div>
+            <div className="distance-label">to treasure</div>
+            <button 
+              className="refresh-btn"
+              onClick={requestLocationPermission}
+              disabled={isUpdating}
+              title="Update location"
+            >
+              {isUpdating ? '⏳' : '🔄'}
+            </button>
+          </div>
+        </div>
 
+        <div className="stage-section">
+          <div className="current-stage-compact">
+            <span className="stage-icon">{currentStage.icon}</span>
             <div className="stage-info">
-              <div className="current-stage">
-                <div className="stage-badge">Stage {currentStage.id}</div>
-                <div className="stage-name">{currentStage.name}</div>
-              </div>
-              <p className="stage-description">{currentStage.description}</p>
-              
-              {/* Show distance from home for early stages */}
-              {(locationStage === 0 || locationStage === 1) && distanceFromHome !== null && (
-                <div className="home-distance">
-                  <small>Distance from home: {formatDistance(distanceFromHome)}</small>
-                  {locationStage === 0 && distanceFromHome < 1 && (
-                    <small className="stage-hint">💡 Move more than 1km from home to unlock the first stage!</small>
-                  )}
-                </div>
-              )}
+              <div className="stage-name">{currentStage.name}</div>
+              <div className="stage-number">Stage {currentStage.id}/6</div>
             </div>
+          </div>
+        </div>
 
-            {lastUpdate && (
-              <div className="last-update">
-                Last updated: {lastUpdate.toLocaleString()}
+        {/* Show coordinates for final stage with password protection */}
+        {locationStage >= 6 && (
+          <div className="treasure-coords">
+            {passwordVerified ? (
+              <div className="coords-revealed">
+                <div className="coords-label">📍 Treasure Coordinates:</div>
+                <div className="coords-text">44.424156, 12.304828</div>
+                <div className="coords-location">Lido Adriano, Italy</div>
+              </div>
+            ) : (
+              <div className="coords-locked">
+                <div className="coords-label">🔒 Final Coordinates:</div>
+                <button 
+                  className="reveal-coords-btn"
+                  onClick={() => setShowPasswordModal(true)}
+                >
+                  Enter Password to Reveal
+                </button>
               </div>
             )}
           </div>
-        </div>
-
-        {nextStage && (
-          <div className="next-stage">
-            <h4>🎯 Next Milestone</h4>
-            <div className="next-stage-info">
-              <div className="next-stage-name">{nextStage.name}</div>
-              <div className="next-stage-distance">
-                Unlock when within {nextStage.threshold}km of destination
-              </div>
-            </div>
-            <p className="next-stage-description">{nextStage.description}</p>
-          </div>
         )}
 
-        <div className="journey-progress">
-          <h4>🗺️ Journey Progress</h4>
-          <div className="stages-list">
-            {stages.map(stage => (
-              <div 
-                key={stage.id}
-                className={`stage-item ${
-                  stage.id < locationStage ? 'unlocked' :
-                  stage.id === locationStage ? 'current' : 'locked'
-                }`}
-              >
-                <div className="stage-indicator">
-                  {stage.id < locationStage ? '✓' : 
-                   stage.id === locationStage ? stage.icon : 
-                   stage.id}
-                </div>
-                <div className="stage-content">
-                  <div className="stage-header">
-                    <div className="stage-title">{stage.name}</div>
-                    {stage.threshold !== Infinity && stage.threshold !== 0 && (
-                      <div className="stage-threshold">≤{stage.threshold}km</div>
-                    )}
-                  </div>
-                  <p className="stage-desc">{stage.description}</p>
-                </div>
-              </div>
-            ))}
+        {lastUpdate && (
+          <div className="last-update">
+            Updated: {lastUpdate.toLocaleTimeString()}
           </div>
-        </div>
-
-        <div className="manual-update">
-          <button 
-            className="update-location-btn"
-            onClick={requestLocationPermission}
-            disabled={isUpdating}
-          >
-            {isUpdating ? 'Updating Location...' : '🔄 Refresh My Location'}
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );
