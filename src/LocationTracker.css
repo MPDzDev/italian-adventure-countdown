@@ -126,6 +126,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+    position: relative;
   }
   
   .distance-value {
@@ -142,6 +143,36 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .refresh-location-btn {
+    background: linear-gradient(45deg, #4a8c4a, #6adb6a);
+    color: #0a0a1a;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(106, 219, 106, 0.3);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .refresh-location-btn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 4px 12px rgba(106, 219, 106, 0.5);
+    background: linear-gradient(45deg, #5a9c5a, #7aeb7a);
+  }
+  
+  .refresh-location-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(45deg, #4a4a6c, #6a6a8c);
   }
   
   .stage-info {
@@ -176,6 +207,28 @@
     color: #bdbde2;
     font-style: italic;
     line-height: 1.5;
+  }
+  
+  .home-distance {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(20, 40, 20, 0.6);
+    border-radius: 8px;
+    border: 1px solid #4a8c4a;
+    text-align: center;
+  }
+  
+  .home-distance small {
+    display: block;
+    color: #6adb6a;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .stage-hint {
+    color: #4a8cda !important;
+    font-style: italic;
+    font-weight: bold;
   }
   
   .last-update {
@@ -371,6 +424,100 @@
     opacity: 0.6;
     cursor: not-allowed;
     background: linear-gradient(45deg, #4a4a6c, #6a6a8c);
+  }
+  
+  /* Password Modal */
+  .password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .password-content {
+    background: linear-gradient(135deg, rgba(30, 50, 30, 0.95), rgba(50, 70, 50, 0.95));
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid #6adb6a;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 30px rgba(106, 219, 106, 0.5);
+  }
+  
+  .password-content h4 {
+    color: #6adb6a;
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-family: 'Cinzel', serif;
+  }
+  
+  .password-content p {
+    color: #bdbde2;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
+  
+  .password-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .password-input {
+    flex: 1;
+    background-color: rgba(20, 40, 20, 0.8);
+    border: 2px solid #4a8c4a;
+    color: #e0c9a6;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .password-input:focus {
+    outline: none;
+    border-color: #6adb6a;
+    box-shadow: 0 0 10px rgba(106, 219, 106, 0.5);
+  }
+  
+  .password-submit {
+    background: linear-gradient(45deg, #4a8c4a, #6adb6a);
+    color: #0a0a1a;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .password-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 219, 106, 0.4);
+    background: linear-gradient(45deg, #5a9c5a, #7aeb7a);
+  }
+  
+  .password-cancel {
+    background: rgba(100, 100, 120, 0.6);
+    color: #e0c9a6;
+    border: 1px solid #6a6a8c;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .password-cancel:hover {
+    background: rgba(120, 120, 140, 0.6);
+    transform: translateY(-1px);
   }
   
   /* Animations */
