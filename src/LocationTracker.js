@@ -39,7 +39,7 @@ const LocationTracker = () => {
     { 
       id: 1, 
       name: 'Journey Started', 
-      threshold: 1273, 
+      threshold: 1272, 
       icon: '✈️',
       hint: 'Adventure awaits'
     },
@@ -289,7 +289,7 @@ const LocationTracker = () => {
         <div className="permission-request">
           <div className="treasure-icon">🧭</div>
           <h3>Begin Treasure Hunt</h3>
-          <p>Follow the ancient map from Bedford to the Italian treasure.</p>
+          <p>Follow the ancient map from Home to the Italian treasure.</p>
           <p><strong>Destination:</strong> Lido Adriano, Italy</p>
           <button 
             className="permission-btn golden" 

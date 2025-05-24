@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ChallengeManager.css';
 import TreasureChest from './TreasureChest';
 import LocationTracker from './LocationTracker';
+import DailyEmojiGuesser from './DailyEmojiGuesser';
 
 const ChallengeManager = () => {
   const [locationStage, setLocationStage] = useState(0);
@@ -70,6 +71,11 @@ const ChallengeManager = () => {
             <span className="stage-name">Waterpark</span>
           </div>
         </div>
+      </div>
+
+      {/* Daily Emoji Guesser Game */}
+      <div className="daily-game-section">
+        <DailyEmojiGuesser />
       </div>
 
       {/* Location Tracker - Journey Progress */}
