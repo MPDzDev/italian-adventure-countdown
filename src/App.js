@@ -8,14 +8,14 @@ import ChallengeManager from './ChallengeManager';
 import { calculateDaysUntilEvent, calculateProgressPercentage } from './TimeUtils';
 
 function App() {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(75); // Set to 75% to show 3 stages completed
   const [daysLeft, setDaysLeft] = useState(0);
-  const [showChallenges, setShowChallenges] = useState(false);
+  const [showChallenges, setShowChallenges] = useState(true); // Always show challenges now
 
   useEffect(() => {
     // Calculate progress and days left using utility functions
     const updateTimings = () => {
-      setProgress(calculateProgressPercentage());
+      setProgress(75); // Fixed at 75% to represent 3 completed stages
       setDaysLeft(calculateDaysUntilEvent());
     };
 
@@ -25,32 +25,55 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Check if challenges should be shown based on active locks
+  // Set initial completion states for first 3 stages
   useEffect(() => {
-    const checkChallengeVisibility = () => {
-      const piratesChallengeActive = localStorage.getItem('piratesChallengeActive');
-      setShowChallenges(piratesChallengeActive === 'true');
+    // Mark first 3 stages as completed on first load
+    const initializeCompletedStages = () => {
+      // Stage 1: Pirate Challenge - Mark as completed
+      if (!localStorage.getItem('pirateRiddleStates')) {
+        const completedPirateStates = {};
+        for (let i = 1; i <= 10; i++) {
+          completedPirateStates[i] = {
+            isCorrect: true,
+            isSubmitted: true,
+            attempts: 1
+          };
+        }
+        localStorage.setItem('pirateRiddleStates', JSON.stringify(completedPirateStates));
+      }
+
+      // Stage 2: Pizzaiolo Challenge - Mark as completed
+      if (!localStorage.getItem('pizzaioloChallengeComplete')) {
+        localStorage.setItem('pizzaioloChallengeComplete', 'true');
+        for (let i = 1; i <= 5; i++) {
+          localStorage.setItem(`pizzaioloStage${i}Complete`, 'true');
+        }
+      }
+
+      // Stage 3: Wordle Challenge - Mark as completed
+      if (!localStorage.getItem('wordleChallengeCompleted')) {
+        localStorage.setItem('wordleChallengeCompleted', 'true');
+      }
+
+      // Ensure treasure chest is unlocked
+      if (!localStorage.getItem('treasureChestUnlocked')) {
+        localStorage.setItem('treasureChestUnlocked', 'true');
+      }
     };
-    
-    // Check immediately
-    checkChallengeVisibility();
-    
-    // Set up interval to check for changes
-    const interval = setInterval(checkChallengeVisibility, 500);
-    
-    return () => clearInterval(interval);
+
+    initializeCompletedStages();
   }, []);
 
   return (
     <div className="app">
       <GlitchingMessagesWrapper />
       <header>
-        <h1>The Mysterious Voyage Awaits...</h1>
+        <h1>The Italian Adventure Journey</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
       </header>
       
       <div className="progress-container">
-        {/* Ship positioned absolutely above the progress bar */}
+        {/* Ship positioned at 75% progress */}
         <div 
           className="ship-position" 
           style={{ left: `calc(${progress}% - 15px)` }}
@@ -61,23 +84,29 @@ function App() {
         <div className="progress-bar">
           <div style={{ width: `${progress}%` }} className="progress-fill"></div>
         </div>
+        
+        <div className="progress-labels">
+          <span className="progress-stage completed">🏴‍☠️ Pirates</span>
+          <span className="progress-stage completed">🍕 Pizzeria</span>
+          <span className="progress-stage completed">🏄‍♂️ Waterpark</span>
+          <span className="progress-stage current">🧭 Compass Quest</span>
+          <span className="progress-stage locked">🏖️ Final Destination</span>
+        </div>
       </div>
       
       <div className="mystery-section">
-        <h3>A mysterious adventure is approaching...</h3>
-        <p className="mystery-text">Something special awaits at the end of the journey. The salty sea breeze seems to be giving way to the aroma of fresh dough and tomatoes. Stay tuned for clues that will lead to hidden treasures.</p>
-        <p className="subtle-hint">bury a chest. don't say i didn't warn ya. the Italian coast holds secrets.</p>
+        <h3>Your Italian Adventure Continues...</h3>
+        <p className="mystery-text">You've successfully helped the pirates, recovered Antonio's recipes, and conquered the waterpark challenges. Now, a mysterious compass has appeared, pointing toward your next great adventure along the Italian coast.</p>
+        <p className="subtle-hint">follow the compass. the mediterranean calls. ancient secrets await discovery.</p>
       </div>
       
-      {/* Locked sections with pirate challenge as first lock */}
+      {/* Show the new simplified locked sections */}
       <LockedSection />
       
-      {/* Show challenges when pirate lock is activated */}
-      {showChallenges && (
-        <div id="challenges-section" className="challenges-container">
-          <ChallengeManager />
-        </div>
-      )}
+      {/* Always show challenges container */}
+      <div id="challenges-section" className="challenges-container">
+        <ChallengeManager />
+      </div>
     </div>
   );
 }

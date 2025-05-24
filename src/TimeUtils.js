@@ -58,36 +58,12 @@ export const getSimultaneousMessageCount = () => {
 
 // Calculate and check if the second challenge should be unlocked (4 months before event)
 export const isSecondChallengeUnlocked = () => {
-  const now = new Date();
-  const eventDate = new Date(now.getFullYear(), 6, 20); // July 20
-  const unlockDate = new Date(eventDate);
-  unlockDate.setMonth(unlockDate.getMonth() - 4); // 4 months before
-  
-  return now >= unlockDate;
+  return true;
 };
 
 // Calculate time remaining until second challenge unlocks
 export const calculateTimeUntilSecondChallenge = () => {
-  const now = new Date();
-  const eventDate = new Date(now.getFullYear(), 6, 20); // July 20
-  const unlockDate = new Date(eventDate);
-  unlockDate.setMonth(unlockDate.getMonth() - 4); // 4 months before
-  
-  // If already unlocked, return zero times
-  if (now >= unlockDate) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-  
-  // Calculate remaining time
-  const timeDiff = unlockDate - now;
-  
-  // Convert to days, hours, minutes, seconds
-  const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-  
-  return { days, hours, minutes, seconds };
+  return { days: 0, hours: 0, minutes: 0, seconds: 0 };
 };
 
 // PIZZAIOLO CHALLENGE TIME UTILITIES
@@ -95,6 +71,15 @@ export const calculateTimeUntilSecondChallenge = () => {
 // Hard-coded release dates for each stage
 // For testing purposes, we can set these closer to current date
 // In production, these would be spaced weekly
+// export const pizzaioloStageDates = {
+//   // Set all dates to yesterday for testing
+//   stage1: new Date(new Date().setDate(new Date().getDate() - 1)),
+//   stage2: new Date(new Date().setDate(new Date().getDate() - 1)),
+//   stage3: new Date(new Date().setDate(new Date().getDate() - 1)),
+//   stage4: new Date(new Date().setDate(new Date().getDate() - 1)),
+//   stage5: new Date(new Date().setDate(new Date().getDate() - 1))
+// };
+
 export const pizzaioloStageDates = {
   // Get current year to make this adaptable
   stage1: new Date(new Date().getFullYear(), 2, 19),  // March 1
