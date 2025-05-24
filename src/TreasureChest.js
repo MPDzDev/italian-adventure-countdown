@@ -24,14 +24,49 @@ const TreasureChest = ({ isUnlocked = false }) => {
   
   // Load saved treasure items from localStorage
   useEffect(() => {
+    // Add default items for completed challenges
+    const defaultItems = [
+      {
+        icon: "🏴‍☠️",
+        name: "Pirate Victory",
+        description: "Defeated the pirates and solved their riddles"
+      },
+      {
+        icon: "📜",
+        name: "Antonio's Recipes",
+        description: "Recovered the stolen family pizza recipes"
+      },
+      {
+        icon: "🏆",
+        name: "Waterpark Champion",
+        description: "Mastered the word challenges at Alpine Splash"
+      },
+      {
+        icon: "🧭",
+        name: "Journey Compass",
+        description: "Guides your path to Italian treasure"
+      },
+      {
+        icon: "🇮🇹",
+        name: "Italian Adventure",
+        description: "Memories from your Mediterranean journey"
+      }
+    ];
+    
     const savedItems = localStorage.getItem('treasureChestItems');
     if (savedItems) {
-      setTreasureItems(JSON.parse(savedItems));
+      const parsed = JSON.parse(savedItems);
+      setTreasureItems([...defaultItems, ...parsed]);
+    } else {
+      setTreasureItems(defaultItems);
     }
     
-    // Check if Pizzaiolo challenge is complete to show real chest
+    // Check if all challenges complete to show real chest
     const isPizzaioloComplete = localStorage.getItem('pizzaioloChallengeComplete') === 'true';
-    if (isPizzaioloComplete) {
+    const isPirateComplete = localStorage.getItem('pirateRiddleStates');
+    const isWordleComplete = localStorage.getItem('wordleChallengeCompleted') === 'true';
+    
+    if (isPizzaioloComplete && isPirateComplete && isWordleComplete) {
       setIsRealChest(true);
     }
   }, []);
@@ -39,33 +74,12 @@ const TreasureChest = ({ isUnlocked = false }) => {
   // Function to toggle chest open/closed
   const toggleChest = () => {
     if (isUnlocked) {
-      // Check for challenge completion when chest is clicked
-      const isPizzaioloComplete = localStorage.getItem('pizzaioloChallengeComplete') === 'true';
-      if (isPizzaioloComplete && !isRealChest) {
-        // Transform to real chest
-        setIsRealChest(true);
-        
-        // Add transformation animation class
-        const chestContainer = document.querySelector('.treasure-chest-container');
-        if (chestContainer) {
-          chestContainer.classList.add('transforming');
-          setTimeout(() => {
-            chestContainer.classList.remove('transforming');
-          }, 3000);
-        }
-      } else {
-        // Just toggle open/close
-        setIsOpen(!isOpen);
-      }
+      setIsOpen(!isOpen);
     }
   };
   
   return (
     <div className={`treasure-chest-container ${isUnlocked ? 'unlocked' : 'locked'}`}>
-      <h3 className="chest-title">
-        {isRealChest ? "The Chest Becomes Real!" : isUnlocked ? "Mysterious Treasure Chest" : "??? Locked ???"}
-      </h3>
-      
       {isRealChest ? (
         <div className="real-chest">
           <img 
@@ -73,12 +87,11 @@ const TreasureChest = ({ isUnlocked = false }) => {
             alt="Real pirate chest" 
             className="real-chest-image" 
           />
-          <p className="real-chest-message">
-            "As you complete the final challenge, something miraculous happens! The digital chest 
-            shimmers and transforms into a real physical chest before your eyes. Locked with a golden pirate padlock. What treasures might be inside?"
-          </p>
+          <div className="real-chest-message">
+            The digital adventure has created something real! Your Italian journey rewards await discovery.
+          </div>
           <div className="chest-lock-hint">
-            "The lock has a mysterious skull symbol. Perhaps your adventure isn't over yet..."
+            Look for the physical chest at your final destination...
           </div>
         </div>
       ) : (
@@ -90,31 +103,17 @@ const TreasureChest = ({ isUnlocked = false }) => {
         </div>
       )}
       
-      {isRealChest && (
-        <div className="next-adventure-teaser">
-          <h4>The Final Chapter</h4>
-          <p>
-            "The digital quest has manifested something real in your world! 
-            The treasure chest from your adventure now sits before you, tangible and mysterious. 
-            Inside are special treasures to accompany you on your journey to Italy."
-          </p>
-          <p>
-            "The chest requires a special key - look for clues at the Alpine Splash Waterpark..."
-          </p>
-        </div>
-      )}
-      
       {isUnlocked && !isRealChest && (
         <p className="chest-hint">
           {isOpen 
-            ? "The chest appears empty... or is it? Perhaps more challenges will reveal its contents."
-            : "Click the chest to open it..."}
+            ? "Your adventure memories and rewards"
+            : "Click to open your treasure chest"}
         </p>
       )}
       
       {isOpen && treasureItems.length > 0 && !isRealChest && (
         <div className="treasure-contents">
-          <h4>Discovered Treasures:</h4>
+          <h4>Adventure Rewards</h4>
           <ul className="treasure-list">
             {treasureItems.map((item, index) => (
               <li key={index} className="treasure-item">
@@ -131,8 +130,7 @@ const TreasureChest = ({ isUnlocked = false }) => {
       
       {!isUnlocked && !isRealChest && (
         <div className="locked-message">
-          <p>Defeat the pirates to unlock this chest!</p>
-          <p className="locked-hint">Solve the riddle challenges to progress...</p>
+          <p>Complete challenges to unlock!</p>
         </div>
       )}
     </div>
