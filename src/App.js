@@ -5,29 +5,42 @@ import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import LockedSection from './LockedSection';
 import GlitchingCountdown from './GlitchingCountdown';
 import ChallengeManager from './ChallengeManager';
-import { calculateDaysUntilEvent, calculateProgressPercentage } from './TimeUtils';
+import { calculateDaysUntilEvent } from './TimeUtils';
 
 function App() {
-  const [progress, setProgress] = useState(75); // Set to 75% to show 3 stages completed
+  const [progress, setProgress] = useState(75);
   const [daysLeft, setDaysLeft] = useState(0);
-  const [showChallenges, setShowChallenges] = useState(true); // Always show challenges now
+  const [locationStage, setLocationStage] = useState(0);
+  const [showChallenges] = useState(true);
+
+  // Calculate progress based on location stage
+  const calculateLocationProgress = (stage) => {
+    // Base progress from completed challenges: 75%
+    // Additional 25% distributed across 8 location stages
+    const baseProgress = 75;
+    const locationProgress = Math.min(25, (stage / 8) * 25);
+    return Math.min(100, baseProgress + locationProgress);
+  };
 
   useEffect(() => {
-    // Calculate progress and days left using utility functions
     const updateTimings = () => {
-      setProgress(75); // Fixed at 75% to represent 3 completed stages
       setDaysLeft(calculateDaysUntilEvent());
+      
+      // Get location stage from localStorage
+      const savedLocationStage = localStorage.getItem('locationStage');
+      const stage = savedLocationStage ? parseInt(savedLocationStage, 10) : 0;
+      setLocationStage(stage);
+      setProgress(calculateLocationProgress(stage));
     };
 
     updateTimings();
-    const timer = setInterval(updateTimings, 86400000); // Update once per day
+    const timer = setInterval(updateTimings, 60000); // Update every minute
 
     return () => clearInterval(timer);
   }, []);
 
   // Set initial completion states for first 3 stages
   useEffect(() => {
-    // Mark first 3 stages as completed on first load
     const initializeCompletedStages = () => {
       // Stage 1: Pirate Challenge - Mark as completed
       if (!localStorage.getItem('pirateRiddleStates')) {
@@ -59,10 +72,25 @@ function App() {
       if (!localStorage.getItem('treasureChestUnlocked')) {
         localStorage.setItem('treasureChestUnlocked', 'true');
       }
+
+      // Enable compass challenge by default
+      if (!localStorage.getItem('compassChallengeActive')) {
+        localStorage.setItem('compassChallengeActive', 'true');
+      }
     };
 
     initializeCompletedStages();
   }, []);
+
+  // Determine current stage label based on location progress
+  const getCurrentStageLabel = () => {
+    if (locationStage === 0) return "🧭 Compass Quest";
+    if (locationStage <= 2) return "🛫 Journey Planning";
+    if (locationStage <= 4) return "✈️ En Route to Italy";
+    if (locationStage <= 6) return "🇮🇹 Arrived in Italy";
+    if (locationStage <= 7) return "🏖️ Approaching Coast";
+    return "💎 Treasure Location";
+  };
 
   return (
     <div className="app">
@@ -73,7 +101,7 @@ function App() {
       </header>
       
       <div className="progress-container">
-        {/* Ship positioned at 75% progress */}
+        {/* Ship positioned based on progress */}
         <div 
           className="ship-position" 
           style={{ left: `calc(${progress}% - 15px)` }}
@@ -89,19 +117,30 @@ function App() {
           <span className="progress-stage completed">🏴‍☠️ Pirates</span>
           <span className="progress-stage completed">🍕 Pizzeria</span>
           <span className="progress-stage completed">🏄‍♂️ Waterpark</span>
-          <span className="progress-stage current">🧭 Compass Quest</span>
-          <span className="progress-stage locked">🏖️ Final Destination</span>
+          <span className={`progress-stage ${locationStage > 0 ? 'completed' : 'current'}`}>
+            {getCurrentStageLabel()}
+          </span>
+          <span className={`progress-stage ${locationStage >= 8 ? 'current' : 'locked'}`}>🏖️ Final Destination</span>
         </div>
       </div>
       
       <div className="mystery-section">
         <h3>Your Italian Adventure Continues...</h3>
-        <p className="mystery-text">You've successfully helped the pirates, recovered Antonio's recipes, and conquered the waterpark challenges. Now, a mysterious compass has appeared, pointing toward your next great adventure along the Italian coast.</p>
-        <p className="subtle-hint">follow the compass. the mediterranean calls. ancient secrets await discovery.</p>
+        <p className="mystery-text">
+          {locationStage === 0 && "You've successfully completed the digital challenges! Now, a mysterious compass guides you toward real-world adventures, and your actual journey to Italy will unlock new stages as you get closer to the treasure location."}
+          {locationStage > 0 && locationStage < 4 && "Your real journey to Italy has begun! Each mile closer to the treasure location unlocks new adventures and brings you nearer to the final prize."}
+          {locationStage >= 4 && locationStage < 8 && "You're getting close to Italy! The Mediterranean calls as you approach the final treasure location where your Italian adventure will reach its thrilling conclusion."}
+          {locationStage >= 8 && "You've arrived at the treasure location! The physical chest containing your Italian adventure rewards awaits your discovery at the precise coordinates."}
+        </p>
+        <p className="subtle-hint">
+          {locationStage === 0 && "enable location tracking. the real adventure begins. italy awaits."}
+          {locationStage > 0 && locationStage < 8 && "getting closer. the mediterranean calls. treasure awaits."}
+          {locationStage >= 8 && "you have arrived. the treasure is here. claim your prize."}
+        </p>
       </div>
       
-      {/* Show the new simplified locked sections */}
-      <LockedSection />
+      {/* Show the simplified locked sections if location stage is 0 */}
+      {locationStage === 0 && <LockedSection />}
       
       {/* Always show challenges container */}
       <div id="challenges-section" className="challenges-container">

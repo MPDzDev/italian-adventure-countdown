@@ -1,7 +1,63 @@
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, rgba(20, 40, 60, 0.9), rgba(40, 20, 60, 0.8));
+  border-radius: 15px;
+  border: 2px solid #4a8cda;
+  margin: 40px 0;
+}
+
+.loading-state h2 {
+  color: #4a8cda;
+  font-size: 28px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(74, 140, 218, 0.5);
+  font-family: 'Pirata One', 'Cinzel', serif;
+  animation: loadingPulse 2s infinite alternate;
+}
+
+.loading-state p {
+  color: #bdbde2;
+  font-size: 18px;
+  font-style: italic;
+}
+
 .challenge-manager {
   max-width: 800px;
   margin: 40px auto;
   padding: 0 10px;
+}
+
+/* Status Refresh Button */
+.status-refresh {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.refresh-status-btn {
+  background: linear-gradient(45deg, #4a8cda, #6adb6a);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 10px rgba(74, 140, 218, 0.3);
+}
+
+.refresh-status-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(74, 140, 218, 0.4);
+  background: linear-gradient(45deg, #5a9cea, #7aeb7a);
+}
+
+.refresh-status-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(74, 140, 218, 0.3);
 }
 
 /* Adventure Summary Section */
@@ -73,6 +129,13 @@
   animation: activeChapterPulse 2s infinite alternate;
 }
 
+.chapter.current {
+  background-color: rgba(60, 30, 80, 0.6);
+  border-color: #c9a959;
+  box-shadow: 0 0 15px rgba(201, 169, 89, 0.4);
+  animation: currentChapterPulse 2s infinite alternate;
+}
+
 .chapter.upcoming {
   background-color: rgba(40, 40, 60, 0.4);
   border-color: #6a6a8c;
@@ -94,6 +157,10 @@
   filter: drop-shadow(0 0 8px rgba(74, 140, 218, 0.6));
 }
 
+.chapter.current .chapter-icon {
+  filter: drop-shadow(0 0 8px rgba(201, 169, 89, 0.6));
+}
+
 .chapter-content {
   flex: 1;
 }
@@ -113,11 +180,26 @@
   color: #4a8cda;
 }
 
+.chapter.current .chapter-content h3 {
+  color: #c9a959;
+}
+
 .chapter-content p {
   color: #bdbde2;
   line-height: 1.6;
   font-size: 16px;
   margin: 0;
+}
+
+/* Challenge Sections */
+.challenge-section {
+  margin-bottom: 50px;
+  padding: 20px;
+  background-color: rgba(27, 27, 59, 0.6);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border: 1px solid #8b7355;
 }
 
 /* Compass Challenge Section */
@@ -128,14 +210,29 @@
   margin-bottom: 40px;
 }
 
-.challenge-section {
-  margin-bottom: 50px;
-  padding: 20px;
-  background-color: rgba(27, 27, 59, 0.6);
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  border: 1px solid #8b7355;
+/* Location Challenge Section */
+.location-challenge-section {
+  border: 2px solid #6adb6a;
+  background-color: rgba(30, 50, 30, 0.4);
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+/* Journey Progress Section */
+.journey-progress-section {
+  border: 2px solid #4a8cda;
+  background-color: rgba(30, 40, 80, 0.4);
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+/* Final Treasure Section */
+.final-treasure-section {
+  border: 3px solid #c9a959;
+  background-color: rgba(60, 40, 20, 0.6);
+  border-radius: 15px;
+  margin-bottom: 40px;
+  animation: finalTreasurePulse 3s infinite alternate;
 }
 
 .challenge-header {
@@ -148,6 +245,11 @@
   align-items: center;
   justify-content: center;
   font-family: 'Pirata One', 'Cinzel', serif;
+}
+
+.final-treasure-section .challenge-header {
+  color: #c9a959;
+  text-shadow: 0 0 10px rgba(201, 169, 89, 0.5);
 }
 
 .challenge-icon {
@@ -189,6 +291,165 @@
   margin: 0 20px;
   color: #6a6adb;
   animation: float 3s infinite ease-in-out;
+}
+
+/* Final Treasure Location Styling */
+.treasure-location-final {
+  background-color: rgba(40, 30, 20, 0.8);
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px 0;
+  border: 3px solid #c9a959;
+  text-align: center;
+  animation: treasureLocationPulse 3s infinite alternate;
+}
+
+.final-coordinates {
+  background-color: rgba(20, 20, 40, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px dashed #4a8cda;
+}
+
+.final-coordinates h4 {
+  color: #4a8cda;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-family: 'Cinzel', serif;
+}
+
+.coordinates-text {
+  color: #bdbde2;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+  font-family: 'Courier New', monospace;
+  background-color: rgba(106, 219, 106, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #6adb6a;
+}
+
+.location-name {
+  color: #6adb6a;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.final-instructions {
+  margin: 20px 0;
+}
+
+.final-instructions p {
+  color: #c9a959;
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.treasure-hunt-tips {
+  background-color: rgba(20, 40, 20, 0.6);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 25px;
+  border: 2px dashed #6adb6a;
+  text-align: left;
+}
+
+.treasure-hunt-tips h4 {
+  color: #6adb6a;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+}
+
+.treasure-hunt-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.treasure-hunt-tips li {
+  color: #bdbde2;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 10px 0;
+  padding-left: 25px;
+  position: relative;
+}
+
+.treasure-hunt-tips li::before {
+  content: '🔍';
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Journey Status Styling */
+.journey-status {
+  background-color: rgba(20, 30, 40, 0.8);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #4a8cda;
+}
+
+.current-progress {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.current-progress h4 {
+  color: #4a8cda;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-family: 'Cinzel', serif;
+}
+
+.progress-descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.progress-descriptions p {
+  color: #6adb6a;
+  font-size: 14px;
+  margin: 0;
+  text-align: left;
+  padding: 5px 10px;
+  background-color: rgba(106, 219, 106, 0.1);
+  border-radius: 5px;
+  border-left: 3px solid #6adb6a;
+}
+
+.upcoming-milestone {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px dashed #4a8cda;
+}
+
+.upcoming-milestone h4 {
+  color: #4a8cda;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+}
+
+.upcoming-milestone p {
+  color: #bdbde2;
+  font-size: 16px;
+  margin: 0;
+  font-style: italic;
 }
 
 /* Future Adventures Section */
@@ -265,11 +526,38 @@
 
 /* Animations */
 @keyframes activeChapterPulse {
-  0% {
+  from {
     box-shadow: 0 0 15px rgba(74, 140, 218, 0.3);
   }
-  100% {
+  to {
     box-shadow: 0 0 25px rgba(74, 140, 218, 0.6);
+  }
+}
+
+@keyframes currentChapterPulse {
+  from {
+    box-shadow: 0 0 15px rgba(201, 169, 89, 0.4);
+  }
+  to {
+    box-shadow: 0 0 25px rgba(201, 169, 89, 0.7);
+  }
+}
+
+@keyframes finalTreasurePulse {
+  from {
+    box-shadow: 0 0 20px rgba(201, 169, 89, 0.4);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(201, 169, 89, 0.8), 0 0 60px rgba(74, 140, 218, 0.3);
+  }
+}
+
+@keyframes treasureLocationPulse {
+  from {
+    box-shadow: 0 0 20px rgba(201, 169, 89, 0.4);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(201, 169, 89, 0.8), 0 0 60px rgba(74, 140, 218, 0.3);
   }
 }
 
@@ -355,5 +643,26 @@
   
   .future-icon {
     font-size: 32px;
+  }
+  
+  .coordinates-text {
+    font-size: 20px;
+  }
+  
+  .final-instructions p {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .progress-descriptions p {
+    font-size: 13px;
+  }
+  
+  .treasure-hunt-tips {
+    text-align: center;
+  }
+  
+  .treasure-hunt-tips li {
+    text-align: left;
   }
 }
