@@ -39,35 +39,35 @@ const LocationTracker = () => {
     { 
       id: 1, 
       name: 'Journey Started', 
-      threshold: 1400, 
+      threshold: 1273, 
       icon: '✈️',
       hint: 'Adventure awaits'
     },
     { 
       id: 2, 
       name: 'In Italy', 
-      threshold: 200, 
+      threshold: 100, 
       icon: '🇮🇹',
       hint: 'Ancient lands'
     },
     { 
       id: 3, 
       name: 'Bologna Region', 
-      threshold: 100, 
+      threshold: 77, 
       icon: '🏛️',
       hint: 'City of wisdom'
     },
     { 
       id: 4, 
       name: 'Adriatic Coast', 
-      threshold: 50, 
+      threshold: 10, 
       icon: '🌊',
       hint: 'Sparkling waters'
     },
     { 
       id: 5, 
       name: 'Lido Adriano', 
-      threshold: 10, 
+      threshold: 5, 
       icon: '🏖️',
       hint: 'Almost there'
     },
