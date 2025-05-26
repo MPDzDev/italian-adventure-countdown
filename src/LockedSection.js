@@ -1,169 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import './LockedSection.css';
-import { isPiratesChallengeUnlocked } from './ChallengeManager';
 
 const LockedSection = () => {
   const [hoverLock, setHoverLock] = useState(null);
   const [activeLocks, setActiveLocks] = useState({
-    1: false, // Pirate Challenge
-    2: false, // Pizzaiolo Challenge - locked with timer
-    3: false, // Alpine Splash Waterpark Adventure - new name
-    4: false,
-    5: false
+    1: false, // Compass Challenge - the new active one
+    2: false, // Future Content
+    3: false, // Future Content
   });
-  const [secondLockCountdown, setSecondLockCountdown] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
-  const [secondLockUnlocked, setSecondLockUnlocked] = useState(false);
-  
-  // Calculate time until the second lock unlocks (4 months before July 20th)
-  const calculateTimeUntilSecondLock = () => {
-    const now = new Date();
-    const eventDate = new Date(now.getFullYear(), 6, 20); // July 20th
-    const unlockDate = new Date(eventDate);
-    unlockDate.setMonth(unlockDate.getMonth() - 4); // 4 months before
-    
-    // If current date is past unlock date, the lock is unlocked
-    if (now >= unlockDate) {
-      setSecondLockUnlocked(true);
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-    }
-    
-    // Calculate time difference
-    const timeDiff = unlockDate - now;
-    
-    // Convert to days, hours, minutes, seconds
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-    
-    return { days, hours, minutes, seconds };
-  };
-  
-  // Load active state on mount and whenever localStorage changes
-  const updateLockStates = React.useCallback(() => {
-    // Check if pirate challenge is active
-    const isPirateActive = isPiratesChallengeUnlocked();
-    
-    setActiveLocks(prev => ({
-      ...prev,
-      1: isPirateActive
-    }));
-    
-    // Check if second lock should be active based on timer
-    if (secondLockUnlocked) {
-      // Only activate second lock if first one is already active
-      const savedLock2 = localStorage.getItem('pizzaioloChallengeActive');
-      if (savedLock2 === 'true') {
-        setActiveLocks(prev => ({
-          ...prev,
-          2: true
-        }));
-      }
-    }
-    
-    // Check localStorage for Wordle challenge lock
-    const wordleActive = localStorage.getItem('wordleChallengeActive');
-    if (wordleActive === 'true') {
+
+  // Load active state on mount
+  useEffect(() => {
+    // Check if compass challenge is active
+    const compassActive = localStorage.getItem('compassChallengeActive');
+    if (compassActive === 'true') {
       setActiveLocks(prev => ({
         ...prev,
-        3: true
+        1: true
       }));
     }
-    
-    // Check localStorage for other active locks
-    const savedLocks = localStorage.getItem('activeLocks');
-    if (savedLocks) {
-      try {
-        const parsedLocks = JSON.parse(savedLocks);
-        setActiveLocks(prev => ({
-          ...prev,
-          ...parsedLocks
-        }));
-      } catch (error) {
-        console.error('Error parsing active locks:', error);
-      }
-    }
-  }, [secondLockUnlocked]);
-  
-  // Initial load and set up interval for countdown
-  useEffect(() => {
-    updateLockStates();
-    
+
     // Set up interval to check for changes
-    const lockStateInterval = setInterval(updateLockStates, 500);
-    
-    // Set up interval for countdown
-    const countdownInterval = setInterval(() => {
-      setSecondLockCountdown(calculateTimeUntilSecondLock());
-    }, 1000);
-    
-    return () => {
-      clearInterval(lockStateInterval);
-      clearInterval(countdownInterval);
-    };
-  }, [secondLockUnlocked, updateLockStates]);
-  
-  // Check if pirate challenge is completed
-  const isPirateCompleted = () => {
-    const piratesComplete = localStorage.getItem('pirateRiddleStates');
-    if (piratesComplete) {
-      try {
-        const states = JSON.parse(piratesComplete);
-        return Object.values(states).every(state => state.isCorrect);
-      } catch (error) {
-        console.error('Error parsing pirate riddle states:', error);
-      }
-    }
-    return false;
-  };
-  
-  const pirateCompleted = isPirateCompleted();
-  
-  // Check if Pizzaiolo challenge is completed
-  const isPizzaioloCompleted = () => {
-    return localStorage.getItem('pizzaioloChallengeComplete') === 'true';
-  };
-  
-  const pizzaioloCompleted = isPizzaioloCompleted();
-  
-  // Sections that will be "unlocked" over time
+    const lockStateInterval = setInterval(() => {
+      const compassActive = localStorage.getItem('compassChallengeActive');
+      setActiveLocks(prev => ({
+        ...prev,
+        1: compassActive === 'true'
+      }));
+    }, 500);
+
+    return () => clearInterval(lockStateInterval);
+  }, []);
+
+  // Simplified locked sections - just show what's next
   const lockedSections = [
-    { id: 1, name: "Pirate Challenge", unlockDate: null, hint: "Click to begin the pirate challenge!" },
+    { 
+      id: 1, 
+      name: "Compass Quest", 
+      hint: "A mysterious compass has appeared! Follow its guidance to discover ancient Mediterranean secrets.",
+      icon: "🧭"
+    },
     { 
       id: 2, 
-      name: "Antonio's Pizzeria",
-      unlockDate: null, 
-      hint: secondLockUnlocked ? 
-            "Help Antonio recover his stolen recipes!" : 
-            pirateCompleted ? 
-            `Unlocks in ${secondLockCountdown.days} days, ${secondLockCountdown.hours} hours, ${secondLockCountdown.minutes} min` :
-            "Complete the Pirate Challenge first"
+      name: "Ancient Ruins", 
+      hint: "Hidden ruins along the Italian coast await discovery...",
+      icon: "🏛️"
     },
     { 
       id: 3, 
-      name: "Alpine Splash Waterpark", 
-      unlockDate: null, 
-      hint: pizzaioloCompleted ? 
-           "The waterpark adventure awaits! Click to play the daily word puzzle!" : 
-           "Complete Antonio's Pizzeria challenge first" 
-    },
-    { 
-      id: 4, 
-      name: "Coastal Connections", 
-      unlockDate: null, 
-      hint: "We'll have fun after the waterpark adventure!" 
-    },
-    { id: 5, name: "Locked Content", unlockDate: null, hint: "Mysteries await..." }
+      name: "Final Destination", 
+      hint: "The ultimate treasure lies at journey's end...",
+      icon: "🏖️"
+    }
   ];
 
   // Handle clicking on a lock
   const handleLockClick = (id) => {
-    // Handle pirate challenge lock
+    // Only handle compass challenge lock for now
     if (id === 1) {
       const newValue = !activeLocks[id];
       
@@ -174,60 +67,14 @@ const LockedSection = () => {
       }));
       
       // Save to localStorage
-      localStorage.setItem('piratesChallengeActive', newValue.toString());
+      localStorage.setItem('compassChallengeActive', newValue.toString());
       
       // Force scroll to show the challenges
       if (newValue) {
         setTimeout(() => {
-          const challengeSection = document.querySelector('.challenge-section');
+          const challengeSection = document.querySelector('.challenges-container');
           if (challengeSection) {
             challengeSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 500);
-      }
-    }
-    // Handle pizzaiolo challenge lock - only if unlocked by timer and pirate challenge is completed
-    else if (id === 2 && secondLockUnlocked && pirateCompleted) {
-      const newValue = !activeLocks[id];
-      
-      // Update state
-      setActiveLocks(prev => ({
-        ...prev,
-        [id]: newValue
-      }));
-      
-      // Save to localStorage
-      localStorage.setItem('pizzaioloChallengeActive', newValue.toString());
-      
-      // Force scroll to show the challenges
-      if (newValue) {
-        setTimeout(() => {
-          const challengeSection = document.querySelector('.pizzaiolo-challenge-section');
-          if (challengeSection) {
-            challengeSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 500);
-      }
-    }
-    // Handle Alpine Waterpark (Wordle) challenge lock
-    else if (id === 3 && pizzaioloCompleted) {
-      const newValue = !activeLocks[id];
-      
-      // Update state
-      setActiveLocks(prev => ({
-        ...prev,
-        [id]: newValue
-      }));
-      
-      // Save to localStorage
-      localStorage.setItem('wordleChallengeActive', newValue.toString());
-      
-      // Force scroll to show the Wordle challenge
-      if (newValue) {
-        setTimeout(() => {
-          const wordleSection = document.querySelector('.wordle-section');
-          if (wordleSection) {
-            wordleSection.scrollIntoView({ behavior: 'smooth' });
           }
         }, 500);
       }
@@ -236,52 +83,59 @@ const LockedSection = () => {
 
   return (
     <div className="locked-section">
-      <h3 className="locked-title">Mysterious Contents</h3>
-      <p className="locked-description">Discover what lies behind these locks as your journey unfolds...</p>
+      <h3 className="locked-title">The Journey Continues</h3>
+      <p className="locked-description">Three adventures completed, new mysteries await discovery...</p>
+      
+      {/* Achievement Summary */}
+      <div className="achievement-summary">
+        <h4>Your Achievements</h4>
+        <div className="completed-stages">
+          <div className="achievement-item">
+            <span className="achievement-icon">🏴‍☠️</span>
+            <span className="achievement-name">Pirate Riddle Master</span>
+            <span className="achievement-status">✓ Complete</span>
+          </div>
+          <div className="achievement-item">
+            <span className="achievement-icon">🍕</span>
+            <span className="achievement-name">Recipe Recoverer</span>
+            <span className="achievement-status">✓ Complete</span>
+          </div>
+          <div className="achievement-item">
+            <span className="achievement-icon">🏄‍♂️</span>
+            <span className="achievement-name">Waterpark Champion</span>
+            <span className="achievement-status">✓ Complete</span>
+          </div>
+        </div>
+      </div>
       
       <div className="locks-container">
         {lockedSections.map((section) => {
-          // Special class for the second lock if it has a timer - only if pirate challenge is completed
-          const isTimerLock = section.id === 2 && !secondLockUnlocked && pirateCompleted;
-          
-          // Special class for the third lock (waterpark)
-          const isWaterparkLock = section.id === 3;
+          const isCompassLock = section.id === 1;
+          const isClickable = section.id === 1; // Only compass is clickable for now
           
           return (
             <div 
               key={section.id} 
               className={`lock-item ${activeLocks[section.id] ? 'lock-active' : ''} 
-                         ${section.id === 1 ? 'pirate-lock' : ''} 
-                         ${isTimerLock ? 'timer-lock' : ''} 
-                         ${section.id === 2 && secondLockUnlocked ? 'pizzaiolo-lock' : ''}
-                         ${isWaterparkLock ? 'waterpark-lock' : ''}`}
+                         ${isCompassLock ? 'compass-lock' : 'future-lock'}
+                         ${isClickable ? 'clickable' : 'not-ready'}`}
               onMouseEnter={() => setHoverLock(section.id)}
               onMouseLeave={() => setHoverLock(null)}
-              onClick={() => handleLockClick(section.id)}
-              style={section.id === 3 ? {cursor: 'pointer'} : {}}
+              onClick={() => isClickable && handleLockClick(section.id)}
             >
               <div className="lock-icon">
-                {activeLocks[section.id] ? '🔓' : 
-                 section.id === 2 && secondLockUnlocked ? '🍕' : 
-                 section.id === 3 && pizzaioloCompleted ? '🏄‍♂️' : 
-                 '🔒'}
+                {activeLocks[section.id] ? '🔓' : section.icon}
               </div>
               <div className="lock-name">{section.name}</div>
               
-              {/* Timer for second lock - only show if pirate challenge is completed */}
-              {section.id === 2 && !secondLockUnlocked && !activeLocks[section.id] && pirateCompleted && (
-                <div className="lock-timer">
-                  <div className="timer-display">
-                    {secondLockCountdown.days}d {secondLockCountdown.hours}h {secondLockCountdown.minutes}m
-                  </div>
-                </div>
+              {/* Click indicator for compass lock */}
+              {isCompassLock && !activeLocks[section.id] && (
+                <div className="click-indicator">Click to begin</div>
               )}
               
-              {/* Click indicator for active locks */}
-              {((section.id === 1 && !activeLocks[section.id]) || 
-                (section.id === 2 && secondLockUnlocked && !activeLocks[section.id]) ||
-                (section.id === 3 && pizzaioloCompleted && !activeLocks[section.id])) && (
-                <div className="click-indicator">Click to unlock</div>
+              {/* Coming soon indicator for future locks */}
+              {section.id > 1 && (
+                <div className="coming-soon-indicator">Coming Soon</div>
               )}
               
               {hoverLock === section.id && (
@@ -298,8 +152,8 @@ const LockedSection = () => {
       </div>
       
       <div className="locked-warning">
-        <div className="warning-icon">⚠️</div>
-        <p>These locks will open when the time is right...</p>
+        <div className="warning-icon">🧭</div>
+        <p>The compass needle trembles with anticipation. Your next adventure awaits...</p>
       </div>
     </div>
   );

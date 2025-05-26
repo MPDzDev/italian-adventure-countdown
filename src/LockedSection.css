@@ -1,219 +1,456 @@
-/* Add these styles to your existing LockedSection.css file */
+/* Enhanced LockedSection.css with new compass lock styling */
 
-/* Timer lock styling */
-.timer-lock {
-  background-color: rgba(36, 23, 13, 0.3);
-  border: 1px dashed #bdbde2;
-  position: relative;
-  overflow: visible;
-}
-
-/* Locked state when pirate challenge isn't completed yet */
-.lock-item:nth-child(2):not(.timer-lock):not(.lock-active):not(.pizzaiolo-lock) {
-  background-color: rgba(30, 30, 40, 0.4);
-  border: 1px solid #4a4a6c;
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
-.timer-lock:hover {
-  background-color: rgba(38, 38, 58, 0.6);
-  border: 1px solid #bdbde2;
-}
-
-.timer-lock .lock-icon {
-  filter: drop-shadow(0 0 8px rgba(106, 106, 219, 0.7));
-}
-
-.lock-timer {
-  font-size: 14px;
-  color: #bdbde2;
-  margin-top: 10px;
-  position: relative;
-  animation: pulse 1.5s infinite alternate;
-}
-
-.timer-display {
-  background-color: rgba(10, 10, 26, 0.8);
-  border-radius: 4px;
-  padding: 4px 8px;
-  display: inline-block;
-  border: 1px solid #3a3a5c;
-  font-family: 'Courier New', monospace;
-}
-
-/* Pizzaiolo lock styling */
-.pizzaiolo-lock {
-  cursor: pointer;
-  background-color: rgba(58, 58, 140, 0.1);
-  border: 1px dashed #4a4a8c;
-  animation: pulse 3s infinite alternate;
+.locked-section {
+  background-color: rgba(9, 28, 43, 0.9);
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  margin: 40px 0;
+  border: 1px solid #8b7355;
   position: relative;
   overflow: hidden;
 }
 
-.pizzaiolo-lock:hover {
-  background-color: rgba(58, 58, 140, 0.2);
-  border: 1px solid #4a4a8c;
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 10px 20px rgba(58, 58, 140, 0.2);
-}
-
-.pizzaiolo-lock:hover::before {
+.locked-section::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
-  background: linear-gradient(to right, #00008c 33%, #F4F5F0 33%, #F4F5F0 66%, #CD212A 66%);
-  z-index: 5;
-  animation: italianFlagReveal 1.5s ease-in-out;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232c2c44' fill-opacity='0.3' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: 0;
 }
 
-.pizzaiolo-lock .lock-icon {
-  filter: drop-shadow(0 0 8px rgba(74, 74, 140, 0.7));
+.locked-title {
+  font-family: 'Pirata One', 'Cinzel', serif;
+  color: #f4f5f0;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+  font-size: 26px;
+  z-index: 1;
+  text-shadow: 0 0 8px rgba(244, 245, 240, 0.3);
 }
 
-.pizzaiolo-lock .lock-name {
-  color: #4a4a8c;
+.locked-description {
+  color: #bdbde2;
+  text-align: center;
+  margin-bottom: 30px;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-.pizzaiolo-lock .lock-hint {
-  background-color: rgba(25, 25, 50, 0.95);
-  border: 1px solid #4a4a8c;
-  box-shadow: 0 0 15px rgba(74, 74, 140, 0.4);
-  color: #6a6adb;
+/* Achievement Summary Styling */
+.achievement-summary {
+  background-color: rgba(20, 40, 20, 0.6);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px 0;
+  border: 2px solid #6adb6a;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(106, 219, 106, 0.2);
 }
 
-.pizzaiolo-lock .lock-hint-arrow {
-  border-top: 10px solid #4a4a8c;
+.achievement-summary h4 {
+  color: #6adb6a;
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 0 8px rgba(106, 219, 106, 0.4);
 }
 
-.pizzaiolo-lock .lock-chain {
-  background: linear-gradient(90deg, transparent, #4a4a8c, transparent);
-  height: 2px;
+.completed-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 18px;
+  background-color: rgba(10, 20, 40, 0.7);
+  border-radius: 10px;
+  border: 1px solid #2a4a7a;
+  transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+  transform: translateX(5px);
+  background-color: rgba(15, 25, 45, 0.8);
+  border-color: #3a5a8a;
+}
+
+.achievement-icon {
+  font-size: 26px;
+  min-width: 35px;
+  text-align: center;
+  filter: drop-shadow(0 0 5px rgba(106, 219, 106, 0.5));
+}
+
+.achievement-name {
+  flex: 1;
+  color: #bdbde2;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.achievement-status {
+  color: #6adb6a;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(106, 219, 106, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  border: 1px solid #6adb6a;
+}
+
+/* Locks Container */
+.locks-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  position: relative;
+  z-index: 1;
+  margin: 30px 0;
+}
+
+.lock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+  position: relative;
+  transition: all 0.4s ease;
+  padding: 20px 15px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.lock-item:hover {
+  transform: translateY(-8px);
+}
+
+/* Compass Lock Styling */
+.compass-lock {
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(40, 60, 100, 0.6), rgba(60, 80, 120, 0.4));
+  border: 2px dashed #4a8cda;
+  animation: compassPulse 3s infinite alternate;
+  position: relative;
+  overflow: hidden;
+}
+
+.compass-lock::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(74, 140, 218, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.compass-lock:hover::before {
+  opacity: 1;
+}
+
+.compass-lock:hover {
+  background: linear-gradient(135deg, rgba(50, 70, 110, 0.8), rgba(70, 90, 130, 0.6));
+  border: 2px solid #4a8cda;
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(74, 140, 218, 0.4);
+}
+
+.compass-lock .lock-icon {
+  font-size: 42px;
+  filter: drop-shadow(0 0 10px rgba(74, 140, 218, 0.8));
+  animation: compassSpin 8s linear infinite;
+  position: relative;
+  z-index: 1;
+}
+
+.compass-lock .lock-name {
+  color: #4a8cda;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(74, 140, 218, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+/* Future Lock Styling */
+.future-lock {
+  background: linear-gradient(135deg, rgba(30, 30, 40, 0.6), rgba(50, 50, 60, 0.4));
+  border: 2px solid #4a4a6c;
+  cursor: not-allowed;
   opacity: 0.7;
 }
 
-.lock-active.pizzaiolo-lock {
-  background-color: rgba(43, 43, 78, 0.4);
-  border: 1px solid #6a6adb;
-  box-shadow: 0 0 20px rgba(58, 58, 140, 0.3);
-  animation: none;
+.future-lock .lock-icon {
+  font-size: 36px;
+  opacity: 0.6;
+  filter: grayscale(50%);
 }
 
-@keyframes italianFlagReveal {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
+.future-lock .lock-name {
+  color: #6a6a8c;
+  font-size: 16px;
+  font-weight: 500;
 }
 
-/* Adjust the countdown timer glitch effects similar to your main countdown */
-@keyframes timerGlitch {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  25% {
-    opacity: 0.8;
-    transform: translateX(2px);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translateX(-1px);
-  }
-  75% {
-    opacity: 0.9;
-    transform: translateX(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* General Lock Styling */
+.lock-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 5px rgba(106, 106, 219, 0.5));
+  transition: all 0.4s ease;
 }
 
-/* Random occasional glitch effect */
-.timer-lock:hover .timer-display {
-  animation: timerGlitch 0.3s ease;
+.lock-item:hover .lock-icon {
+  transform: scale(1.15);
 }
 
-/* Waterpark lock styling */
-.waterpark-lock {
-  background-color: rgba(38, 58, 78, 0.3);
-  border: 1px dashed #4a8cda;
-  position: relative;
-  overflow: visible;
+.lock-name {
+  color: #6a6adb;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(106, 106, 219, 0.3);
+  margin-bottom: 8px;
 }
 
-.waterpark-lock:hover {
-  background-color: rgba(38, 58, 78, 0.5);
-  border: 1px solid #4a8cda;
-}
-
-.waterpark-lock .lock-icon {
-  filter: drop-shadow(0 0 8px rgba(74, 140, 218, 0.7));
-}
-
-.waterpark-lock .lock-name {
+/* Interaction Indicators */
+.click-indicator {
   color: #4a8cda;
+  font-size: 12px;
+  margin-top: 8px;
+  position: relative;
+  animation: blink 1.8s infinite;
+  font-style: italic;
+  font-weight: 500;
 }
 
-.waterpark-lock .lock-hint {
-  background-color: rgba(20, 30, 40, 0.95);
+.coming-soon-indicator {
+  color: #6a6a8c;
+  font-size: 11px;
+  margin-top: 8px;
+  font-style: italic;
+  opacity: 0.8;
+  background-color: rgba(106, 106, 140, 0.2);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid #6a6a8c;
+}
+
+/* Hover Hints */
+.lock-hint {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(10, 10, 26, 0.95);
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 200px;
+  text-align: center;
+  color: #bdbde2;
+  font-style: italic;
+  font-size: 14px;
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(106, 106, 219, 0.3);
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
+  line-height: 1.4;
+}
+
+.compass-lock .lock-hint {
+  background-color: rgba(20, 30, 50, 0.95);
   border: 1px solid #4a8cda;
-  box-shadow: 0 0 15px rgba(74, 140, 218, 0.4);
-  color: #8cb4e6;
+  box-shadow: 0 0 20px rgba(74, 140, 218, 0.5);
+  color: #e0c9a6;
+  width: 220px;
 }
 
-.waterpark-lock .lock-hint-arrow {
+.lock-hint-arrow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #3a3a5c;
+}
+
+.compass-lock .lock-hint-arrow {
   border-top: 10px solid #4a8cda;
 }
 
-.waterpark-lock .lock-chain {
-  background: linear-gradient(90deg, transparent, #4a8cda, transparent);
+/* Lock Chains */
+.lock-chain {
+  position: absolute;
+  width: 100%;
   height: 2px;
-  opacity: 0.7;
+  background: linear-gradient(90deg, transparent, #3a3a5c, transparent);
+  bottom: -20px;
+  opacity: 0.6;
+  border-radius: 1px;
 }
 
-.waterpark-lock:hover::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  background: #4a8cda;
-  opacity: 0.4;
-  border-radius: 50%;
-  animation: droplet 2s infinite;
+.compass-lock .lock-chain {
+  background: linear-gradient(90deg, transparent, #4a8cda, transparent);
+  height: 3px;
+  opacity: 0.8;
+  box-shadow: 0 0 5px rgba(74, 140, 218, 0.4);
 }
 
-.waterpark-lock:hover::after {
-  content: '';
-  position: absolute;
-  top: -15px;
-  left: 60%;
-  transform: translateX(-50%);
-  width: 15px;
-  height: 15px;
-  background: #4a8cda;
-  opacity: 0.3;
-  border-radius: 50%;
-  animation: droplet 1.7s infinite 0.3s;
+/* Active State */
+.lock-active {
+  background: linear-gradient(135deg, rgba(43, 43, 78, 0.8), rgba(63, 63, 98, 0.6));
+  border: 2px solid #4a8cda;
+  box-shadow: 0 0 20px rgba(74, 140, 218, 0.4);
 }
 
-@keyframes droplet {
+.lock-active .lock-name {
+  color: #4a8cda;
+  text-shadow: 0 0 10px rgba(74, 140, 218, 0.6);
+}
+
+.lock-active.compass-lock {
+  background: linear-gradient(135deg, rgba(43, 43, 78, 0.9), rgba(63, 63, 98, 0.7));
+  border: 2px solid #6adbdb;
+  box-shadow: 0 0 25px rgba(106, 219, 219, 0.5);
+  animation: none;
+}
+
+/* Warning Section */
+.locked-warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #3a3a5c;
+  color: #7a7a9a;
+  font-size: 15px;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+}
+
+.warning-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  opacity: 0.8;
+  animation: gentleGlow 3s infinite alternate;
+}
+
+/* Animations */
+@keyframes compassPulse {
   0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.4;
-  }
-  70% {
-    transform: translateY(25px) scale(0.7);
-    opacity: 0.2;
+    box-shadow: 0 0 10px rgba(74, 140, 218, 0.3);
   }
   100% {
-    transform: translateY(35px) scale(0.5);
+    box-shadow: 0 0 25px rgba(74, 140, 218, 0.7);
+  }
+}
+
+@keyframes compassSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes gentleGlow {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .locked-section {
+    padding: 20px;
+  }
+  
+  .locked-title {
+    font-size: 22px;
+  }
+  
+  .locks-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .lock-item {
+    width: 90%;
+    max-width: 250px;
+  }
+  
+  .compass-lock {
+    width: 95%;
+  }
+  
+  .achievement-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .achievement-icon {
+    font-size: 24px;
+  }
+  
+  .lock-hint {
+    width: 180px;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  
+  .compass-lock .lock-hint {
+    width: 200px;
   }
 }

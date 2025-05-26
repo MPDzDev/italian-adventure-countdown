@@ -2,55 +2,91 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import AnimatedShip from './AnimatedShip';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
-import LockedSection from './LockedSection';
 import GlitchingCountdown from './GlitchingCountdown';
 import ChallengeManager from './ChallengeManager';
-import { calculateDaysUntilEvent, calculateProgressPercentage } from './TimeUtils';
+import { calculateDaysUntilEvent } from './TimeUtils';
 
 function App() {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(75);
   const [daysLeft, setDaysLeft] = useState(0);
-  const [showChallenges, setShowChallenges] = useState(false);
+  const [locationStage, setLocationStage] = useState(0);
+
+  // Calculate progress based on location stage
+  const calculateLocationProgress = (stage) => {
+    const baseProgress = 75;
+    const locationProgress = Math.min(25, (stage / 6) * 25);
+    return Math.min(100, baseProgress + locationProgress);
+  };
 
   useEffect(() => {
-    // Calculate progress and days left using utility functions
     const updateTimings = () => {
-      setProgress(calculateProgressPercentage());
       setDaysLeft(calculateDaysUntilEvent());
+      
+      const savedLocationStage = localStorage.getItem('locationStage');
+      const stage = savedLocationStage ? parseInt(savedLocationStage, 10) : 0;
+      setLocationStage(stage);
+      setProgress(calculateLocationProgress(stage));
     };
 
     updateTimings();
-    const timer = setInterval(updateTimings, 86400000); // Update once per day
+    const timer = setInterval(updateTimings, 60000);
 
     return () => clearInterval(timer);
   }, []);
 
-  // Check if challenges should be shown based on active locks
+  // Initialize completed stages
   useEffect(() => {
-    const checkChallengeVisibility = () => {
-      const piratesChallengeActive = localStorage.getItem('piratesChallengeActive');
-      setShowChallenges(piratesChallengeActive === 'true');
+    const initializeCompletedStages = () => {
+      if (!localStorage.getItem('pirateRiddleStates')) {
+        const completedPirateStates = {};
+        for (let i = 1; i <= 10; i++) {
+          completedPirateStates[i] = {
+            isCorrect: true,
+            isSubmitted: true,
+            attempts: 1
+          };
+        }
+        localStorage.setItem('pirateRiddleStates', JSON.stringify(completedPirateStates));
+      }
+
+      if (!localStorage.getItem('pizzaioloChallengeComplete')) {
+        localStorage.setItem('pizzaioloChallengeComplete', 'true');
+        for (let i = 1; i <= 5; i++) {
+          localStorage.setItem(`pizzaioloStage${i}Complete`, 'true');
+        }
+      }
+
+      if (!localStorage.getItem('wordleChallengeCompleted')) {
+        localStorage.setItem('wordleChallengeCompleted', 'true');
+      }
+
+      if (!localStorage.getItem('treasureChestUnlocked')) {
+        localStorage.setItem('treasureChestUnlocked', 'true');
+      }
     };
-    
-    // Check immediately
-    checkChallengeVisibility();
-    
-    // Set up interval to check for changes
-    const interval = setInterval(checkChallengeVisibility, 500);
-    
-    return () => clearInterval(interval);
+
+    initializeCompletedStages();
   }, []);
 
+  // Get current stage label
+  const getCurrentStageLabel = () => {
+    if (locationStage === 0) return "🏠 Home";
+    if (locationStage <= 1) return "✈️ Traveling";
+    if (locationStage <= 3) return "🇮🇹 In Italy";
+    if (locationStage <= 5) return "🏖️ Coast";
+    return "💎 Treasure";
+  };
+
   return (
-    <div className="app">
+    <div className="app compact">
       <GlitchingMessagesWrapper />
-      <header>
-        <h1>The Mysterious Voyage Awaits...</h1>
+      
+      <header className="compact-header">
+        <h1>Italian Adventure</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
       </header>
       
-      <div className="progress-container">
-        {/* Ship positioned absolutely above the progress bar */}
+      <div className="progress-container compact">
         <div 
           className="ship-position" 
           style={{ left: `calc(${progress}% - 15px)` }}
@@ -61,23 +97,32 @@ function App() {
         <div className="progress-bar">
           <div style={{ width: `${progress}%` }} className="progress-fill"></div>
         </div>
-      </div>
-      
-      <div className="mystery-section">
-        <h3>A mysterious adventure is approaching...</h3>
-        <p className="mystery-text">Something special awaits at the end of the journey. The salty sea breeze seems to be giving way to the aroma of fresh dough and tomatoes. Stay tuned for clues that will lead to hidden treasures.</p>
-        <p className="subtle-hint">bury a chest. don't say i didn't warn ya. the Italian coast holds secrets.</p>
-      </div>
-      
-      {/* Locked sections with pirate challenge as first lock */}
-      <LockedSection />
-      
-      {/* Show challenges when pirate lock is activated */}
-      {showChallenges && (
-        <div id="challenges-section" className="challenges-container">
-          <ChallengeManager />
+        
+        <div className="progress-labels compact">
+          <span className="progress-stage completed">🏴‍☠️</span>
+          <span className="progress-stage completed">🍕</span>
+          <span className="progress-stage completed">🏄‍♂️</span>
+          <span className={`progress-stage ${locationStage > 0 ? 'active' : 'current'}`}>
+            {getCurrentStageLabel()}
+          </span>
+          <span className={`progress-stage ${locationStage >= 6 ? 'current' : 'locked'}`}>🏖️</span>
         </div>
-      )}
+      </div>
+      
+      <div className="status-summary">
+        <div className="adventure-status">
+          <span className="status-label">Status:</span>
+          <span className="status-value">
+            {locationStage === 0 && "Ready for Journey"}
+            {locationStage > 0 && locationStage < 6 && "En Route to Italy"}
+            {locationStage >= 6 && "Treasure Found!"}
+          </span>
+        </div>
+      </div>
+      
+      <div id="challenges-section" className="challenges-container compact">
+        <ChallengeManager />
+      </div>
     </div>
   );
 }

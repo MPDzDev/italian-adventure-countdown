@@ -1,0 +1,472 @@
+.emoji-guesser-container {
+    background: linear-gradient(135deg, rgba(30, 10, 10, 0.9), rgba(50, 20, 20, 0.8));
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #ff6b6b;
+    color: #e0c9a6;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255, 107, 107, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .emoji-guesser-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px, 30px 30px;
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .emoji-guesser-title {
+    color: #ff9f9f;
+    font-size: 28px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(255, 159, 159, 0.5);
+    font-family: 'Pirata One', 'Cinzel', serif;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .emoji-guesser-date {
+    color: #bdbde2;
+    font-size: 16px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .category-display {
+    background-color: rgba(20, 10, 10, 0.6);
+    border-radius: 8px;
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid #ff9f9f;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .category-text {
+    color: #ff9f9f;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .emoji-display {
+    margin: 25px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .emoji-clue {
+    font-size: 48px;
+    background-color: rgba(10, 5, 5, 0.7);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #ff6b6b;
+    display: inline-block;
+    min-width: 150px;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+    animation: emojiPulse 3s infinite alternate;
+  }
+  
+  .word-display {
+    margin: 30px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .word-letters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .letter {
+    width: 35px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+  
+  .letter.hidden {
+    background-color: rgba(20, 10, 10, 0.6);
+    border: 2px solid #6a3a3a;
+    color: transparent;
+  }
+  
+  .letter.revealed {
+    background-color: rgba(255, 107, 107, 0.3);
+    border: 2px solid #ff6b6b;
+    color: #e0c9a6;
+    animation: letterReveal 0.5s ease;
+  }
+  
+  .letter.space {
+    background: none;
+    border: none;
+    width: 20px;
+  }
+  
+  .hint-section {
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hint {
+    color: #bdbde2;
+    font-style: italic;
+    font-size: 16px;
+    background-color: rgba(20, 10, 10, 0.6);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px dashed #ff6b6b;
+    display: inline-block;
+  }
+  
+  .guess-input-section {
+    margin: 25px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .guess-input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .guess-input {
+    flex: 1;
+    background-color: rgba(20, 10, 10, 0.8);
+    border: 2px solid #6a3a3a;
+    color: #e0c9a6;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+  
+  .guess-input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+  }
+  
+  .guess-input::placeholder {
+    color: #6a3a3a;
+    text-transform: none;
+  }
+  
+  .guess-submit-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ff9f9f);
+    color: #222;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    min-width: 80px;
+  }
+  
+  .guess-submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(45deg, #ff8f8f, #ffbfbf);
+  }
+  
+  .guess-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(45deg, #6a3a3a, #5a2a2a);
+  }
+  
+  .feedback-message {
+    margin: 20px 0;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .feedback-message.success {
+    background-color: rgba(50, 100, 50, 0.6);
+    border: 2px solid #6adb6a;
+    color: #6adb6a;
+  }
+  
+  .feedback-message.info {
+    background-color: rgba(255, 107, 107, 0.3);
+    border: 2px solid #ff6b6b;
+    color: #bdbde2;
+  }
+  
+  .game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .stat-label {
+    color: #bdbde2;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .stat-value {
+    color: #ff9f9f;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .previous-guesses {
+    margin: 25px 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .previous-guesses h4 {
+    color: #ff9f9f;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-family: 'Cinzel', serif;
+  }
+  
+  .guess-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .guess-item {
+    background-color: rgba(20, 10, 10, 0.6);
+    color: #bdbde2;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #6a3a3a;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .game-complete {
+    margin: 25px 0;
+    padding: 20px;
+    background-color: rgba(20, 10, 10, 0.8);
+    border-radius: 10px;
+    border: 2px solid #ff6b6b;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .win-message {
+    color: #6adb6a;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    animation: celebration 2s infinite ease-in-out;
+  }
+  
+  .lose-message {
+    color: #bdbde2;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .next-day-msg {
+    color: #ff9f9f;
+    font-size: 16px;
+    font-style: italic;
+    animation: pulse 2s infinite alternate;
+  }
+  
+  .loading {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #ff9f9f;
+  }
+  
+  /* Animations */
+  @keyframes emojiPulse {
+    from {
+      transform: scale(1);
+      box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+    }
+    to {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 107, 107, 0.6);
+    }
+  }
+  
+  @keyframes letterReveal {
+    from {
+      opacity: 0;
+      transform: scale(0.5) rotateY(90deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotateY(0deg);
+    }
+  }
+  
+  @keyframes celebration {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    from {
+      opacity: 0.7;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .emoji-guesser-container {
+      padding: 15px;
+      margin: 15px 0;
+    }
+    
+    .emoji-guesser-title {
+      font-size: 24px;
+    }
+    
+    .emoji-clue {
+      font-size: 36px;
+      padding: 15px;
+      min-width: 120px;
+    }
+    
+    .letter {
+      width: 28px;
+      height: 32px;
+      font-size: 18px;
+    }
+    
+    .guess-input-group {
+      flex-direction: column;
+      gap: 15px;
+      max-width: none;
+    }
+    
+    .guess-input {
+      width: 100%;
+      padding: 10px 12px;
+    }
+    
+    .guess-submit-btn {
+      width: 100%;
+      padding: 12px;
+    }
+    
+    .game-stats {
+      gap: 20px;
+    }
+    
+    .stat-value {
+      font-size: 18px;
+    }
+    
+    .guess-list {
+      gap: 6px;
+    }
+    
+    .guess-item {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .emoji-guesser-container {
+      padding: 12px;
+    }
+    
+    .emoji-clue {
+      font-size: 32px;
+      padding: 12px;
+    }
+    
+    .letter {
+      width: 24px;
+      height: 28px;
+      font-size: 16px;
+      gap: 4px;
+    }
+    
+    .word-letters {
+      gap: 4px;
+    }
+    
+    .hint {
+      font-size: 14px;
+      padding: 8px 12px;
+    }
+    
+    .game-stats {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
