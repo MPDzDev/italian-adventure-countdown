@@ -1,7 +1,7 @@
 .glitching-message {
   position: fixed;
   font-family: 'Courier New', monospace;
-  color: #bdbde2;
+  color: var(--message-color, #bdbde2);
   font-size: 14px;
   letter-spacing: 0.5px;
   text-transform: lowercase;
@@ -11,7 +11,7 @@
   box-shadow: 0 0 5px rgba(106, 106, 219, 0.3);
   z-index: 1000;
   pointer-events: none;
-  text-shadow: 0 0 2px rgba(106, 106, 219, 0.5);
+  text-shadow: 0 0 2px var(--message-color, rgba(106, 106, 219, 0.5));
   opacity: 0;
   transform: translateY(0);
 }
@@ -142,6 +142,7 @@
     opacity: 0;
     z-index: -1;
     transform: translateX(-5px);
+    color: var(--message-color, #bdbde2);
     animation: glitchText 0.3s ease infinite alternate-reverse;
   }
   
@@ -156,6 +157,7 @@
     opacity: 0;
     z-index: -1;
     transform: translateX(5px);
+    color: var(--message-color, #bdbde2);
     animation: glitchText 0.3s ease 0.1s infinite alternate-reverse;
   }
   
