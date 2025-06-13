@@ -138,6 +138,7 @@ function App() {
           </span>
         </div>
       </div>
+      <div className="a-comment">new hair, new adventure ahead!</div>
       
       <div id="challenges-section" className="challenges-container compact">
         <ChallengeManager />
