@@ -6,6 +6,13 @@ const GlitchingMessages = () => {
   const [visible, setVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [glitchClass, setGlitchClass] = useState('');
+  const glitchTransitions = useMemo(
+    () => ({
+      "rosewood's secrets always surface. -A": "Lido Adriano's secrets always surface. -A",
+      "meet me in Rosewood's town square. -A": "meet me in Lido Adriano's town square. -A",
+    }),
+    []
+  );
 
   // Billie Eilish song title wordplay with a dash of A's warnings - wrapped in useMemo
   const messages = useMemo(() => [
@@ -115,10 +122,20 @@ const GlitchingMessages = () => {
       // Select random message
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
       setCurrentMessage(randomMessage);
-      
+
       // Show with glitch effect
       setGlitchClass('glitch-in');
       setVisible(true);
+
+      if (glitchTransitions[randomMessage]) {
+        setTimeout(() => {
+          setGlitchClass('glitch-out');
+          setTimeout(() => {
+            setCurrentMessage(glitchTransitions[randomMessage]);
+            setGlitchClass('glitch-in');
+          }, 150);
+        }, 700);
+      }
       
       // Set timeout to remove after random duration (1.5-5 seconds) - shorter durations for quicker turnover
       setTimeout(() => {
@@ -129,7 +146,7 @@ const GlitchingMessages = () => {
         }, 1000);
       }, Math.random() * 3500 + 1500);
     }
-  }, [visible, messages]);
+  }, [visible, messages, glitchTransitions]);
 
   useEffect(() => {
     // Check for showing/hiding message every 1.5-5 seconds (more frequent)
