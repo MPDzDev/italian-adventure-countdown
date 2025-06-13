@@ -10,6 +10,8 @@ function App() {
   const [progress, setProgress] = useState(75);
   const [daysLeft, setDaysLeft] = useState(0);
   const [locationStage, setLocationStage] = useState(0);
+  const [watcherMessage, setWatcherMessage] = useState('Rosewood is watching. -A');
+  const [watcherGlitch, setWatcherGlitch] = useState(false);
 
   // Calculate progress based on location stage
   const calculateLocationProgress = (stage) => {
@@ -32,6 +34,17 @@ function App() {
     const timer = setInterval(updateTimings, 60000);
 
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const glitchTimer = setTimeout(() => {
+      setWatcherGlitch(true);
+      setTimeout(() => {
+        setWatcherMessage('Lido Adriano is watching. -A');
+        setWatcherGlitch(false);
+      }, 200);
+    }, 1500);
+    return () => clearTimeout(glitchTimer);
   }, []);
 
   // Initialize completed stages
@@ -84,6 +97,12 @@ function App() {
       <header className="compact-header">
         <h1>Italian Adventure</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
+        {daysLeft > 0 && (
+          <>
+            <div className="a-comment">tick-tock</div>
+            <div className={`a-comment ${watcherGlitch ? 'glitch-transition' : ''}`}>{watcherMessage}</div>
+          </>
+        )}
       </header>
       
       <div className="progress-container compact">

@@ -295,6 +295,27 @@ body {
   filter: drop-shadow(0 0 4px rgba(218, 165, 32, 0.5));
 }
 
+/* Comment from A */
+.a-comment {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #ff5bde;
+  text-shadow: 0 0 5px rgba(255, 91, 222, 0.6);
+  margin-top: 4px;
+}
+
+.glitch-transition {
+  animation: shortGlitch 0.3s;
+}
+
+@keyframes shortGlitch {
+  0% { opacity: 1; transform: translateX(0); }
+  25% { opacity: 0.4; transform: translateX(-2px); }
+  50% { opacity: 0.8; transform: translateX(2px); }
+  75% { opacity: 0.6; transform: translateX(-1px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
 /* Cart and treasure animations */
 @keyframes treasureFlag {
   0% {
