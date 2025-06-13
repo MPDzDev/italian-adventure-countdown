@@ -6,6 +6,17 @@ const GlitchingMessages = () => {
   const [visible, setVisible] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [glitchClass, setGlitchClass] = useState('');
+  const colorOptions = useMemo(
+    () => [
+      '#ff5bde',
+      '#22d3ee',
+      '#facc15',
+      '#34d399',
+      '#a78bfa'
+    ],
+    []
+  );
+  const [messageColor, setMessageColor] = useState(colorOptions[0]);
   const glitchTransitions = useMemo(
     () => ({
       "rosewood's secrets always surface. -A": "Lido Adriano's secrets always surface. -A",
@@ -123,6 +134,15 @@ const GlitchingMessages = () => {
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
       setCurrentMessage(randomMessage);
 
+      // Choose a new color different from the last one
+      if (colorOptions.length > 1) {
+        let nextColor = messageColor;
+        while (nextColor === messageColor) {
+          nextColor = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        }
+        setMessageColor(nextColor);
+      }
+
       // Show with glitch effect
       setGlitchClass('glitch-in');
       setVisible(true);
@@ -146,7 +166,7 @@ const GlitchingMessages = () => {
         }, 1000);
       }, Math.random() * 3500 + 1500);
     }
-  }, [visible, messages, glitchTransitions]);
+  }, [visible, messages, glitchTransitions, messageColor, colorOptions]);
 
   useEffect(() => {
     // Check for showing/hiding message every 1.5-5 seconds (more frequent)
@@ -158,7 +178,15 @@ const GlitchingMessages = () => {
   if (!visible) return null;
 
   return (
-    <div className={`glitching-message ${glitchClass}`} data-text={currentMessage}>
+    <div
+      className={`glitching-message ${glitchClass}`}
+      data-text={currentMessage}
+      style={{
+        color: messageColor,
+        textShadow: `0 0 5px ${messageColor}`,
+        '--message-color': messageColor
+      }}
+    >
       {currentMessage}
     </div>
   );
