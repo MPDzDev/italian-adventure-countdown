@@ -90,7 +90,12 @@ const GlitchingMessages = () => {
     "avast ye! xanny marks the spot",
     "what was promised is burried 'neath the waves",
     "all hands on deck! treasure be near",
-    "a golden doubloon for your thoughts"
+    "a golden doubloon for your thoughts",
+    "meet me in Rosewood's town square. -A",
+    "Ezra's chapters hide more than words. -A",
+    "Radley has room for secrets. -A",
+    "Mona's game isn't over. -A",
+    "what would Spencer do? -A"
   ], []); // Empty dependency array since this never changes
 
   // Function to show a random message with glitch effect
