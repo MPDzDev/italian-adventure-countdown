@@ -7,8 +7,13 @@ const GlitchingMessages = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [glitchClass, setGlitchClass] = useState('');
 
-  // Billie Eilish song title wordplay - wrapped in useMemo
+  // Billie Eilish song title wordplay with a dash of A's warnings - wrapped in useMemo
   const messages = useMemo(() => [
+    "got a secret, can you keep it? -A",
+    "i'm watching you, little liars. -A",
+    "time's almost up, better confess. -A",
+    "tick-tock, bitches. -A",
+    "i know everything you're hiding. -A",
     "bury a chest. don't say i didn't warn ya.",
     "ocean maps. when the island comes...",
     "therefore I map...",

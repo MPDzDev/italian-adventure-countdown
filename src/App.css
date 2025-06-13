@@ -295,6 +295,15 @@ body {
   filter: drop-shadow(0 0 4px rgba(218, 165, 32, 0.5));
 }
 
+/* Comment from A */
+.a-comment {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #ff5bde;
+  text-shadow: 0 0 5px rgba(255, 91, 222, 0.6);
+  margin-top: 4px;
+}
+
 /* Cart and treasure animations */
 @keyframes treasureFlag {
   0% {
