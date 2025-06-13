@@ -11,7 +11,8 @@ const RosewoodRumor = () => {
       'Secrets buried in Rosewood never stay hidden for long.',
       'Mysterious texts keep everyone guessing.',
       "Friendships are tested daily in Rosewood's halls.",
-      'Every clue brings an A-plus puzzle with it.'
+      'Every clue brings an A-plus puzzle with it.',
+      "Someone's bold new hair color is stirring the rumor mill."
     ],
     []
   );
