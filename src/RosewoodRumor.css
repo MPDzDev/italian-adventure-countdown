@@ -1,0 +1,23 @@
+.rosewood-rumor {
+  background: linear-gradient(135deg, rgba(60, 20, 40, 0.9), rgba(40, 10, 30, 0.8));
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  border: 2px solid #c71585;
+  color: #ffe6f0;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(199, 21, 133, 0.3);
+}
+
+.rosewood-rumor-title {
+  color: #ff8acc;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 0 8px rgba(199, 21, 133, 0.6);
+}
+
+.rosewood-rumor-text {
+  font-size: 16px;
+  line-height: 1.4;
+}

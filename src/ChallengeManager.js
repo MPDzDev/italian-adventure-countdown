@@ -3,6 +3,7 @@ import './ChallengeManager.css';
 import TreasureChest from './TreasureChest';
 import LocationTracker from './LocationTracker';
 import DailyEmojiGuesser from './DailyEmojiGuesser';
+import RosewoodRumor from './RosewoodRumor';
 
 const ChallengeManager = () => {
   const [locationStage, setLocationStage] = useState(0);
@@ -77,6 +78,9 @@ const ChallengeManager = () => {
       <div className="daily-game-section">
         <DailyEmojiGuesser />
       </div>
+
+      {/* Rosewood Rumors */}
+      <RosewoodRumor />
 
       {/* Location Tracker - Journey Progress */}
       <div className="journey-section">
