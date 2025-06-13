@@ -84,6 +84,9 @@ function App() {
       <header className="compact-header">
         <h1>Italian Adventure</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
+        {daysLeft > 0 && (
+          <div className="a-comment">tick-tock, little liars. -A</div>
+        )}
       </header>
       
       <div className="progress-container compact">
