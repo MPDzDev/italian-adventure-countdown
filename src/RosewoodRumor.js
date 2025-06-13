@@ -12,8 +12,6 @@ const RosewoodRumor = () => {
       'Mysterious texts keep everyone guessing.',
       "Friendships are tested daily in Lido Adriano's halls.",
       'Every clue brings an A-plus puzzle with it.',
-      "Friendships are tested daily in Rosewood's halls.",
-      'Every clue brings an A-plus puzzle with it.',
       "Someone's bold new hair color is stirring the rumor mill."
     ],
     []
