@@ -86,7 +86,7 @@ function App() {
         <GlitchingCountdown daysLeft={daysLeft} />
         {daysLeft > 0 && (
           <>
-            <div className="a-comment">tick-tock, little liars. -A</div>
+            <div className="a-comment">tick-tock</div>
             <div className="a-comment">Rosewood is watching. -A</div>
           </>
         )}
