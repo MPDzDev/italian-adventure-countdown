@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useVersionCheck from './useVersionCheck';
 import './App.css';
 import AnimatedShip from './AnimatedShip';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
@@ -7,6 +8,7 @@ import ChallengeManager from './ChallengeManager';
 import { calculateDaysUntilEvent } from './TimeUtils';
 
 function App() {
+  useVersionCheck();
   const [progress, setProgress] = useState(75);
   const [daysLeft, setDaysLeft] = useState(0);
   const [locationStage, setLocationStage] = useState(0);
