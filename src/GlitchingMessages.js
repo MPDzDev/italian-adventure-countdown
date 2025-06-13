@@ -21,7 +21,7 @@ const GlitchingMessages = () => {
     "time's almost up, better confess. -A",
     "tick-tock, bitches. -A",
     "i know everything you're hiding. -A",
-    "rosewood's secrets always surface. -A",
+    "Lido Adriano's secrets always surface. -A",
     "hanna's heels can't outrun me. -A",
     "spencer won't puzzle this out in time. -A",
     "aria's typewriter can't rewrite your past. -A",

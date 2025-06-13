@@ -4,13 +4,13 @@ import './RosewoodRumor.css';
 const RosewoodRumor = () => {
   const facts = useMemo(
     () => [
-      "A certain clique in Rosewood can't seem to escape trouble.",
+      "A certain clique in Lido Adriano can't seem to escape trouble.",
       'Anonymous messages hold more weight than gossip in this small town.',
-      "The bell tower has witnessed more drama than most places in Rosewood.",
+      "The bell tower has witnessed more drama than most places in Lido Adriano.",
       'Masked gatherings rarely end calmly here.',
-      'Secrets buried in Rosewood never stay hidden for long.',
+      'Secrets buried in Lido Adriano never stay hidden for long.',
       'Mysterious texts keep everyone guessing.',
-      "Friendships are tested daily in Rosewood's halls.",
+      "Friendships are tested daily in Lido Adriano's halls.",
       'Every clue brings an A-plus puzzle with it.'
     ],
     []
@@ -24,7 +24,6 @@ const RosewoodRumor = () => {
 
   return (
     <div className="rosewood-rumor">
-      <h3 className="rosewood-rumor-title">Rosewood Rumor</h3>
       <p className="rosewood-rumor-text">{rumor}</p>
     </div>
   );
