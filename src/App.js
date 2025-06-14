@@ -95,6 +95,11 @@ function App() {
       <GlitchingMessagesWrapper />
       
       <header className="compact-header">
+        <img
+          src="https://chatgpt.com/s/m_684d64450b308191a74cd49ec3efc6ab"
+          alt="logo"
+          className="app-logo"
+        />
         <h1>Italian Adventure</h1>
         <GlitchingCountdown daysLeft={daysLeft} />
         {daysLeft > 0 && (
