@@ -80,16 +80,19 @@ const DailyEmojiGuesser = () => {
       setIsLoading(true);
       try {
         const today = new Date();
-        const dateString = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-        const seed = dateString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        
-        const index = Math.floor((seed + 7) % emojiChallenges.length);
+        const startOfYear = new Date(today.getFullYear(), 0, 0);
+        const dayOfYear = Math.floor((today - startOfYear) / 86400000);
+
+        const seed = today.getFullYear() * 1000 + dayOfYear;
+        const index = seed % emojiChallenges.length;
         const challenge = emojiChallenges[index];
+
+        const dateKey = `${today.getFullYear()}_${dayOfYear}`;
         
         setTodaysChallenge(challenge);
         
         // Load saved game state for today
-        const savedState = localStorage.getItem(`emojiGuesser_${dateString}`);
+        const savedState = localStorage.getItem(`emojiGuesser_${dateKey}`);
         if (savedState) {
           const state = JSON.parse(savedState);
           setGuesses(state.guesses || []);
@@ -111,9 +114,11 @@ const DailyEmojiGuesser = () => {
   useEffect(() => {
     if (todaysChallenge && guesses.length > 0) {
       const today = new Date();
-      const dateString = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-      
-      localStorage.setItem(`emojiGuesser_${dateString}`, JSON.stringify({
+      const startOfYear = new Date(today.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((today - startOfYear) / 86400000);
+      const dateKey = `${today.getFullYear()}_${dayOfYear}`;
+
+      localStorage.setItem(`emojiGuesser_${dateKey}`, JSON.stringify({
         guesses,
         revealedLetters: Array.from(revealedLetters),
         isGameComplete,
