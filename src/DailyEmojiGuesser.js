@@ -80,10 +80,11 @@ const DailyEmojiGuesser = () => {
       setIsLoading(true);
       try {
         const today = new Date();
-        const dateString = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
-        const seed = dateString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        
-        const index = Math.floor((seed + 7) % emojiChallenges.length);
+        const startOfYear = new Date(today.getFullYear(), 0, 0);
+        const dayOfYear = Math.floor((today - startOfYear) / 86400000);
+
+        const seed = today.getFullYear() * 1000 + dayOfYear;
+        const index = seed % emojiChallenges.length;
         const challenge = emojiChallenges[index];
         
         setTodaysChallenge(challenge);
