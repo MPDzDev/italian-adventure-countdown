@@ -5,6 +5,7 @@ import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import GlitchingCountdown from './GlitchingCountdown';
 import ChallengeManager from './ChallengeManager';
 import { calculateDaysUntilEvent } from './TimeUtils';
+import { checkAndSendWeeklySummary } from './WeeklySummaryService';
 
 function App() {
   const [progress, setProgress] = useState(75);
@@ -34,6 +35,11 @@ function App() {
     const timer = setInterval(updateTimings, 60000);
 
     return () => clearInterval(timer);
+  }, []);
+
+  // Check if a weekly summary email should be sent
+  useEffect(() => {
+    checkAndSendWeeklySummary();
   }, []);
 
   useEffect(() => {

@@ -31,7 +31,23 @@ const getVisitorFingerprint = () => {
   }
 };
 
-// Send completion notification
+// Log a completion event to localStorage for weekly summaries
+const logCompletionEvent = (challenge, details) => {
+  try {
+    const history = JSON.parse(localStorage.getItem('completionHistory') || '[]');
+    history.push({
+      challenge,
+      details,
+      visitor: getVisitorFingerprint().id,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('completionHistory', JSON.stringify(history));
+  } catch (error) {
+    console.error('Error logging completion event:', error);
+  }
+};
+
+// Send completion notification and record it
 export const sendCompletionEmail = async (challenge, details = {}) => {
   // Check if already sent to prevent duplicate emails
   const sentKey = `completionEmailSent_${challenge}`;
@@ -39,6 +55,9 @@ export const sendCompletionEmail = async (challenge, details = {}) => {
     console.log(`Email for ${challenge} already sent, preventing duplicate`);
     return { success: true, alreadySent: true };
   }
+
+  // Log the completion for weekly summaries
+  logCompletionEvent(challenge, details);
 
   try {
     // Get visitor fingerprint without asking for personal info
@@ -90,5 +109,34 @@ export const resetEmailNotificationStatus = (challenge) => {
   console.log(`Reset notification status for ${challenge}`);
 };
 
+// Send a weekly summary email with a list of completion events
+export const sendWeeklySummaryEmail = async (events, startDate, endDate) => {
+  try {
+    const visitorInfo = getVisitorFingerprint();
+    const summaryLines = events.map(ev => `- ${ev.challenge} by ${ev.visitor} at ${new Date(ev.timestamp).toLocaleString()}`);
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'mdziedzic97@gmail.com',
+        subject: 'Weekly Challenge Summary',
+        message: `Completions from ${startDate} to ${endDate}:\n\n${summaryLines.join('\n')}`,
+        visitorInfo,
+        events
+      })
+    });
+
+    if (response.ok) {
+      console.log('Weekly summary email sent');
+      return { success: true };
+    }
+
+    console.error('Failed to send weekly summary:', await response.text());
+    return { success: false };
+  } catch (error) {
+    console.error('Error sending weekly summary:', error);
+    return { success: false };
+  }
+};
+
 // Export named functions directly instead of using a default export
-// This should resolve the ESLint warning
