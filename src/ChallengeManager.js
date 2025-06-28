@@ -71,6 +71,10 @@ const ChallengeManager = () => {
             <span className="stage-icon">🏄‍♂️</span>
             <span className="stage-name">Waterpark</span>
           </div>
+          <div className="stage-badge">
+            <span className="stage-icon">📸</span>
+            <span className="stage-name">Polaroid</span>
+          </div>
         </div>
       </div>
 
@@ -96,6 +100,15 @@ const ChallengeManager = () => {
             <div className="final-coordinates compact">
               <strong>📍 Lido Adriano, Italy</strong>
             </div>
+            <p className="polaroid-link">
+              <a
+                href="https://photochallange.netflify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📸 Begin the Polaroid Challenge
+              </a>
+            </p>
           </div>
         </div>
       )}

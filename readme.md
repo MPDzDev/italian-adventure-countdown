@@ -128,6 +128,7 @@ addTreasureItem({
    - Collect snapshots from key moments of the adventure
    - Study the photos carefully for hidden details and clues
    - Completing the full album unlocks a bonus reward
+   - Link appears after finishing the proximity challenge: <https://photochallange.netflify.app>
 
 ## Data Storage
 
