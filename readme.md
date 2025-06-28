@@ -124,6 +124,11 @@ addTreasureItem({
    - Virtual exploration of the beach where the treasure is buried
    - Finding landmarks that will help locate the real treasure
 
+4. **Polaroid Photo Challenge**
+   - Collect snapshots from key moments of the adventure
+   - Study the photos carefully for hidden details and clues
+   - Completing the full album unlocks a bonus reward
+
 ## Data Storage
 
 All challenge state is stored in localStorage with the following keys:
