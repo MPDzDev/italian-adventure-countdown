@@ -71,10 +71,6 @@ const ChallengeManager = () => {
             <span className="stage-icon">🏄‍♂️</span>
             <span className="stage-name">Waterpark</span>
           </div>
-          <div className="stage-badge">
-            <span className="stage-icon">📸</span>
-            <span className="stage-name">Polaroid</span>
-          </div>
         </div>
       </div>
 
@@ -89,6 +85,15 @@ const ChallengeManager = () => {
       {/* Location Tracker - Journey Progress */}
       <div className="journey-section">
         <LocationTracker />
+      </div>
+
+      {/* Polaroid Photo Challenge Hint */}
+      <div className="polaroid-section compact">
+        <h3>📸 Polaroid Photo Challenge</h3>
+        <p>
+          Capture snapshots of your adventure. The full challenge unlocks once
+          you reach the treasure.
+        </p>
       </div>
 
       {/* Final Treasure Message when at location */}
