@@ -87,6 +87,15 @@ const ChallengeManager = () => {
         <LocationTracker />
       </div>
 
+      {/* Polaroid Photo Challenge Hint */}
+      <div className="polaroid-section compact">
+        <h3>📸 Polaroid Photo Challenge</h3>
+        <p>
+          Capture snapshots of your adventure. The full challenge unlocks once
+          you reach the treasure.
+        </p>
+      </div>
+
       {/* Final Treasure Message when at location */}
       {locationStage >= 6 && (
         <div className="final-treasure-section compact">
@@ -96,6 +105,15 @@ const ChallengeManager = () => {
             <div className="final-coordinates compact">
               <strong>📍 Lido Adriano, Italy</strong>
             </div>
+            <p className="polaroid-link">
+              <a
+                href="https://photochallange.netflify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📸 Begin the Polaroid Challenge
+              </a>
+            </p>
           </div>
         </div>
       )}

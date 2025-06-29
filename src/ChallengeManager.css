@@ -216,20 +216,62 @@
   font-size: 18px;
   font-weight: bold;
   font-family: 'Courier New', monospace;
-  background: linear-gradient(135deg, 
-    rgba(218, 165, 32, 0.3) 0%, 
+  background: linear-gradient(135deg,
+    rgba(218, 165, 32, 0.3) 0%,
     rgba(255, 215, 0, 0.2) 100%
   );
   padding: 12px;
   border-radius: 8px;
   border: 2px solid #daa520;
   margin-top: 15px;
-  box-shadow: 
+  box-shadow:
     inset 0 2px 8px rgba(0, 0, 0, 0.3),
     0 3px 12px rgba(218, 165, 32, 0.2);
-  text-shadow: 
+  text-shadow:
     0 0 8px rgba(255, 215, 0, 0.6),
     1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.polaroid-link {
+  margin-top: 15px;
+}
+
+.polaroid-link a {
+  color: #ffd700;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.polaroid-link a:hover {
+  text-decoration: underline;
+}
+
+/* Polaroid Section */
+.polaroid-section.compact {
+  background: linear-gradient(135deg,
+    rgba(139, 115, 85, 0.4) 0%,
+    rgba(101, 67, 33, 0.3) 50%,
+    rgba(139, 115, 85, 0.4) 100%
+  );
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border: 2px solid #8b7355;
+  text-align: center;
+  box-shadow:
+    inset 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.polaroid-section.compact h3 {
+  color: #daa520;
+  font-size: 20px;
+  margin: 0 0 15px 0;
+  text-shadow:
+    0 0 10px rgba(218, 165, 32, 0.6),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
 }
 
 /* Compact Treasure Section */
@@ -301,8 +343,12 @@
   .final-treasure-section.compact {
     padding: 15px;
   }
-  
+
   .treasure-section.compact {
+    padding: 15px;
+  }
+
+  .polaroid-section.compact {
     padding: 15px;
   }
   
@@ -312,7 +358,8 @@
   }
   
   .adventure-summary.compact h3,
-  .treasure-section.compact h3 {
+  .treasure-section.compact h3,
+  .polaroid-section.compact h3 {
     font-size: 18px;
   }
   
