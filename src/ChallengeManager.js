@@ -96,22 +96,19 @@ const ChallengeManager = () => {
         </p>
       </div>
 
-      {/* Final Treasure Message when at location */}
+      {/* Final message when at location */}
       {locationStage >= 6 && (
         <div className="final-treasure-section compact">
-          <h3>🌅 Treasure Found!</h3>
+          <h3>🌅 You've Arrived!</h3>
           <div className="treasure-message">
-            <p>🎉 You've reached the exact treasure location! The physical chest containing your Italian adventure rewards is within reach.</p>
-            <div className="final-coordinates compact">
-              <strong>📍 Lido Adriano, Italy</strong>
-            </div>
+            <p>🎉 Great job reaching the final stop. Your next mission is waiting.</p>
             <p className="polaroid-link">
               <a
                 href="https://photochallange.netlify.app"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                📸 Begin the Polaroid Challenge
+                📸 Head to the Polaroid Challenge
               </a>
             </p>
           </div>

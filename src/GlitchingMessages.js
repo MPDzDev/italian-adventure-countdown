@@ -8,8 +8,8 @@ const GlitchingMessages = () => {
   const [glitchClass, setGlitchClass] = useState('');
   const glitchTransitions = useMemo(
     () => ({
-      "rosewood's secrets always surface. -A": "Lido Adriano's secrets always surface. -A",
-      "meet me in Rosewood's town square. -A": "meet me in Lido Adriano's town square. -A",
+      "rosewood's secrets always surface. -A": "the seaside town's secrets always surface. -A",
+      "meet me in Rosewood's town square. -A": "meet me in the seaside town's square. -A",
     }),
     []
   );
@@ -21,7 +21,7 @@ const GlitchingMessages = () => {
     "time's almost up, better confess. -A",
     "tick-tock, bitches. -A",
     "i know everything you're hiding. -A",
-    "Lido Adriano's secrets always surface. -A",
+    "this town's secrets always surface. -A",
     "hanna's heels can't outrun me. -A",
     "spencer won't puzzle this out in time. -A",
     "aria's typewriter can't rewrite your past. -A",
