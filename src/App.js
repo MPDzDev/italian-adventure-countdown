@@ -23,10 +23,10 @@ function App() {
 
   useEffect(() => {
     const updateTimings = () => {
-      setDaysLeft(calculateDaysUntilEvent());
-      
-      const savedLocationStage = localStorage.getItem('locationStage');
-      const stage = savedLocationStage ? parseInt(savedLocationStage, 10) : 0;
+      setDaysLeft(0);
+
+      const stage = 6;
+      localStorage.setItem('locationStage', '6');
       setLocationStage(stage);
       setProgress(calculateLocationProgress(stage));
     };
@@ -82,6 +82,8 @@ function App() {
       if (!localStorage.getItem('treasureChestUnlocked')) {
         localStorage.setItem('treasureChestUnlocked', 'true');
       }
+
+      localStorage.setItem('locationStage', '6');
     };
 
     initializeCompletedStages();
