@@ -19,7 +19,7 @@ const LocationTracker = () => {
     lng: -0.431901
   };
 
-  // Target coordinates (Lido Adriano, Italy)
+  // Target coordinates (secret location)
   const targetCoords = {
     lat: 44.424156,
     lng: 12.304828
@@ -62,19 +62,19 @@ const LocationTracker = () => {
       icon: '🌊',
       hint: 'Sparkling waters'
     },
-    { 
-      id: 5, 
-      name: 'Lido Adriano', 
-      threshold: 5, 
+    {
+      id: 5,
+      name: 'The Beach',
+      threshold: 5,
       icon: '🏖️',
       hint: 'Almost there'
     },
-    { 
-      id: 6, 
-      name: 'Treasure Found!', 
-      threshold: 0, 
+    {
+      id: 6,
+      name: 'Final Stop',
+      threshold: 0,
       icon: '💎',
-      hint: 'X marks the spot'
+      hint: 'Challenge awaits'
     }
   ], []);
 
@@ -271,7 +271,7 @@ const LocationTracker = () => {
           <div className="treasure-icon">🧭</div>
           <h3>Begin Treasure Hunt</h3>
           <p>Follow the ancient map from Home to the Italian treasure.</p>
-          <p><strong>Destination:</strong> Lido Adriano, Italy</p>
+          <p><strong>Destination:</strong> Secret Location</p>
           <button 
             className="permission-btn golden" 
             onClick={requestLocationPermission}
@@ -332,7 +332,7 @@ const LocationTracker = () => {
         
         <div className="progress-labels">
           <span>🏠 Home</span>
-          <span>🏖️ Lido Adriano</span>
+          <span>🏖️ Destination</span>
         </div>
       </div>
 
@@ -358,24 +358,7 @@ const LocationTracker = () => {
 
       {/* Hint Popup - removed, now using CSS ::after on markers */}
 
-      {/* Final Coordinates */}
-      {locationStage >= 6 && (
-        <div className="treasure-coords">
-          <div className="coords-revealed">
-            <div className="coords-label">📍 Treasure Coordinates:</div>
-            <div className="coords-text">
-              <a
-                href="https://www.google.com/maps?q=44.424156,12.304828"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                44.424156, 12.304828
-              </a>
-            </div>
-            <div className="coords-location">Lido Adriano, Italy</div>
-          </div>
-        </div>
-      )}
+      {/* Final coordinates removed to keep location secret */}
 
       {lastUpdate && (
         <div className="last-update">

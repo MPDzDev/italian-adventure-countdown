@@ -45,7 +45,7 @@ function App() {
     const glitchTimer = setTimeout(() => {
       setWatcherGlitch(true);
       setTimeout(() => {
-        setWatcherMessage('Lido Adriano is watching. -A');
+        setWatcherMessage('Someone is watching. -A');
         setWatcherGlitch(false);
       }, 200);
     }, 1500);
@@ -141,7 +141,7 @@ function App() {
           <span className="status-value">
             {locationStage === 0 && "Ready for Journey"}
             {locationStage > 0 && locationStage < 6 && "En Route to Italy"}
-            {locationStage >= 6 && "Treasure Found!"}
+            {locationStage >= 6 && "Head to Photo Challenge"}
           </span>
         </div>
       </div>
