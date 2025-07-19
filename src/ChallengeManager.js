@@ -6,7 +6,7 @@ import DailyEmojiGuesser from './DailyEmojiGuesser';
 import RosewoodRumor from './RosewoodRumor';
 
 const ChallengeManager = () => {
-  const [locationStage, setLocationStage] = useState(0);
+  const [locationStage, setLocationStage] = useState(6);
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {

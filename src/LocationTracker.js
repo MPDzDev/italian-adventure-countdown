@@ -80,24 +80,18 @@ const LocationTracker = () => {
     }
   ], []);
 
-  // Load saved progress
+  // Load progress (forced to final stage)
   useEffect(() => {
-    const savedStage = localStorage.getItem('locationStage');
-    const savedDistance = localStorage.getItem('currentDistance');
-    const savedUpdate = localStorage.getItem('lastLocationUpdate');
-    const savedPasswordState = localStorage.getItem('treasurePasswordVerified');
-    
-    if (savedStage) setLocationStage(parseInt(savedStage, 10));
-    if (savedDistance) setCurrentDistance(parseFloat(savedDistance));
-    if (savedUpdate) setLastUpdate(new Date(savedUpdate));
-    if (savedPasswordState === 'true') setPasswordVerified(true);
+    setLocationStage(6);
+    setCurrentDistance(0);
+    setHasLocationPermission(true);
+    setLastUpdate(new Date());
+    localStorage.setItem('locationStage', '6');
+    localStorage.setItem('currentDistance', '0');
+    localStorage.setItem('lastLocationUpdate', new Date().toISOString());
 
-    if (navigator.permissions) {
-      navigator.permissions.query({ name: 'geolocation' }).then(result => {
-        setHasLocationPermission(result.state === 'granted');
-        setPermissionDenied(result.state === 'denied');
-      });
-    }
+    const savedPasswordState = localStorage.getItem('treasurePasswordVerified');
+    if (savedPasswordState === 'true') setPasswordVerified(true);
   }, []);
 
   // Simple hint cycling effect - just sets active hint index
