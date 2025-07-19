@@ -4,7 +4,6 @@ import AnimatedShip from './AnimatedShip';
 import GlitchingMessagesWrapper from './GlitchingMessagesWrapper';
 import GlitchingCountdown from './GlitchingCountdown';
 import ChallengeManager from './ChallengeManager';
-import { calculateDaysUntilEvent } from './TimeUtils';
 import { checkAndSendWeeklySummary } from './WeeklySummaryService';
 
 function App() {
