@@ -9,9 +9,7 @@ const LocationTracker = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordVerified, setPasswordVerified] = useState(false);
+  // Password removed - coordinates now displayed by default
   const [activeHint, setActiveHint] = useState(null);
   const [showRefreshHint, setShowRefreshHint] = useState(false);
 
@@ -90,8 +88,6 @@ const LocationTracker = () => {
     localStorage.setItem('currentDistance', '0');
     localStorage.setItem('lastLocationUpdate', new Date().toISOString());
 
-    const savedPasswordState = localStorage.getItem('treasurePasswordVerified');
-    if (savedPasswordState === 'true') setPasswordVerified(true);
   }, []);
 
   // Simple hint cycling effect - just sets active hint index
@@ -231,16 +227,7 @@ const LocationTracker = () => {
     );
   };
 
-  // Handle password verification
-  const handlePasswordSubmit = () => {
-    if (password.toLowerCase() === 'treasure2024') {
-      setPasswordVerified(true);
-      setShowPasswordModal(false);
-      localStorage.setItem('treasurePasswordVerified', 'true');
-    } else {
-      alert('Incorrect password. Try again!');
-    }
-  };
+  // Password removed - no verification needed
 
   // Format distance
   const formatDistance = (distance) => {
@@ -302,31 +289,7 @@ const LocationTracker = () => {
 
   return (
     <div className="location-tracker treasure-theme">
-      {/* Password Modal */}
-      {showPasswordModal && (
-        <div className="password-modal">
-          <div className="password-content">
-            <h4>🔐 Final Treasure Coordinates</h4>
-            <p>Enter the sacred password to reveal the exact treasure location:</p>
-            <div className="password-input-group">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password..."
-                className="password-input"
-                onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
-              />
-              <button onClick={handlePasswordSubmit} className="password-submit golden">
-                Unlock
-              </button>
-            </div>
-            <button onClick={() => setShowPasswordModal(false)} className="password-cancel">
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+
 
       <div className="tracker-header">
         <h3>🗺️ Treasure Hunt Progress</h3>
@@ -398,23 +361,19 @@ const LocationTracker = () => {
       {/* Final Coordinates */}
       {locationStage >= 6 && (
         <div className="treasure-coords">
-          {passwordVerified ? (
-            <div className="coords-revealed">
-              <div className="coords-label">📍 Treasure Coordinates:</div>
-              <div className="coords-text">44.424156, 12.304828</div>
-              <div className="coords-location">Lido Adriano, Italy</div>
-            </div>
-          ) : (
-            <div className="coords-locked">
-              <div className="coords-label">🔐 Final Coordinates Locked</div>
-              <button 
-                className="reveal-coords-btn golden"
-                onClick={() => setShowPasswordModal(true)}
+          <div className="coords-revealed">
+            <div className="coords-label">📍 Treasure Coordinates:</div>
+            <div className="coords-text">
+              <a
+                href="https://www.google.com/maps?q=44.424156,12.304828"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Enter Sacred Password
-              </button>
+                44.424156, 12.304828
+              </a>
             </div>
-          )}
+            <div className="coords-location">Lido Adriano, Italy</div>
+          </div>
         </div>
       )}
 
