@@ -107,7 +107,7 @@ const ChallengeManager = () => {
             </div>
             <p className="polaroid-link">
               <a
-                href="https://photochallange.netflify.app"
+                href="https://photochallange.netlify.app"
                 target="_blank"
                 rel="noopener noreferrer"
               >
