@@ -55,6 +55,15 @@ const ChallengeManager = () => {
   
   return (
     <div className="challenge-manager compact">
+      {/* Polaroid Photo Challenge Hint */}
+      <div className="polaroid-section compact">
+        <h3>📸 Polaroid Photo Challenge</h3>
+        <p>
+          Capture snapshots of your adventure. The full challenge unlocks once
+          you reach the treasure.
+        </p>
+      </div>
+
       {/* Compact Adventure Summary */}
       <div className="adventure-summary compact">
         <h3>🌟 Completed Adventures</h3>
@@ -85,15 +94,6 @@ const ChallengeManager = () => {
       {/* Location Tracker - Journey Progress */}
       <div className="journey-section">
         <LocationTracker />
-      </div>
-
-      {/* Polaroid Photo Challenge Hint */}
-      <div className="polaroid-section compact">
-        <h3>📸 Polaroid Photo Challenge</h3>
-        <p>
-          Capture snapshots of your adventure. The full challenge unlocks once
-          you reach the treasure.
-        </p>
       </div>
 
       {/* Final message when at location */}
