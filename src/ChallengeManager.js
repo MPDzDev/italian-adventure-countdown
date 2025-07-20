@@ -64,6 +64,25 @@ const ChallengeManager = () => {
         </p>
       </div>
 
+      {/* Final message when at location - moved up */}
+      {locationStage >= 6 && (
+        <div className="final-treasure-section compact">
+          <h3>🌅 You've Arrived!</h3>
+          <div className="treasure-message">
+            <p>🎉 Great job reaching the final stop. Your next mission is waiting.</p>
+            <p className="polaroid-link">
+              <a
+                href="https://photochallange.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📸 Head to the Polaroid Challenge
+              </a>
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Compact Adventure Summary */}
       <div className="adventure-summary compact">
         <h3>🌟 Completed Adventures</h3>
@@ -96,24 +115,6 @@ const ChallengeManager = () => {
         <LocationTracker />
       </div>
 
-      {/* Final message when at location */}
-      {locationStage >= 6 && (
-        <div className="final-treasure-section compact">
-          <h3>🌅 You've Arrived!</h3>
-          <div className="treasure-message">
-            <p>🎉 Great job reaching the final stop. Your next mission is waiting.</p>
-            <p className="polaroid-link">
-              <a
-                href="https://photochallange.netlify.app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                📸 Head to the Polaroid Challenge
-              </a>
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* Compact Treasure Chest at bottom */}
       <div className="treasure-section compact">
