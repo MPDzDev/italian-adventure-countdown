@@ -1,0 +1,27 @@
+.closing-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #0a0a1a;
+  color: #f4f0e8;
+  padding: 20px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.closing-screen h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.closing-screen p {
+  margin: 0.5em 0;
+  line-height: 1.5;
+}
+
+.closing-screen .farewell {
+  font-size: 1.5em;
+  margin-top: 1em;
+}
